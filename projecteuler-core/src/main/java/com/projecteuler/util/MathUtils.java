@@ -1,8 +1,11 @@
 package com.projecteuler.util;
 
+import static java.util.stream.LongStream.rangeClosed;
+
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
+import java.util.function.ObjLongConsumer;
+import java.util.function.Supplier;
 
 public class MathUtils {
 
@@ -79,14 +82,14 @@ public class MathUtils {
    public static final long getSmallestCommonMultipleFrom1ToN(long end) {
       long result = 1;
       for (long i = 2; i <= end; ++i) {
-         result=getSmallestCommonMultipleOf2Number(result, i);
+         result = getSmallestCommonMultipleOf2Number(result, i);
       }
       return result;
    }
 
    public static final long getSmallestCommonMultipleOf2Number(long num1,
          long num2) {
-      return (num1*num2)/getGreatestCommonDivisor(num1, num2);
+      return (num1 * num2) / getGreatestCommonDivisor(num1, num2);
    }
 
    public static long getGreatestCommonDivisor(long a, long b) {
@@ -100,4 +103,35 @@ public class MathUtils {
       }
       return a;
    }
+
+   public static final long getSmallestCommonMultipleFrom1ToN_2(long end) {
+      List<Long> primes = getPrimeNumbersBelowMax(end);
+      long result = 1;
+      for (Long l : primes) {
+         int power = (int) (Math.log(end) / Math.log(l));
+         System.out.println("l: " + l + " and power: " + power);
+         result *= (long) Math.pow(l, power);
+      }
+      return result;
+   }
+
+   public static List<Long> getPrimeNumbersBelowMax(long max) {
+      Supplier<List<Long>> supplier = ArrayList<Long>::new;
+      ObjLongConsumer<List<Long>> longConsumer = (list, l) -> list.add(l);
+      return rangeClosed(2, max).filter(MathUtils::isPrime).collect(supplier,
+            longConsumer, null);
+   }
+
+   public static boolean isPrime(long n) {
+      if (n == 2)
+         return true;
+      if (n % 2 == 0)
+         return false;
+      for (int i = 3; i * i <= n; i += 2) {
+         if (n % i == 0)
+            return false;
+      }
+      return true;
+   }
+
 }

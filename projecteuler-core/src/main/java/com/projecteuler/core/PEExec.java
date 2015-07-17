@@ -2,6 +2,7 @@ package com.projecteuler.core;
 
 import static com.projecteuler.util.MathUtils.getLargestPrimeFactor;
 import static com.projecteuler.util.MathUtils.getSmallestCommonMultipleFrom1ToN;
+import static com.projecteuler.util.MathUtils.getSmallestCommonMultipleFrom1ToN_2;
 import static com.projecteuler.util.MathUtils.isPalindromeNumber;
 import static com.projecteuler.util.MathUtils.sumMultiplesOfANumberBelowMax;
 
@@ -9,7 +10,6 @@ import java.util.stream.LongStream;
 
 import com.projecteuler.annotation.PEProblem;
 import com.projecteuler.model.LongHolder;
-import com.projecteuler.util.MathUtils;
 
 public class PEExec {
 
@@ -87,7 +87,12 @@ public class PEExec {
    }
 
    @PEProblem(problem = 5, description = "What is the smallest positive number that is evenly divisible by all of the numbers from 1 to 20?")
-   public void problem5() {
-      System.out.println("Result: "+getSmallestCommonMultipleFrom1ToN(20));
+   public void problem5_1() {
+      System.out.println("Result: " + getSmallestCommonMultipleFrom1ToN(20));
+   }
+
+   @PEProblem(problem = 5, description = "What is the smallest positive number that is evenly divisible by all of the numbers from 1 to 20?")
+   public void problem5_2() {
+      System.out.println("Result: " + getSmallestCommonMultipleFrom1ToN_2(200));
    }
 }
