@@ -1,5 +1,9 @@
 package com.projecteuler.util;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 public class MathUtils {
 
    public static final long sumMultiplesOfANumberBelowMax(long number, long max) {
@@ -43,5 +47,57 @@ public class MathUtils {
          length /= 100;
       }
       return true;
+   }
+
+   public static boolean isPalindromeNumber2(int x) {
+      if (x < 0)
+         return false;
+      int div = 1;
+      while (x / div >= 10) {
+         div *= 10;
+      }
+      while (x != 0) {
+         int l = x / div;
+         int r = x % 10;
+         if (l != r)
+            return false;
+         x = (x % div) / 10;
+         div /= 100;
+      }
+      return true;
+   }
+
+   public static final long reverseNumber(long number) {
+      long result = 0;
+      while (number > 0) {
+         result = result * 10 + number % 10;
+         number /= 10;
+      }
+      return result;
+   }
+
+   public static final long getSmallestCommonMultipleFrom1ToN(long end) {
+      long result = 1;
+      for (long i = 2; i <= end; ++i) {
+         result=getSmallestCommonMultipleOf2Number(result, i);
+      }
+      return result;
+   }
+
+   public static final long getSmallestCommonMultipleOf2Number(long num1,
+         long num2) {
+      return (num1*num2)/getGreatestCommonDivisor(num1, num2);
+   }
+
+   public static long getGreatestCommonDivisor(long a, long b) {
+      if (a == 0)
+         return b;
+      while (b != 0) {
+         if (a > b)
+            a = a - b;
+         else
+            b = b - a;
+      }
+      return a;
    }
 }
