@@ -12,4 +12,36 @@ public class MathUtils {
       return n * (n + 1) / 2;
    }
 
+   public static final long getLargestPrimeFactor(long number) {
+      long result = -1;
+      long start = 2;
+      while (start <= number) {
+         while (number % start == 0) {
+            number /= start;
+            result = start;
+         }
+         ++start;
+      }
+      return result;
+   }
+
+   // palindrome number is the number which will be equaled to the reverse of
+   // that number: eg: 10001
+   public static final boolean isPalindromeNumber(long number) {
+      long temp = number;
+      int length = 1;
+      while ((temp /= 10) > 0) {
+         length *= 10;
+      }
+      while (number > 0) {
+         long start = number / length;
+         long end = number % 10;
+         if (start != end) {
+            return false;
+         }
+         number = (number % length) / 10;
+         length /= 100;
+      }
+      return true;
+   }
 }
