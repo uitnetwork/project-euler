@@ -5,11 +5,14 @@ import static com.projecteuler.util.MathUtils.getSmallestCommonMultipleFrom1ToN;
 import static com.projecteuler.util.MathUtils.getSmallestCommonMultipleFrom1ToN_2;
 import static com.projecteuler.util.MathUtils.isPalindromeNumber;
 import static com.projecteuler.util.MathUtils.sumMultiplesOfANumberBelowMax;
+import static com.projecteuler.util.MathUtils.sumSquareZeroToN;
+import static com.projecteuler.util.MathUtils.sumZeroToN;
 
 import java.util.stream.LongStream;
 
 import com.projecteuler.annotation.PEProblem;
 import com.projecteuler.model.LongHolder;
+import com.projecteuler.util.MathUtils;
 
 public class PEExec {
 
@@ -94,5 +97,19 @@ public class PEExec {
    @PEProblem(problem = 5, description = "What is the smallest positive number that is evenly divisible by all of the numbers from 1 to 20?")
    public void problem5_2() {
       System.out.println("Result: " + getSmallestCommonMultipleFrom1ToN_2(200));
+   }
+
+   @PEProblem(problem = 6, description = "Find the difference between the sum of the squares of the first one hundred natural numbers and the square of the sum.")
+   public void problem6() {
+      long n = 100;
+      System.out
+            .println("Result: "
+                  + Math.abs(sumSquareZeroToN(n)
+                        - (long) Math.pow(sumZeroToN(n), 2)));
+   }
+
+   @PEProblem(problem = 7, description = "What is the 10 001st prime number?")
+   public void problem7() {
+      System.out.println("Result for 10001: "+MathUtils.getnthPrimeNumber(10001));
    }
 }

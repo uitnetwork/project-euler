@@ -4,8 +4,10 @@ import static java.util.stream.LongStream.rangeClosed;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.OptionalLong;
 import java.util.function.ObjLongConsumer;
 import java.util.function.Supplier;
+import java.util.stream.LongStream;
 
 public class MathUtils {
 
@@ -132,6 +134,20 @@ public class MathUtils {
             return false;
       }
       return true;
+   }
+
+   // 1^2+2^2+.....n^2
+   public static long sumSquareZeroToN(long n) {
+      return n * (n + 1) * (2 * n + 1) / 6;
+   }
+
+   public static long getnthPrimeNumber(int n) {
+      if (n == 1)
+         return 2;
+      int position = n - 2; // skip 2;
+      OptionalLong result = LongStream.iterate(3, l -> l + 2)
+            .filter(MathUtils::isPrime).skip(position).findFirst();
+      return result.getAsLong();
    }
 
 }
