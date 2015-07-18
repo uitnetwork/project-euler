@@ -115,7 +115,7 @@ public class PEExec {
    @PEProblem(problem = 7, description = "What is the 10 001st prime number?")
    public void problem7() {
       System.out.println("Result for 10001: "
-            + MathUtils.getnthPrimeNumber(10001));
+            + MathUtils.getNthPrimeNumber(10001));
    }
 
    @PEProblem(problem = 8, description = "Find the thirteen adjacent digits in the 1000-digit number that have the greatest product. What is the value of this product?")
@@ -159,5 +159,28 @@ public class PEExec {
       OptionalLong optionalLong = result.stream().mapToLong(toLongFunction)
             .max();
       System.out.println("Result: " + optionalLong.getAsLong());
+   }
+
+   @PEProblem(problem = 9, description = "There exists exactly one Pythagorean triplet for which a + b + c = 1000.Find the product abc")
+   public void problem9() {
+      long result = -1;
+      boolean finished = false;
+      for (int c = 333; !finished && c < 500; ++c) {
+         for (int b = 251; b < c; ++b) {
+            int a = 1000 - b - c;
+            if (Math.pow(c, 2) == (Math.pow(a, 2) + Math.pow(b, 2))) {
+               result = a * b * c;
+               finished = true;
+               break;
+            }
+         }
+      }
+      System.out.println("Result: " + result);
+   }
+
+   @PEProblem(problem = 10, description = "Find the sum of all the primes below two million")
+   public void problem10() {
+      System.out.println("Result: " + MathUtils.sumPrimeNumbersBelow(2000000));
+
    }
 }

@@ -141,13 +141,23 @@ public class MathUtils {
       return n * (n + 1) * (2 * n + 1) / 6;
    }
 
-   public static long getnthPrimeNumber(int n) {
+   public static long getNthPrimeNumber(int n) {
       if (n == 1)
          return 2;
       int position = n - 2; // skip 2;
       OptionalLong result = LongStream.iterate(3, l -> l + 2)
             .filter(MathUtils::isPrime).skip(position).findFirst();
       return result.getAsLong();
+   }
+
+   public static long sumPrimeNumbersBelow(int n) {
+      long result = 2;
+      for (int i = 3; i < n; i = i + 2) {
+         if (MathUtils.isPrime(i)) {
+            result += i;
+         }
+      }
+      return result;
    }
 
 }
