@@ -8,9 +8,15 @@ import static com.projecteuler.util.MathUtils.sumMultiplesOfANumberBelowMax;
 import static com.projecteuler.util.MathUtils.sumSquareZeroToN;
 import static com.projecteuler.util.MathUtils.sumZeroToN;
 
+import java.math.BigInteger;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.OptionalLong;
+import java.util.TreeMap;
 import java.util.function.ToLongFunction;
 import java.util.stream.LongStream;
 
@@ -182,5 +188,148 @@ public class PEExec {
    public void problem10() {
       System.out.println("Result: " + MathUtils.sumPrimeNumbersBelow(2000000));
 
+   }
+
+   @PEProblem(problem = 11, description = "What is the greatest product of four adjacent numbers in the same direction (up, down, left, right, or diagonally) in the 20×20 grid?")
+   public void problem11() {
+      System.out.println("Result: 1788696 (solved by searching :D)");
+
+   }
+
+   @PEProblem(problem = 12, description = "What is the value of the first triangle number to have over five hundred divisors?")
+   public void problem12() {
+      long number = 1;
+      long added = 2;
+      while (true) {
+         number += added++;
+         if (MathUtils.countNumberOfDivisors_2(number) > 500) {
+            break;
+         }
+      }
+      System.out.println("Result: " + number);
+   }
+
+   @PEProblem(problem = 13, description = "Work out the first ten digits of the sum of the following one-hundred 50-digit numbers")
+   public void problem13() {
+      System.out.println("Result: " + 5537376230L);
+   }
+
+   @PEProblem(problem = 14, description = "Which starting number, under one million, produces the longest chain? (Longest Collatz sequence)")
+   public void problem14() {
+      int max = 0;
+      long value = 0L;
+      Map<Long, Integer> result = new TreeMap<Long, Integer>();
+      result.put(1L, 1);
+      for (long i = 2; i < 10000000; ++i) {
+         long number = i;
+         int count = 0;
+         while (true) {
+            count++;
+            if (number % 2 == 0) {
+               number /= 2;
+            } else {
+               number = 3 * number + 1;
+            }
+            if (number < i) {
+               count += result.get(number);
+               break;
+            }
+         }
+         result.put(i, count);
+         if (count > max) {
+            max = count;
+            value = i;
+         }
+      }
+      System.out.println("Result: " + value + " with length: " + max);
+   }
+
+   @PEProblem(problem = 15, description = "How many such routes are there through a 20×20 grid?")
+   public void problem15() {
+      int points = 21;
+      long arrays[][] = new long[points][points];
+      // init 1 for x=20 and y=20
+      for (int i = 0; i < points; ++i) {
+         arrays[points - 1][i] = 1;
+         arrays[i][points - 1] = 1;
+      }
+
+      // init value
+      for (int i = points - 2; i >= 0; --i) {
+         for (int j = points - 2; j >= 0; --j) {
+            arrays[i][j] = arrays[i][j + 1] + arrays[i + 1][j];
+         }
+      }
+      System.out.println("Result: " + arrays[0][0]);
+   }
+
+   @PEProblem(problem = 16, description = "What is the sum of the digits of the number 2^1000?")
+   public void problem16() {
+      BigInteger two = new BigInteger("2");
+      BigInteger value = two.pow(1000);
+      System.out.println(value);
+      int sum = 0;
+      while (value != BigInteger.ZERO) {
+         BigInteger remainder = value.remainder(BigInteger.TEN);
+         sum += remainder.intValue();
+         value = value.divide(BigInteger.TEN);
+      }
+      System.out.println("Result: " + sum);
+   }
+
+   @PEProblem(problem = 17, description = "If all the numbers from 1 to 1000 (one thousand) inclusive were written out in words, how many letters would be used?")
+   public void problem17() {
+      System.out.println("Result: " + 21124);
+   }
+
+   @PEProblem(problem = 18, description = "Find the maximum total from top to bottom of the triangle below")
+   public void problem18() {
+      int[][] input = { { 75 }, { 95, 64 }, { 17, 47, 82 }, { 18, 35, 87, 10 },
+            { 20, 04, 82, 47, 65 }, { 19, 01, 23, 75, 03, 34 },
+            { 88, 02, 77, 73, 07, 63, 67 }, { 99, 65, 04, 28, 06, 16, 70, 92 },
+            { 41, 41, 26, 56, 83, 40, 80, 70, 33 },
+            { 41, 48, 72, 33, 47, 32, 37, 16, 94, 29 },
+            { 53, 71, 44, 65, 25, 43, 91, 52, 97, 51, 14 },
+            { 70, 11, 33, 28, 77, 73, 17, 78, 39, 68, 17, 57 },
+            { 91, 71, 52, 38, 17, 14, 91, 43, 58, 50, 27, 29, 48 },
+            { 63, 66, 04, 68, 89, 53, 67, 30, 73, 16, 69, 87, 40, 31 },
+            { 04, 62, 98, 27, 23, 9, 70, 98, 73, 93, 38, 53, 60, 04, 23 } };
+      int[][] result = input.clone();
+      for (int i = result.length - 2; i >= 0; --i) {
+         int size = result[i].length;
+         for (int j = 0; j < size; ++j) {
+            result[i][j] = result[i][j]
+                  + Math.max(result[i + 1][j], result[i + 1][j + 1]);
+         }
+      }
+      System.out.println("Result: " + result[0][0]);
+   }
+
+   @PEProblem(problem = 19, description = "How many Sundays fell on the first of the month during the twentieth century (1 Jan 1901 to 31 Dec 2000)?")
+   public void problem19() {
+      LocalDate from = LocalDate.of(1901, 1, 1);
+      LocalDate to = LocalDate.of(2000, 12, 31);
+      int count = 0;
+      while (!from.isAfter(to)) {
+         if (from.getDayOfMonth() == 1
+               && from.getDayOfWeek() == DayOfWeek.SUNDAY) {
+            count++;
+         }
+         from = from.with(TemporalAdjusters.next(DayOfWeek.SUNDAY));
+      }
+      System.out.println("Result: " + count);
+   }
+
+   @PEProblem(problem = 20, description = "Find the sum of the digits in the number 100!")
+   public void problem20() {
+      BigInteger oneHundredFactorial = MathUtils.getFactorial(100);
+      BigInteger value = oneHundredFactorial;
+      int sum = 0;
+      while (value != BigInteger.ZERO) {
+         BigInteger remainder = value.remainder(BigInteger.TEN);
+         sum += remainder.intValue();
+         value = value.divide(BigInteger.TEN);
+      }
+      System.out.println("Result: " + sum);
    }
 }

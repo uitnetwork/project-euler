@@ -2,8 +2,11 @@ package com.projecteuler.util;
 
 import static java.util.stream.LongStream.rangeClosed;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.OptionalLong;
 import java.util.function.ObjLongConsumer;
 import java.util.function.Supplier;
@@ -124,6 +127,22 @@ public class MathUtils {
             longConsumer, null);
    }
 
+   public static List<Long> getPrimeNumbersToNth(long n) {
+      List<Long> result = new ArrayList<Long>();
+      result.add(2L);
+      if (n == 1) {
+         return result;
+      }
+      List<Long> primeNumbers = LongStream
+            .iterate(3, l -> l + 2)
+            .filter(MathUtils::isPrime)
+            .limit(n - 1)
+            .collect(ArrayList<Long>::new,
+                  (ArrayList<Long> list, long l) -> list.add(l), null);
+      result.addAll(primeNumbers);
+      return result;
+   }
+
    public static boolean isPrime(long n) {
       if (n == 2)
          return true;
@@ -158,6 +177,52 @@ public class MathUtils {
          }
       }
       return result;
+   }
+
+   public static int countNumberOfDivisors(long number) {
+      int count = 2; // include 1 and itself
+      for (long i = 2; i < number / 2; ++i) {
+         if (number % i == 0) {
+            // System.out.print(i+" ");
+            count++;
+         }
+      }
+      return count;
+   }
+
+   public static final long countNumberOfDivisors_2(long number) {
+      Map<Long, Integer> primeForm = calculatePrimeForm(number);
+      long result = 1;
+      for (Integer value : primeForm.values()) {
+         result *= (value + 1);
+      }
+      System.out.println(number + " is " + result);
+      return result;
+   }
+
+   public static final Map<Long, Integer> calculatePrimeForm(long number) {
+      Map<Long, Integer> result = new HashMap<Long, Integer>();
+      long start = 2;
+      while (start <= number) {
+         while (number % start == 0) {
+            number /= start;
+            if (result.containsKey(start)) {
+               result.put(start, result.get(start) + 1);
+            } else {
+               result.put(start, 1);
+            }
+         }
+         ++start;
+      }
+      return result;
+   }
+
+   public static final BigInteger getFactorial(int number) {
+      BigInteger fact = BigInteger.valueOf(1);
+      for (int i = 1; i <= number; i++)
+         fact = fact.multiply(BigInteger.valueOf(i));
+      return fact;
+
    }
 
 }

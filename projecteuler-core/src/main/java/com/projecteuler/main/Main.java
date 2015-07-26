@@ -10,7 +10,7 @@ import com.projecteuler.core.PEExec;
 
 public class Main {
 
-   private static final long CURRENT_PROBLEM = 10;
+   private static final long CURRENT_PROBLEM = 19;
 
    public static void main(String[] args) throws IllegalAccessException,
          IllegalArgumentException, InvocationTargetException,
