@@ -343,7 +343,6 @@ public class PEExec {
             arrays[i] = MathUtils.getSumOfProperDivisors(i);
          }
          if (arrays[i] == i) {
-            System.out.println("Skip for " + arrays[i]);
             continue;
          }
          int index = (int) arrays[i];
@@ -351,9 +350,6 @@ public class PEExec {
             arrays[index] = MathUtils.getSumOfProperDivisors(index);
          }
          if (arrays[i] == index && arrays[index] == i) {
-            System.out.println(i+"=>"+MathUtils.getProperDivisors(i));
-            System.out.println("I: " + i + " and index: " + index);
-            System.out.println("Value: " + arrays[i] + " and " + arrays[index]);
             sum += i;
          }
       }
