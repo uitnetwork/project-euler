@@ -332,4 +332,31 @@ public class PEExec {
       }
       System.out.println("Result: " + sum);
    }
+
+   @PEProblem(problem = 21, description = "Evaluate the sum of all the amicable numbers under 10000")
+   public void problem21() {
+      int number = 10000;
+      long[] arrays = new long[number *10];
+      long sum = 0;
+      for (int i = 2; i <= number; ++i) {
+         if (arrays[i] == 0) {
+            arrays[i] = MathUtils.getSumOfProperDivisors(i);
+         }
+         if (arrays[i] == i) {
+            System.out.println("Skip for " + arrays[i]);
+            continue;
+         }
+         int index = (int) arrays[i];
+         if (arrays[index] == 0) {
+            arrays[index] = MathUtils.getSumOfProperDivisors(index);
+         }
+         if (arrays[i] == index && arrays[index] == i) {
+            System.out.println(i+"=>"+MathUtils.getProperDivisors(i));
+            System.out.println("I: " + i + " and index: " + index);
+            System.out.println("Value: " + arrays[i] + " and " + arrays[index]);
+            sum += i;
+         }
+      }
+      System.out.println("Result: " + sum);
+   }
 }

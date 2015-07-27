@@ -217,6 +217,37 @@ public class MathUtils {
       return result;
    }
 
+   public static final List<Long> getProperDivisors(long number) {
+      List<Long> result = new ArrayList<Long>();
+      if (number <= 1)
+         return result;
+      result.add(1L);
+
+      long sqrtOfNumber = (long) Math.sqrt(number);
+      if (sqrtOfNumber * sqrtOfNumber == number) {
+         // add sqrtOfNumber only one
+         result.add(sqrtOfNumber);
+      }
+      long start = 2;
+      while (start < sqrtOfNumber) {
+         if (number % start == 0) {
+            result.add(start);
+            result.add(number / start);
+         }
+         ++start;
+      }
+      return result;
+   }
+
+   public static final long getSumOfProperDivisors(long number) {
+      List<Long> properDivisors = getProperDivisors(number);
+      long result = 0;
+      for (Long divisor : properDivisors) {
+         result += divisor;
+      }
+      return result;
+   }
+
    public static final BigInteger getFactorial(int number) {
       BigInteger fact = BigInteger.valueOf(1);
       for (int i = 1; i <= number; i++)
