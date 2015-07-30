@@ -8,16 +8,24 @@ import static com.projecteuler.util.MathUtils.sumMultiplesOfANumberBelowMax;
 import static com.projecteuler.util.MathUtils.sumSquareZeroToN;
 import static com.projecteuler.util.MathUtils.sumZeroToN;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.math.BigInteger;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.OptionalLong;
 import java.util.TreeMap;
 import java.util.function.ToLongFunction;
+import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 
 import com.projecteuler.annotation.PEProblem;
@@ -336,7 +344,7 @@ public class PEExec {
    @PEProblem(problem = 21, description = "Evaluate the sum of all the amicable numbers under 10000")
    public void problem21() {
       int number = 10000;
-      long[] arrays = new long[number *10];
+      long[] arrays = new long[number * 10];
       long sum = 0;
       for (int i = 2; i <= number; ++i) {
          if (arrays[i] == 0) {
@@ -354,5 +362,145 @@ public class PEExec {
          }
       }
       System.out.println("Result: " + sum);
+   }
+
+   @PEProblem(problem = 22, description = "What is the total of all the name scores in the file?")
+   public void problem22() throws IOException {
+      InputStream input = PEExec.class
+            .getResourceAsStream("/input/p022_names.txt");
+      BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+      String str = reader.readLine();
+      input.close();
+
+      str = str.replaceAll("\"", "");
+      String[] strArrays = str.split(",");
+      Arrays.sort(strArrays);
+      long result = 0;
+      int i = 1;
+      for (String tmp : strArrays) {
+         result += i * MathUtils.getAlphabeticalvalue(tmp);
+         i++;
+      }
+      System.out.println("Result: " + result);
+   }
+
+   @PEProblem(problem = 23, description = "Find the sum of all the positive integers which cannot be written as the sum of two abundant numbers.")
+   public void problem23() {
+      int max = 28123;
+      boolean[] result = new boolean[max + 1];
+      List<Integer> abundantNumbers = IntStream
+            .rangeClosed(2, max)
+            .filter(MathUtils::isAbundantNumber)
+            .collect(ArrayList::new,
+                  (ArrayList<Integer> list, int n) -> list.add(n), null);
+
+      int arrays[] = new int[abundantNumbers.size()];
+      int count = 0;
+      for (Integer tmp : abundantNumbers) {
+         arrays[count++] = tmp;
+      }
+      int size = abundantNumbers.size();
+      for (int i = 0; i < size; ++i) {
+         for (int j = i; j < size; ++j) {
+            int temp = arrays[i] + arrays[j];
+            if (temp <= max) {
+               result[temp] = true;
+            }
+         }
+      }
+      long total = MathUtils.sumZeroToN(max);
+      long sum = 0;
+      for (int i = 1; i < result.length; ++i) {
+         if (result[i]) {
+            sum += i;
+         }
+      }
+
+      System.out.println("Result: " + (total - sum));
+   }
+
+   @PEProblem(problem = 24, description = "What is the millionth lexicographic permutation of the digits 0, 1, 2, 3, 4, 5, 6, 7, 8 and 9?")
+   public void problem24() {
+      int position = 1000000;
+      int start = 0;
+      while (MathUtils.getPermutationOfNumber(++start) < position) {
+         // donothing
+      }
+      start--;
+      int currentSum = 0;
+      Map<Integer, Integer> map = new LinkedHashMap<Integer, Integer>();
+      for (int i = start; i > 0; --i) {
+         int currentMark = 0;
+         while (true) {
+            if ((currentSum + currentMark * MathUtils.getPermutationOfNumber(i)) > position) {
+               break;
+            }
+            currentMark++;
+         }
+         currentMark--;
+         currentSum += currentMark * MathUtils.getPermutationOfNumber(i);
+         map.put(i, currentMark);
+         if (currentSum == position) {
+            break;
+         }
+      }
+      List<Integer> list = new ArrayList<Integer>(Arrays.asList(0, 1, 2, 3, 4,
+            5, 6, 7, 8, 9));
+      Iterator<Integer> iterator = map.keySet().iterator();
+      StringBuilder result = new StringBuilder();
+      while (iterator.hasNext()) {
+         Integer i = iterator.next();
+         Integer value = map.get(i);
+         if (iterator.hasNext()) {
+            int added = list.get(value);
+            result.append(added);
+            list.remove((int) value);
+         } else {
+            int added = list.get(value - 1);
+            result.append(added);
+            list.remove(value - 1);
+            break;
+         }
+      }
+      while (list.size() > 0) {
+         int index = list.size() - 1;
+         result.append(list.get(index));
+         list.remove(index);
+      }
+
+      System.out.println("Result: " + result.toString());
+   }
+
+   @PEProblem(problem = 24, description = "What is the millionth lexicographic permutation of the digits 0, 1, 2, 3, 4, 5, 6, 7, 8 and 9?")
+   public void problem24_2() {
+      long position = 1000000;
+      List<Integer> list = new ArrayList<Integer>(Arrays.asList(0, 1, 2, 3, 4,
+            5, 6, 7, 8, 9));
+      StringBuilder result = new StringBuilder();
+      int start = 9;
+      while (position > 0) {
+         long value = MathUtils.getPermutationOfNumber(start);
+         int index = (int) (position / value);
+         position %= value;
+
+         if (position == 0) {
+            if (index - 1 >= 0) {
+               result.append(list.get(index - 1));
+               list.remove(index - 1);
+            }
+         } else {
+            result.append(list.get(index));
+            list.remove(index);
+         }
+         start--;
+      }
+
+      while (list.size() > 0) {
+         int index = list.size() - 1;
+         result.append(list.get(index));
+         list.remove(index);
+      }
+
+      System.out.println("Result: " + result.toString());
    }
 }

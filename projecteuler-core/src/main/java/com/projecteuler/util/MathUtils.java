@@ -227,9 +227,10 @@ public class MathUtils {
       if (sqrtOfNumber * sqrtOfNumber == number) {
          // add sqrtOfNumber only one
          result.add(sqrtOfNumber);
+         sqrtOfNumber--;
       }
       long start = 2;
-      while (start < sqrtOfNumber) {
+      while (start <= sqrtOfNumber) {
          if (number % start == 0) {
             result.add(start);
             result.add(number / start);
@@ -253,7 +254,24 @@ public class MathUtils {
       for (int i = 1; i <= number; i++)
          fact = fact.multiply(BigInteger.valueOf(i));
       return fact;
+   }
 
+   public static final long getPermutationOfNumber(int number) {
+      if (number == 0)
+         return 1;
+      return LongStream.rangeClosed(1, number).reduce(1, Math::multiplyExact);
+   }
+
+   public static final int getAlphabeticalvalue(String str) {
+      int result = 0;
+      for (int i = 0; i < str.length(); ++i) {
+         result += str.charAt(i) - ('A' - 1);
+      }
+      return result;
+   }
+
+   public static final boolean isAbundantNumber(long number) {
+      return getSumOfProperDivisors(number) > number;
    }
 
 }
