@@ -503,4 +503,22 @@ public class PEExec {
 
       System.out.println("Result: " + result.toString());
    }
+
+   @PEProblem(problem = 25, description = "What is the index of the first term in the Fibonacci sequence to contain 1000 digits?")
+   public void problem25() {
+      int i = 0;
+      int cnt = 2;
+      BigInteger limit = BigInteger.TEN.pow(999);
+      BigInteger[] fib = new BigInteger[3];
+
+      fib[0] = BigInteger.ONE;
+      fib[2] = BigInteger.ONE;
+
+      while (fib[i].compareTo(limit) <= 0) {
+         i = (i + 1) % 3;
+         cnt++;
+         fib[i] = fib[(i + 1) % 3].add(fib[(i + 2) % 3]);
+      }
+      System.out.println("Result: "+cnt);
+   }
 }
