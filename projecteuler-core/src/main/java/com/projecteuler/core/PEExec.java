@@ -524,10 +524,15 @@ public class PEExec {
 
    @PEProblem(problem = 26, description = "Find the value of d < 1000 for which 1/d contains the longest recurring cycle in its decimal fraction part")
    public void problem26() {
-      int max = 1000;
+      int max = 1000 - 1;
       int result = -1;
       int currentLongestRecurring = 0;
-      for (int i = 2; i < max; ++i) {
+      for (int i = max; i > 1; --i) {
+         if (i < currentLongestRecurring) {
+            break; // i lower than currentLongestRecurring, it's impossible to
+                   // get a result which is greater that that value because
+                   // there is only i-1 remainder
+         }
          int recurring = MathUtils.getRecurringCycleDecimalOfN(i);
          if (recurring > currentLongestRecurring) {
             currentLongestRecurring = recurring;

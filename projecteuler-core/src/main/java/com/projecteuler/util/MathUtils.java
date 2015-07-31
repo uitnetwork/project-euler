@@ -276,16 +276,16 @@ public class MathUtils {
 
    public static final int getRecurringCycleDecimalOfN(int n) {
       List<Integer> tracking = new ArrayList<Integer>();
-      int[] arrays = new int[n * 10];
+      boolean[] arrays = new boolean[n * 10];
       int start = 1;
 
       do {
-         if (arrays[start] == 1) {
+         if (arrays[start]) {
             int index = tracking.indexOf(start);
             return tracking.size() - index;
          } else {
             tracking.add(start);
-            arrays[start] = 1;
+            arrays[start] = true;
          }
 
          int value = start / n;
