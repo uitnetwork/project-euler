@@ -274,4 +274,26 @@ public class MathUtils {
       return getSumOfProperDivisors(number) > number;
    }
 
+   public static final int getRecurringCycleDecimalOfN(int n) {
+      List<Integer> tracking = new ArrayList<Integer>();
+      int[] arrays = new int[n * 10];
+      int start = 1;
+
+      do {
+         if (arrays[start] == 1) {
+            int index = tracking.indexOf(start);
+            return tracking.size() - index;
+         } else {
+            tracking.add(start);
+            arrays[start] = 1;
+         }
+
+         int value = start / n;
+         if (value > 0) {
+            start %= n;
+         }
+         start *= 10;
+      } while (start != 0);
+      return 0;
+   }
 }

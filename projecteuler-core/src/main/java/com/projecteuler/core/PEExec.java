@@ -519,6 +519,22 @@ public class PEExec {
          cnt++;
          fib[i] = fib[(i + 1) % 3].add(fib[(i + 2) % 3]);
       }
-      System.out.println("Result: "+cnt);
+      System.out.println("Result: " + cnt);
+   }
+
+   @PEProblem(problem = 26, description = "Find the value of d < 1000 for which 1/d contains the longest recurring cycle in its decimal fraction part")
+   public void problem26() {
+      int max = 1000;
+      int result = -1;
+      int currentLongestRecurring = 0;
+      for (int i = 2; i < max; ++i) {
+         int recurring = MathUtils.getRecurringCycleDecimalOfN(i);
+         if (recurring > currentLongestRecurring) {
+            currentLongestRecurring = recurring;
+            result = i;
+         }
+      }
+      System.out.println("Result: " + result + " with "
+            + currentLongestRecurring + " recurring numbers in decimal part!");
    }
 }
