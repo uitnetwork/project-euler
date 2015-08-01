@@ -296,4 +296,19 @@ public class MathUtils {
       } while (start != 0);
       return 0;
    }
+
+   public static final int getConsecutivePrimesOfNumber(long a, long b) {
+      int count = 0;
+      for (int i = 0;; i++) {
+         long value = i * i + a * i + b;
+         if (value < 0)
+            value *= -1;
+         if (MathUtils.isPrime(value)) {
+            count++;
+         } else {
+            break;
+         }
+      }
+      return count;
+   }
 }

@@ -542,4 +542,32 @@ public class PEExec {
       System.out.println("Result: " + result + " with "
             + currentLongestRecurring + " recurring numbers in decimal part!");
    }
+
+   @PEProblem(problem = 27, description = "Find the product of the coefficients, a and b, for the quadratic expression that produces the maximum number of primes for consecutive values of n, starting with n = 0.")
+   public void problem27() {
+      long max = 1000;
+      List<Long> primes = MathUtils.getPrimeNumbersBelowMax(max);
+      List<Long> primesIncludeNegative = new ArrayList<Long>();
+      for (Long l : primes) {
+         primesIncludeNegative.add(l);
+         primesIncludeNegative.add(l * -1);
+      }
+      int maxConsecutive = -1;
+      long resultA = -1;
+      long resultB = -1;
+      for (Long prime : primesIncludeNegative) {
+         for (long i = -1 * max + 1; i < max; ++i) {
+            int tmp = MathUtils.getConsecutivePrimesOfNumber(prime, i);
+            if (tmp > maxConsecutive) {
+               maxConsecutive = tmp;
+               resultA = i;
+               resultB = prime;
+            }
+         }
+      }
+      System.out.println("Result: a=" + resultA + " and b=" + resultB
+            + " and product: " + (resultA * resultB) + " and maxConsecutive: "
+            + maxConsecutive);
+
+   }
 }
