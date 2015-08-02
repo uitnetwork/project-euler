@@ -570,4 +570,49 @@ public class PEExec {
             + maxConsecutive);
 
    }
+
+   @PEProblem(problem = 28, description = "What is the sum of the numbers on the diagonals in a 1001 by 1001 spiral formed in the same way?")
+   public void problem28() {
+      int length = 1001;
+      int[][] arrays = new int[length][length];
+      int center = length / 2;
+      arrays[center][center] = 1;
+      int lastX = center;
+      int lastY = center;
+
+      for (int i = 3; i <= length; i = i + 2) {
+         // take right
+         arrays[lastX][lastY + 1] = arrays[lastX][lastY] + 1;
+         lastY++;
+         // go down
+         for (int j = 0; j < i - 2; ++j) {
+            arrays[lastX + 1][lastY] = arrays[lastX][lastY] + 1;
+            lastX++;
+         }
+         // left
+         for (int j = 0; j < i - 1; ++j) {
+            arrays[lastX][lastY - 1] = arrays[lastX][lastY] + 1;
+            lastY--;
+         }
+         // up
+         for (int j = 0; j < i - 1; ++j) {
+            arrays[lastX - 1][lastY] = arrays[lastX][lastY] + 1;
+            lastX--;
+         }
+         // right;
+         for (int j = 0; j < i - 1; ++j) {
+            arrays[lastX][lastY + 1] = arrays[lastX][lastY] + 1;
+            lastY++;
+         }
+      }
+
+      long result = 0;
+      for (int i = 0; i < length; ++i) {
+         result += arrays[i][i] + arrays[i][length - 1 - i];
+      }
+      result -= arrays[center][center];
+
+      System.out.println("Result: " + result);
+
+   }
 }
