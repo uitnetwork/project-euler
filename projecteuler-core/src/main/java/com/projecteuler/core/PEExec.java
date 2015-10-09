@@ -658,4 +658,12 @@ public class PEExec {
       }).peek(System.out::println).sum();
       System.out.println("Result (Brute-Force): " + result);
    }
+
+   @PEProblem(problem = 31, description = "How many different ways can £2 be made using any number of coins?")
+   public void problem31() {
+      int[] possibleCoins = { 1, 2, 5, 10, 20, 50, 100, 200 };
+      int total = 200;
+
+      MathUtils.calculatePossibleCoins(possibleCoins, total);
+   }
 }

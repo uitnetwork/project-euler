@@ -4,6 +4,7 @@ import static java.util.stream.LongStream.rangeClosed;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -310,5 +311,14 @@ public class MathUtils {
          }
       }
       return count;
+   }
+
+   public static final int calculatePossibleCoins(int[] possibleCoins, int total) {
+      Arrays.sort(possibleCoins); // make sure in order
+
+      for(int value: possibleCoins) {
+         System.out.println(value);
+      }
+      return 0;
    }
 }
