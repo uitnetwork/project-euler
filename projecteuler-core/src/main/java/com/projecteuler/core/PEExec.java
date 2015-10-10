@@ -18,11 +18,13 @@ import java.time.LocalDate;
 import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.OptionalLong;
+import java.util.Set;
 import java.util.TreeMap;
 import java.util.function.ToLongFunction;
 import java.util.stream.IntStream;
@@ -667,4 +669,20 @@ public class PEExec {
       System.out.println("Result: "
             + MathUtils.calculatePossibleCoins(possibleCoins, total));
    }
+
+   @PEProblem(problem = 32, description = "How many different ways can £2 be made using any number of coins?")
+   public void problem32() {
+      List<Integer> result=MathUtils.getListOfPandigitalNumbers();
+      System.out.println("Executing with result: "+result.size());
+      Set<Integer> all=new HashSet<>();
+      for(Integer number:result) {
+          List<Integer> temp =MathUtils.getProductOfPandigital(number);
+          all.addAll(temp);
+      }
+
+      Integer total=all.stream().reduce(0, Integer::sum);
+      System.out.println("Final result: "+total);
+   }
+   
+   
 }

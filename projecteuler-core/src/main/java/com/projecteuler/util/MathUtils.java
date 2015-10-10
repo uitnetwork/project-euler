@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.OptionalLong;
 import java.util.function.ObjLongConsumer;
 import java.util.function.Supplier;
+import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 
 public class MathUtils {
@@ -349,4 +350,50 @@ public class MathUtils {
       
       return result[total][possibleLength];
    }
+
+   // assume the input will be valid as check will make the method not performance
+   public static final boolean isPandigitalNumber(int number) {
+       if(number < 123456789 || number > 987654321) {
+           return false;
+       }
+       boolean[] result = new boolean[10];
+       while(number >0) {
+           int digit=number%10;
+           number/=10;
+           if(digit == 0) {
+               return false;
+           }
+           if(!result[digit]) {
+               result[digit] = true;
+           } else {
+               // already true meaning it already occurs before
+               return false;
+           }
+       }
+       return true;
+   }
+
+    public static final List<Integer> getListOfPandigitalNumbers() {
+        List<Integer> result = IntStream.rangeClosed(123456789, 987654321).filter(MathUtils::isPandigitalNumber)
+                .collect(ArrayList::new, (ArrayList<Integer> list, int n) -> list.add(n), null);
+        return result;
+    }
+
+    public static final List<Integer> getProductOfPandigital(int number) {
+        List<Integer> result = new ArrayList<>();
+        int end=10000;
+        int suffix = number%end;
+        int remain = number/end;
+        int start=10;
+        while(remain>start) {
+            int operand1=remain/start;
+            int operand2=remain%start;
+            if(operand1*operand2==suffix) {
+                System.out.println(suffix+" in "+number);
+                result.add(suffix);
+            }
+            start*=10;
+        }
+        return result;
+    }
 }
