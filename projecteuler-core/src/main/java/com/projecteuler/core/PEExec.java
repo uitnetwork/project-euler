@@ -664,6 +664,7 @@ public class PEExec {
       int[] possibleCoins = { 1, 2, 5, 10, 20, 50, 100, 200 };
       int total = 200;
 
-      MathUtils.calculatePossibleCoins(possibleCoins, total);
+      System.out.println("Result: "
+            + MathUtils.calculatePossibleCoins(possibleCoins, total));
    }
 }
