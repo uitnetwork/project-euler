@@ -339,7 +339,7 @@ public class MathUtils {
             }
          }
       }
-      
+
       for (int i = 0; i <= total; ++i) {
          for (int j = 0; j <= possibleLength; ++j) {
             System.out.print(result[i][j]);
@@ -347,53 +347,84 @@ public class MathUtils {
          }
          System.out.println();
       }
-      
+
       return result[total][possibleLength];
    }
 
-   // assume the input will be valid as check will make the method not performance
+   // assume the input will be valid as check will make the method not
+   // performance
    public static final boolean isPandigitalNumber(int number) {
-       if(number < 123456789 || number > 987654321) {
-           return false;
-       }
-       boolean[] result = new boolean[10];
-       while(number >0) {
-           int digit=number%10;
-           number/=10;
-           if(digit == 0) {
-               return false;
-           }
-           if(!result[digit]) {
-               result[digit] = true;
-           } else {
-               // already true meaning it already occurs before
-               return false;
-           }
-       }
-       return true;
+      if (number < 123456789 || number > 987654321) {
+         return false;
+      }
+      boolean[] result = new boolean[10];
+      while (number > 0) {
+         int digit = number % 10;
+         number /= 10;
+         if (digit == 0) {
+            return false;
+         }
+         if (!result[digit]) {
+            result[digit] = true;
+         } else {
+            // already true meaning it already occurs before
+            return false;
+         }
+      }
+      return true;
    }
 
-    public static final List<Integer> getListOfPandigitalNumbers() {
-        List<Integer> result = IntStream.rangeClosed(123456789, 987654321).filter(MathUtils::isPandigitalNumber)
-                .collect(ArrayList::new, (ArrayList<Integer> list, int n) -> list.add(n), null);
-        return result;
-    }
+   public static final List<Integer> getListOfPandigitalNumbers() {
+      List<Integer> result = IntStream
+            .rangeClosed(123456789, 987654321)
+            .filter(MathUtils::isPandigitalNumber)
+            .collect(ArrayList::new,
+                  (ArrayList<Integer> list, int n) -> list.add(n), null);
+      return result;
+   }
 
-    public static final List<Integer> getProductOfPandigital(int number) {
-        List<Integer> result = new ArrayList<>();
-        int end=10000;
-        int suffix = number%end;
-        int remain = number/end;
-        int start=10;
-        while(remain>start) {
-            int operand1=remain/start;
-            int operand2=remain%start;
-            if(operand1*operand2==suffix) {
-                System.out.println(suffix+" in "+number);
-                result.add(suffix);
+   public static final List<Integer> getProductOfPandigital(int number) {
+      List<Integer> result = new ArrayList<>();
+      int end = 10000;
+      int suffix = number % end;
+      int remain = number / end;
+      int start = 10;
+      while (remain > start) {
+         int operand1 = remain / start;
+         int operand2 = remain % start;
+         if (operand1 * operand2 == suffix) {
+            System.out.println(suffix + " in " + number);
+            result.add(suffix);
+         }
+         start *= 10;
+      }
+      return result;
+   }
+
+   public static final long sumOfNumberHasEqualFactorialOFDigits() {
+      int[] factorials = new int[10];
+      for (int i = 0; i < factorials.length; ++i) {
+         factorials[i] = getFactorial(i).intValueExact();
+      }
+      long sum = 0;
+      // 2540160 = 7*9!
+      for (int i = 10; i < 2540160; ++i) {
+         int n = i;
+         int temp = 0;
+         while (n > 0) {
+            int digit = n % 10;
+            n /= 10;
+            temp += factorials[digit];
+            if (temp > i) {
+               break;
             }
-            start*=10;
-        }
-        return result;
-    }
+         }
+         if (temp == i) {
+            System.out.println("i is "+i);
+            sum += temp;
+         }
+      }
+
+      return sum;
+   }
 }

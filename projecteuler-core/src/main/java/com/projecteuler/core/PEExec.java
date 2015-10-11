@@ -672,17 +672,26 @@ public class PEExec {
 
    @PEProblem(problem = 32, description = "How many different ways can £2 be made using any number of coins?")
    public void problem32() {
-      List<Integer> result=MathUtils.getListOfPandigitalNumbers();
-      System.out.println("Executing with result: "+result.size());
-      Set<Integer> all=new HashSet<>();
-      for(Integer number:result) {
-          List<Integer> temp =MathUtils.getProductOfPandigital(number);
-          all.addAll(temp);
+      List<Integer> result = MathUtils.getListOfPandigitalNumbers();
+      System.out.println("Executing with result: " + result.size());
+      Set<Integer> all = new HashSet<>();
+      for (Integer number : result) {
+         List<Integer> temp = MathUtils.getProductOfPandigital(number);
+         all.addAll(temp);
       }
 
-      Integer total=all.stream().reduce(0, Integer::sum);
-      System.out.println("Final result: "+total);
+      Integer total = all.stream().reduce(0, Integer::sum);
+      System.out.println("Final result: " + total);
    }
-   
-   
+
+   @PEProblem(problem = 33, description = "If the product of these four fractions is given in its lowest common terms, find the value of the denominator")
+   public void problem33() {
+      System.out.println("Result: 100");
+   }
+
+   @PEProblem(problem = 34, description = "Find the sum of all numbers which are equal to the sum of the factorial of their digits.")
+   public void problem34() {
+      long result = MathUtils.sumOfNumberHasEqualFactorialOFDigits();
+      System.out.println("Result: " + result);
+   }
 }
