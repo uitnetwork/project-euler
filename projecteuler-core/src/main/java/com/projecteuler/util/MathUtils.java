@@ -6,9 +6,11 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.OptionalLong;
+import java.util.Set;
 import java.util.function.ObjLongConsumer;
 import java.util.function.Supplier;
 import java.util.stream.IntStream;
@@ -420,11 +422,79 @@ public class MathUtils {
             }
          }
          if (temp == i) {
-            System.out.println("i is "+i);
+            System.out.println("i is " + i);
             sum += temp;
          }
       }
 
       return sum;
+   }
+
+   public static final boolean containEvenDigit(long value) {
+      String str = value + "";
+      return str.indexOf('0') > -1 || str.indexOf('2') > -1
+            || str.indexOf('4') > -1 || str.indexOf('6') > -1
+            || str.indexOf('8') > -1;
+   }
+
+   public static Set<Long> getAllPermutationsOfNumber(long value) {
+      Set<String> allPermutations = getAllPermutationsOfString(value + "");
+      ObjLongConsumer<Set<Long>> consumer = (s, l) -> {
+         s.add(l);
+      };
+      Set<Long> result = allPermutations.stream().mapToLong(Long::valueOf)
+            .collect(HashSet<Long>::new, consumer, null);
+      return result;
+   }
+
+   private static Set<String> getAllPermutationsOfString(String value) {
+      return getAllPermutationsOfString("", value);
+   }
+
+   private static Set<String> getAllPermutationsOfString(String prefix,
+         String value) {
+      Set<String> result = new HashSet<String>();
+      if (value.length() <= 1) {
+         result.add(prefix + value);
+      } else {
+         int length = value.length();
+         for (int i = 0; i < length; ++i) {
+            StringBuilder builder = new StringBuilder(value);
+            builder.deleteCharAt(i);
+            result.addAll(getAllPermutationsOfString(prefix + value.charAt(i),
+                  builder.toString()));
+         }
+      }
+      return result;
+   }
+
+   public static Set<Long> getCircularNumbers(long value) {
+      Set<Long> result = new HashSet<Long>();
+      int digitLength = (int) (Math.log10(value) + 1);
+      int[] digits = new int[digitLength];
+      int temp = digitLength;
+      while (value > 0) {
+         digits[--temp] = (int) value % 10;
+         value /= 10;
+      }
+      int count = 0;
+      while (count < digitLength) {
+         int begin = count;
+         long total = 0;
+         for (int i = 0; i < digitLength; ++i) {
+            int part = digits[(begin + i) % digitLength]
+                  * (int) Math.pow(10, digitLength -1 - i);
+            total += part;
+         }
+         result.add(total);
+         count++;
+      }
+
+      return result;
+   }
+   
+   public static void main(String[] args) {
+      Set<Long> circle=getCircularNumbers(12345);
+      System.out.println(circle);
    }
 }

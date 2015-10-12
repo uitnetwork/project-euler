@@ -26,6 +26,8 @@ import java.util.Map;
 import java.util.OptionalLong;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.function.BiConsumer;
+import java.util.function.ObjLongConsumer;
 import java.util.function.ToLongFunction;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
@@ -693,5 +695,32 @@ public class PEExec {
    public void problem34() {
       long result = MathUtils.sumOfNumberHasEqualFactorialOFDigits();
       System.out.println("Result: " + result);
+   }
+
+   @PEProblem(problem = 35, description = "How many circular primes are there below one million?")
+   public void problem35() {
+      BiConsumer<Set<Long>, Long> longConsumer = (set, l) -> set.add(l);
+      Set<Long> primes = MathUtils
+            .getPrimeNumbersBelowMax(1000000)
+            .stream()
+            .filter(n -> !MathUtils.containEvenDigit(n))
+            .collect(HashSet<Long>::new, longConsumer,
+                  (s1, s2) -> s1.addAll(s2));
+      Set<Long> done = new HashSet<Long>();
+      int count = 0;
+      for (Long prime : primes) {
+         if (!done.contains(prime)) {
+            Set<Long> circularNumbers = MathUtils.getCircularNumbers(prime);
+            boolean isCircular = circularNumbers.stream().allMatch(
+                  l -> primes.contains(l));
+            if (isCircular) {
+               System.out.println(circularNumbers);
+               count += circularNumbers.size();
+               done.addAll(circularNumbers);
+            }
+         }
+      }
+      System.out.println("Result: " + (count + 1)); // add 1 because we remove 2
+                                                  // which is always correct
    }
 }
