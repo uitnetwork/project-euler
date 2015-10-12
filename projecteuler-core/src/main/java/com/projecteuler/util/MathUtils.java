@@ -79,6 +79,12 @@ public class MathUtils {
       return true;
    }
 
+   public static final boolean isPalindromeBinary(int value) {
+      String binary = Integer.toBinaryString(value);
+      String reverse = new StringBuilder(binary).reverse().toString();
+      return binary.equals(reverse);
+   }
+
    public static final long reverseNumber(long number) {
       long result = 0;
       while (number > 0) {
@@ -483,7 +489,7 @@ public class MathUtils {
          long total = 0;
          for (int i = 0; i < digitLength; ++i) {
             int part = digits[(begin + i) % digitLength]
-                  * (int) Math.pow(10, digitLength -1 - i);
+                  * (int) Math.pow(10, digitLength - 1 - i);
             total += part;
          }
          result.add(total);
@@ -492,9 +498,9 @@ public class MathUtils {
 
       return result;
    }
-   
+
    public static void main(String[] args) {
-      Set<Long> circle=getCircularNumbers(12345);
-      System.out.println(circle);
+      int number=585;
+      System.out.println("585: "+isPalindromeBinary(number));
    }
 }

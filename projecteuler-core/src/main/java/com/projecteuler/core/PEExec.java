@@ -27,7 +27,6 @@ import java.util.OptionalLong;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.function.BiConsumer;
-import java.util.function.ObjLongConsumer;
 import java.util.function.ToLongFunction;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
@@ -721,6 +720,16 @@ public class PEExec {
          }
       }
       System.out.println("Result: " + (count + 1)); // add 1 because we remove 2
-                                                  // which is always correct
+                                                    // which is always correct
+   }
+
+   @PEProblem(problem = 36, description = "Find the sum of all numbers, less than one million, which are palindromic in base 10 and base 2")
+   public void problem36() {
+      int max = 1000000;
+      int result = IntStream.rangeClosed(1, max)
+            .filter(MathUtils::isPalindromeNumber)
+            .filter(MathUtils::isPalindromeBinary)
+            .sum();
+      System.out.println("Result: " + result);
    }
 }
