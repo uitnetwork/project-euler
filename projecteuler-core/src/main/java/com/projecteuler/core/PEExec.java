@@ -728,8 +728,18 @@ public class PEExec {
       int max = 1000000;
       int result = IntStream.rangeClosed(1, max)
             .filter(MathUtils::isPalindromeNumber)
-            .filter(MathUtils::isPalindromeBinary)
-            .sum();
+            .filter(MathUtils::isPalindromeBinary).sum();
+      System.out.println("Result: " + result);
+   }
+
+   @PEProblem(problem = 37, description = "Find the sum of the only eleven primes that are both truncatable from left to right and right to left.")
+   public void problem37() {
+      int limit = 11;
+      // skip 2, 3, 5, 7
+      long result = LongStream.iterate(11, l -> l + 2)
+            .filter(MathUtils::isPrime).filter(MathUtils::isTruncatable)
+            .limit(limit).peek(System.out::println).sum();
+
       System.out.println("Result: " + result);
    }
 }

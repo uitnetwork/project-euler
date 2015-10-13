@@ -165,6 +165,9 @@ public class MathUtils {
    }
 
    public static boolean isPrime(long n) {
+      if (n < 2) {
+         return false;
+      }
       if (n == 2)
          return true;
       if (n % 2 == 0)
@@ -522,26 +525,30 @@ public class MathUtils {
          n /= b;
       }
 
-      System.out.println("Input: "+input+" return: "+palin);
+      System.out.println("Input: " + input + " return: " + palin);
       return palin;
    }
 
-   public static void main(String[] args) {
-      int limit = 1000000;
-      int result = 0;
-      int number;
-
-      for (int j = 0; j < 1; j++) {
-         boolean isOdd = (j % 2 == 0);
-         int i = 1;
-         while ((number = createPalindrome(i, 10, isOdd)) < limit) {
-            if (isPalindromeNumber(number, 2)) {
-               result += number;
-            }
-            i++;
+   public static final boolean isTruncatable(long value) {
+      int start = 10;
+      while (start < value) {
+         // left to right
+         long left = value % start;
+         if (!isPrime(left)) {
+            return false;
          }
+         // right to left
+         long right = value / start;
+         if (!isPrime(right)) {
+            return false;
+         }
+         start *= 10;
       }
-      
-      System.out.println(result);
+
+      return true;
+   }
+
+   public static void main(String[] args) {
+      System.out.println(isTruncatable(37));
    }
 }
