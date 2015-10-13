@@ -61,6 +61,17 @@ public class MathUtils {
       return true;
    }
 
+   public static final boolean isPalindromeNumber(int number, int base) {
+      int reversed = 0;
+      int k = number;
+
+      while (k > 0) {
+         reversed = base * reversed + k % base;
+         k /= base;
+      }
+      return number == reversed;
+   }
+
    public static boolean isPalindromeNumber2(int x) {
       if (x < 0)
          return false;
@@ -499,8 +510,38 @@ public class MathUtils {
       return result;
    }
 
+   public static int createPalindrome(int input, int b, boolean isOdd) {
+      int n = input;
+      int palin = input;
+      if (isOdd) {
+         n /= b;
+      }
+
+      while (n > 0) {
+         palin = palin * b + (n % b);
+         n /= b;
+      }
+
+      System.out.println("Input: "+input+" return: "+palin);
+      return palin;
+   }
+
    public static void main(String[] args) {
-      int number=585;
-      System.out.println("585: "+isPalindromeBinary(number));
+      int limit = 1000000;
+      int result = 0;
+      int number;
+
+      for (int j = 0; j < 1; j++) {
+         boolean isOdd = (j % 2 == 0);
+         int i = 1;
+         while ((number = createPalindrome(i, 10, isOdd)) < limit) {
+            if (isPalindromeNumber(number, 2)) {
+               result += number;
+            }
+            i++;
+         }
+      }
+      
+      System.out.println(result);
    }
 }
