@@ -396,6 +396,25 @@ public class MathUtils {
       return true;
    }
 
+   //more performance
+   private static boolean isPandigitalNumber2(int n) {
+      int digits = 0;
+      int count = 0;
+      int tmp;
+
+      while (n > 0) {
+         tmp = digits;
+         digits = digits | 1 << (int) ((n % 10) - 1); // using bit, if number the same the return value will be different each time
+         if (tmp == digits) {
+            return false;
+         }
+
+         count++;
+         n /= 10;
+      }
+      return digits == (1 << count) - 1;
+   }
+
    public static final List<Integer> getListOfPandigitalNumbers() {
       List<Integer> result = IntStream
             .rangeClosed(123456789, 987654321)
@@ -549,6 +568,8 @@ public class MathUtils {
    }
 
    public static void main(String[] args) {
-      System.out.println(isTruncatable(37));
+      System.out.println(isPandigitalNumber2(123456789));
+
+      System.out.println(isPandigitalNumber2(987654321));
    }
 }

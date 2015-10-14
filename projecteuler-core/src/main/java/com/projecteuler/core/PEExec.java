@@ -23,6 +23,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.OptionalInt;
 import java.util.OptionalLong;
 import java.util.Set;
 import java.util.TreeMap;
@@ -741,5 +742,16 @@ public class PEExec {
             .limit(limit).peek(System.out::println).sum();
 
       System.out.println("Result: " + result);
+   }
+
+   @PEProblem(problem = 38, description = "What is the largest 1 to 9 pandigital 9-digit number that can be formed as the concatenated product of an integer with (1,2, ... , n) where n > 1")
+   public void problem38() {
+      int max = 918273645; // because the challenge already gave this number
+      int division = 100002;
+      OptionalInt optionalInt = IntStream.rangeClosed(max + 1, 987654322)
+            .filter(MathUtils::isPandigitalNumber)
+            .filter(n -> n % division == 0).peek(System.out::println).max();
+
+      System.out.println("Result: " + optionalInt.getAsInt());
    }
 }
