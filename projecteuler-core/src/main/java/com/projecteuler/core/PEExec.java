@@ -754,4 +754,44 @@ public class PEExec {
 
       System.out.println("Result: " + optionalInt.getAsInt());
    }
+
+   @PEProblem(problem = 39, description = "For which value of p ≤ 1000, is the number of solutions maximised?")
+   public void problem39() {
+      int p = 1000;
+      boolean[] squareArr = new boolean[p * p];
+      int[] resultArray = new int[p + 1];
+      int finalResult = 0;
+
+      for (int i = 1; i < p; ++i) {
+         squareArr[i * i] = true;
+      }
+
+      for (int x = 1; x <= 333; ++x) {
+         int maxY = (p - 1 - x) / 2;
+         for (int y = x + 1; y <= maxY; ++y) {
+            int left = x * x + y * y;
+            if (squareArr[left]) {
+               for (int z = y + 1; z <= p - (x + y); ++z) {
+                  int right = z * z;
+                  if (right >= left) {
+                     if (right == left) { // check only if right == left
+                        int currentP = x + y + z;
+                        System.out.println("X and Y and Z: " + x + " : " + y
+                              + " + " + z + " and current P: " + currentP);
+
+                        resultArray[currentP]++;
+                        if (resultArray[currentP] > resultArray[finalResult]) {
+                           finalResult = currentP;
+                        }
+                     }
+                     break; // break if right >= left
+                  }
+               }
+            }
+         }
+      }
+
+      System.out.println("Result: " + finalResult
+            + " with number of solutions: " + resultArray[finalResult]);
+   }
 }
