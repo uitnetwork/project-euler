@@ -776,8 +776,8 @@ public class PEExec {
                   if (right >= left) {
                      if (right == left) { // check only if right == left
                         int currentP = x + y + z;
-                        System.out.println("X and Y and Z: " + x + " : " + y
-                              + " + " + z + " and current P: " + currentP);
+                        // System.out.println("X and Y and Z: " + x + " : " + y
+                        // + " + " + z + " and current P: " + currentP);
 
                         resultArray[currentP]++;
                         if (resultArray[currentP] > resultArray[finalResult]) {
@@ -793,5 +793,70 @@ public class PEExec {
 
       System.out.println("Result: " + finalResult
             + " with number of solutions: " + resultArray[finalResult]);
+   }
+
+   @PEProblem(problem = 40, description = "If dn represents the nth digit of the fractional part, find the value of the following expression")
+   public void problem40() {
+      int[] indexes = { 1, 10, 100, 1000, 10000, 100000, 1000000 };
+      int lengthIndex = 1;
+      int count = 1;
+      int result = 1;
+      int start = 1;
+      for (int i = 1; i < indexes.length; ++i) {
+         int index = indexes[i];
+         while (true) {
+
+            start++;
+
+            // increase length index
+            if (start >= indexes[lengthIndex]) {
+               ++lengthIndex;
+            }
+
+            count += lengthIndex;
+
+            if (count >= index) {
+               int tempCount = count;
+               int tempValue = start;
+               int indexValue = 0;
+
+               while (tempValue > 0) {
+                  // get small to big digit and decrease the temporarily count
+                  // until equal with the current index
+                  int digit = tempValue % 10;
+                  if (tempCount == index) {
+                     indexValue = digit;
+                     result *= indexValue;
+                     System.out.println("Start: " + start + " and digit: "
+                           + digit);
+                     break;
+                  }
+                  tempValue /= 10;
+                  tempCount--;
+               }
+               break;
+            }
+         }
+      }
+
+      System.out.println("Result: " + result);
+   }
+
+   @PEProblem(problem = 40, description = "If dn represents the nth digit of the fractional part, find the value of the following expression")
+   public void problem40_2() {
+      int[] indexes = { 1, 10, 100, 1000, 10000, 100000, 1000000 };
+      int max = 1000000;
+      int start = 0;
+      StringBuilder builder = new StringBuilder();
+      while (builder.length() <= max) {
+         builder.append(start++);
+      }
+
+      int result = 1;
+      for (int i = 0; i < indexes.length; ++i) {
+         result *= Integer.valueOf(""+builder.charAt(indexes[i]));
+      }
+
+      System.out.println("Result: " + result);
    }
 }
