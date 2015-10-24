@@ -396,8 +396,8 @@ public class MathUtils {
       return true;
    }
 
-   //more performance
-   private static boolean isPandigitalNumber2(int n) {
+   //more performance and correct for number which has n < 9 digits
+   public static boolean isPandigitalNumber2(int n) {
       int digits = 0;
       int count = 0;
       int tmp;
@@ -568,8 +568,14 @@ public class MathUtils {
    }
 
    public static void main(String[] args) {
-      System.out.println(isPandigitalNumber2(123456789));
+      System.out.println(isPandigitalNumber2(123456));
 
-      System.out.println(isPandigitalNumber2(987654321));
+      System.out.println(isPandigitalNumber2(123));
+
+   
+      System.out.println(isPandigitalNumber(123456));
+
+      System.out.println(isPandigitalNumber(123));
+
    }
 }

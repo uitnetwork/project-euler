@@ -23,6 +23,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
 import java.util.Set;
@@ -854,9 +855,24 @@ public class PEExec {
 
       int result = 1;
       for (int i = 0; i < indexes.length; ++i) {
-         result *= Integer.valueOf(""+builder.charAt(indexes[i]));
+         result *= Integer.valueOf("" + builder.charAt(indexes[i]));
       }
 
       System.out.println("Result: " + result);
+   }
+
+   @PEProblem(problem = 41, description = "What is the largest n-digit pandigital prime that exists?")
+   public void problem41() {
+      // only 1-4 or 1-7 is possible for prime
+      long first = 1234567;
+      long second = 1234;
+      Set<Long> all7Pandigital = MathUtils.getAllPermutationsOfNumber(first);
+      Optional<Long> optional = all7Pandigital.stream()
+            .filter(MathUtils::isPrime).max(Long::compare);
+      if(!optional.isPresent()) {
+         System.out.println("Should not come to second: "+second);
+      }
+      System.out.println("Result: " + optional.get());
+
    }
 }
