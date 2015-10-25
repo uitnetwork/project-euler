@@ -869,10 +869,41 @@ public class PEExec {
       Set<Long> all7Pandigital = MathUtils.getAllPermutationsOfNumber(first);
       Optional<Long> optional = all7Pandigital.stream()
             .filter(MathUtils::isPrime).max(Long::compare);
-      if(!optional.isPresent()) {
-         System.out.println("Should not come to second: "+second);
+      if (!optional.isPresent()) {
+         System.out.println("Should not come to second: " + second);
       }
       System.out.println("Result: " + optional.get());
+   }
 
+   @PEProblem(problem = 42, description = "How many are triangle words?")
+   public void problem42() throws IOException {
+      int maxPossible = 1000000; // just random give 1 million to the max value.
+      boolean[] triangleNumberArray = new boolean[maxPossible + 1];
+      for (int i = 1;; ++i) {
+         int t = i * (i + 1) / 2;
+         if (t <= maxPossible) {
+            triangleNumberArray[t] = true;
+         } else {
+            break;
+         }
+      }
+
+      InputStream input = PEExec.class
+            .getResourceAsStream("/input/p042_words.txt");
+      BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+      String str = reader.readLine();
+      input.close();
+
+      str = str.replaceAll("\"", "");
+      String[] strArrays = str.split(",");
+
+      long count = 0;
+      for (String tmp : strArrays) {
+         int t = MathUtils.getAlphabeticalvalue(tmp);
+         if (triangleNumberArray[t]) {
+            count++;
+         }
+      }
+      System.out.println("Result: " + count);
    }
 }

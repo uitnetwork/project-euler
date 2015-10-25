@@ -576,6 +576,8 @@ public class MathUtils {
       System.out.println(isPandigitalNumber(123456));
 
       System.out.println(isPandigitalNumber(123));
+      
+      System.out.println("ALPHA: "+getAlphabeticalvalue("SKY"));
 
    }
 }
