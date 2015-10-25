@@ -906,4 +906,37 @@ public class PEExec {
       }
       System.out.println("Result: " + count);
    }
+
+   @PEProblem(problem = 43, description = "Find the sum of all 0 to 9 pandigital numbers with this property.")
+   public void problem43() throws IOException {
+      int[] divisors = { 2, 3, 5, 7, 11, 13, 17 };
+      List<Long> pandigitalNumbers = MathUtils
+            .getListOfPandigitalNumbersIncludeZero();
+
+      long result = 0;
+      for (long l : pandigitalNumbers) {
+         boolean correct = true;
+         long tmp = l;
+         for (int j = divisors.length - 1; j >= 0; --j) {
+            long part = tmp % 1000;
+            tmp /= 10;
+            if (part % divisors[j] != 0) {
+               correct = false;
+               break;
+            }
+         }
+
+         if (correct) {
+            System.out.println(l);
+            result += l;
+         }
+      }
+      System.out.println("Result: " + result);
+   }
+
+   @PEProblem(problem = 43, description = "Find the sum of all 0 to 9 pandigital numbers with this property.")
+   public void problem43_2() {
+      System.out
+            .println("Result (by pen and paper): 1430952867 +  1460357289 +  1406357289 + 4130952867 + 4160357289 +4106357289 = 16695334890");
+   }
 }

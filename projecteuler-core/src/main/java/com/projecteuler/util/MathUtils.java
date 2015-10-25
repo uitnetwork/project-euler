@@ -396,7 +396,7 @@ public class MathUtils {
       return true;
    }
 
-   //more performance and correct for number which has n < 9 digits
+   // more performance and correct for number which has n < 9 digits
    public static boolean isPandigitalNumber2(int n) {
       int digits = 0;
       int count = 0;
@@ -404,7 +404,10 @@ public class MathUtils {
 
       while (n > 0) {
          tmp = digits;
-         digits = digits | 1 << (int) ((n % 10) - 1); // using bit, if number the same the return value will be different each time
+         digits = digits | 1 << (int) ((n % 10) - 1); // using bit, if number
+                                                      // the same the return
+                                                      // value will be different
+                                                      // each time
          if (tmp == digits) {
             return false;
          }
@@ -413,6 +416,33 @@ public class MathUtils {
          n /= 10;
       }
       return digits == (1 << count) - 1;
+   }
+
+   public static final boolean isPandigitalNumberIncludeZero(long number) {
+      if (number < 1023456789 || number > 9876543210l) {
+         return false;
+      }
+      boolean[] result = new boolean[10];
+      while (number > 0) {
+         int digit = (int) (number % 10);
+         number /= 10;
+         if (!result[digit]) {
+            result[digit] = true;
+         } else {
+            // already true meaning it already occurs before
+            return false;
+         }
+      }
+      return true;
+   }
+
+   public static final List<Long> getListOfPandigitalNumbersIncludeZero() {
+      List<Long> result = LongStream
+            .rangeClosed(1023456789, 9876543210l)
+            .filter(MathUtils::isPandigitalNumberIncludeZero)
+            .collect(ArrayList::new,
+                  (ArrayList<Long> list, long n) -> list.add(n), null);
+      return result;
    }
 
    public static final List<Integer> getListOfPandigitalNumbers() {
@@ -568,16 +598,7 @@ public class MathUtils {
    }
 
    public static void main(String[] args) {
-      System.out.println(isPandigitalNumber2(123456));
-
-      System.out.println(isPandigitalNumber2(123));
-
-   
-      System.out.println(isPandigitalNumber(123456));
-
-      System.out.println(isPandigitalNumber(123));
-      
-      System.out.println("ALPHA: "+getAlphabeticalvalue("SKY"));
-
+      System.out.println(isPandigitalNumberIncludeZero(1023456789));
+      System.out.println(isPandigitalNumberIncludeZero(123456789));
    }
 }
