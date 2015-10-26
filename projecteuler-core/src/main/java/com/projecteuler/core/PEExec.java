@@ -939,4 +939,43 @@ public class PEExec {
       System.out
             .println("Result (by pen and paper): 1430952867 +  1460357289 +  1406357289 + 4130952867 + 4160357289 +4106357289 = 16695334890");
    }
+
+   @PEProblem(problem = 44, description = "Find the pair of pentagonal numbers, Pj and Pk, for which their sum and difference are pentagonal and D = |Pk − Pj| is minimised; what is the value of D?")
+   public void problem44() {
+      // to be honest, I'm not sure what else to do
+      // if this max value does not work out (increase the memory if needed)
+      int max = Integer.MAX_VALUE / 20;
+
+      boolean[] checkPentagonalNumberArray = new boolean[max];
+      int[] pentagonalNumbers = new int[max];
+
+      int size = 1;
+      // generate list of pentagonalNumbers
+      do {
+         long pentagonalNumberLong = size * (3 * size - 1) / 2;
+         if (pentagonalNumberLong > max) {
+            break;
+         }
+         int pentagonalNumber = (int) pentagonalNumberLong;
+         checkPentagonalNumberArray[pentagonalNumber] = true;
+         pentagonalNumbers[size++] = pentagonalNumber;
+      } while (true);
+
+      int result = 0;
+
+      outer: // define a label name outer (just for demo)
+      for (int i = 1; i < size; ++i) {
+         for (int j = i - 1; j > 0; --j) {
+            int sub = pentagonalNumbers[i] - pentagonalNumbers[j];
+            int add = pentagonalNumbers[i] + pentagonalNumbers[j];
+            if (checkPentagonalNumberArray[sub]
+                  && checkPentagonalNumberArray[add]) {
+               result = sub;
+               break outer;
+            }
+         }
+      }
+
+      System.out.println("Result: " + result);
+   }
 }
