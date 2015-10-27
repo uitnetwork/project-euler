@@ -597,7 +597,22 @@ public class MathUtils {
       return true;
    }
 
+   public static final boolean isPentagonalNumber(long number) {
+       double n=(1+ Math.sqrt(1 + 24*number)) / 6;
+       return n == (long)n;
+   }
+
+   public static final boolean isHexagonalNumber(long number) {
+       double n=(1+ Math.sqrt(1 + 8*number)) / 4;
+       return n == (long)n;
+   }
+
    public static void main(String[] args) {
+       System.out.println("Hexagonal: "+isHexagonalNumber(40755));
+       System.out.println("Hexagonal: "+isHexagonalNumber(40756));
+       
+       System.out.println("Pentagonal: "+isPentagonalNumber(40755));
+       System.out.println("Pentagonal: "+isPentagonalNumber(40756));
       System.out.println(isPandigitalNumberIncludeZero(1023456789));
       System.out.println(isPandigitalNumberIncludeZero(123456789));
    }

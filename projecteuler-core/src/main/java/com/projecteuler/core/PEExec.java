@@ -978,4 +978,12 @@ public class PEExec {
 
       System.out.println("Result: " + result);
    }
+   
+   @PEProblem(problem = 45, description = "Find the next triangle number that is also pentagonal and hexagonal.")
+   public void problem45() {
+       long start=286;
+       OptionalLong result = LongStream.iterate(start, l->++l).map(l->l*(l+1)/2).filter(MathUtils::isPentagonalNumber).filter(MathUtils::isHexagonalNumber).findFirst();
+
+       System.out.println("Result: "+result.getAsLong());
+   }
 }
