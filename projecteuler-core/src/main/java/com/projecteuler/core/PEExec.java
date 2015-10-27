@@ -28,6 +28,7 @@ import java.util.OptionalInt;
 import java.util.OptionalLong;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.BiConsumer;
 import java.util.function.ToLongFunction;
 import java.util.stream.IntStream;
@@ -978,12 +979,37 @@ public class PEExec {
 
       System.out.println("Result: " + result);
    }
-   
+
    @PEProblem(problem = 45, description = "Find the next triangle number that is also pentagonal and hexagonal.")
    public void problem45() {
-       long start=286;
-       OptionalLong result = LongStream.iterate(start, l->++l).map(l->l*(l+1)/2).filter(MathUtils::isPentagonalNumber).filter(MathUtils::isHexagonalNumber).findFirst();
+      long start = 286;
+      OptionalLong result = LongStream.iterate(start, l -> ++l)
+            .map(l -> l * (l + 1) / 2).filter(MathUtils::isPentagonalNumber)
+            .filter(MathUtils::isHexagonalNumber).findFirst();
 
-       System.out.println("Result: "+result.getAsLong());
+      System.out.println("Result: " + result.getAsLong());
+   }
+
+   @PEProblem(problem = 46, description = "What is the smallest odd composite that cannot be written as the sum of a prime and twice a square?")
+   public void problem46() {
+      AtomicInteger current = new AtomicInteger(0);
+      int max = 100000;
+      long[] primeNumbers = new long[max];
+      primeNumbers[current.getAndIncrement()] = 2;
+      OptionalLong result = LongStream.iterate(3, n -> n + 2).filter(l -> {
+         if (MathUtils.isPrime(l)) {
+            primeNumbers[current.getAndIncrement()] = l;
+            return false;
+         } else {
+            for (int i = 0; i < current.get(); ++i) {
+               double d = Math.sqrt((l - primeNumbers[i]) / 2);
+               if (d == (long) d) {
+                  return false;
+               }
+            }
+            return true;
+         }
+      }).findFirst();
+      System.out.println("Result: " + result.getAsLong());
    }
 }
