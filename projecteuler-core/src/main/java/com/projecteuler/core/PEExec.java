@@ -1014,7 +1014,9 @@ public class PEExec {
    }
 
    @PEProblem(problem = 47, description = "Find the first four consecutive integers to have four distinct prime factors. What is the first of these numbers?")
-   public void problem47() { // so stupid when think of this solution. consecutive numbers can not have the same prime factors :D
+   public void problem47() { // so stupid when think of this solution.
+                             // consecutive numbers can not have the same prime
+                             // factors :D
       long result = 0;
       final int number = 4;
       int max = 100000;
@@ -1072,5 +1074,32 @@ public class PEExec {
       }
 
       System.out.println("Result: " + result);
+   }
+
+   @PEProblem(problem = 48, description = "Find the last ten digits of the series, 1^1 + 2^2 + 3^3 + ... + 1000^1000.")
+   public void problem48() {
+      long result = 0;
+      long start = 1;
+      long end = 1000;
+      long lastDigits = 10000000000l;
+      for (long i = start; i <= end; ++i) {
+         long temp = i % lastDigits;
+         long remain = temp;
+         for (long j = 1; j < i; j++) {
+            remain = (remain * temp) % lastDigits;
+         }
+         result += remain;
+         result %= lastDigits;
+      }
+      System.out.println("Result: " + result);
+   }
+
+   @PEProblem(problem = 48, description = "Find the last ten digits of the series, 1^1 + 2^2 + 3^3 + ... + 1000^1000.")
+   public void problem48_2() {
+      BigInteger bi = new BigInteger("0");
+      for (int i = 1; i <= 1000; i++)
+         bi = bi.add(new BigInteger("" + i).pow(i));
+      String result = bi.toString();
+      System.out.println("Result: " + result.substring(result.length() - 10));
    }
 }
