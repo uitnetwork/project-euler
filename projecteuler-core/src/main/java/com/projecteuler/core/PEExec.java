@@ -1012,4 +1012,65 @@ public class PEExec {
       }).findFirst();
       System.out.println("Result: " + result.getAsLong());
    }
+
+   @PEProblem(problem = 47, description = "Find the first four consecutive integers to have four distinct prime factors. What is the first of these numbers?")
+   public void problem47() { // so stupid when think of this solution. consecutive numbers can not have the same prime factors :D
+      long result = 0;
+      final int number = 4;
+      int max = 100000;
+      int current = 0;
+      long[] primeNumbers = new long[max];
+      primeNumbers[current++] = 2;
+      for (long l = 3; l < Long.MAX_VALUE; ++l) {
+         if (MathUtils.isPrime(l)) {
+            if (l > primeNumbers[current]) {
+               primeNumbers[current++] = l;
+            }
+         } else {
+
+            boolean mixed = false;
+            boolean currentValue[];
+            boolean nextValue[] = new boolean[current];
+            boolean found = true;
+            for (long value = l; value <= l + number - 1; ++value) {
+               int count = 0;
+               long temp = value;
+               if (MathUtils.isPrime(temp)) {
+                  primeNumbers[current++] = temp;
+                  l = temp;
+                  found = false;
+                  break;
+               }
+               currentValue = nextValue;
+               nextValue = new boolean[current];
+               for (int i = 0; i < current && temp != 1; ++i) {
+                  long prime = primeNumbers[i];
+                  if (temp % prime == 0) {
+                     nextValue[i] = true;
+                     if (currentValue[i] && nextValue[i]) {
+                        mixed = true;
+                        break;
+                     }
+                     count++;
+                     while (temp % prime == 0) {
+                        temp /= prime;
+                     }
+                  }
+               }
+
+               if (count != number || mixed) {
+                  found = false;
+                  break;
+               }
+            }
+
+            if (found) {
+               result = l;
+               break;
+            }
+         }
+      }
+
+      System.out.println("Result: " + result);
+   }
 }

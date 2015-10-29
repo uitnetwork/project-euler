@@ -607,6 +607,8 @@ public class MathUtils {
       return n == (long) n;
    }
 
+   
+
    public static void main(String[] args) {
       System.out.println("Hexagonal: " + isHexagonalNumber(40755));
       System.out.println("Hexagonal: " + isHexagonalNumber(40756));
