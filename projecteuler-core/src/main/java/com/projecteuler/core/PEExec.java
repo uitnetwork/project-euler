@@ -1102,4 +1102,34 @@ public class PEExec {
       String result = bi.toString();
       System.out.println("Result: " + result.substring(result.length() - 10));
    }
+
+   @PEProblem(problem = 49, description = "What 12-digit number do you form by concatenating the three terms in this sequence?")
+   public void problem49() {
+       StringBuilder result=new StringBuilder();
+       int max=10000;
+       boolean[] primeArray=new boolean[max];
+       int skip = 1487;
+       for(int i=1000;i < max;++i) {
+           if(MathUtils.isPrime(i)) {
+               primeArray[i]=true;
+           }
+       }
+       
+       for(int i=1000;i < max - 3330*2;++i) {
+           if(primeArray[i] && primeArray[i+3330] && primeArray[i+2*3330]) {
+               if(i==skip) {
+                   continue;
+               }
+               long value=(long) i;
+               Set<Long> permutations = MathUtils.getAllPermutationsOfNumber(value);
+               if(permutations.contains(value) && permutations.contains(value+3330) && permutations.contains(value+2*3330)) {
+                   result.append(i);
+                   result.append(i+3330);
+                   result.append(i+ 2*3330);
+                   break;
+               }
+           }
+       }
+       System.out.println("Result: "+result.toString());
+   }
 }
