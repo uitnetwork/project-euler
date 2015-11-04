@@ -149,8 +149,8 @@ public class MathUtils {
    }
 
    public static long[] getPrimeNumberArrayBelowMax(long max) {
-       return rangeClosed(2, max).filter(MathUtils::isPrime).toArray();
-    }
+      return rangeClosed(2, max).filter(MathUtils::isPrime).toArray();
+   }
 
    public static List<Long> getPrimeNumbersToNth(long n) {
       List<Long> result = new ArrayList<Long>();
@@ -612,35 +612,54 @@ public class MathUtils {
    }
 
    public static final boolean sameDigits6Times(long number) {
-       long [] checkNumbers={number*2, number*3, number*4, number*5, number *6};
-       boolean[] validates=new boolean[10];
-       int length=0;
-       long num=number;
-       while(num>0) {
-           int digit = (int)num%10;
-           num/=10;
-           validates[digit] =true;
-           length++;
-       }
-       for(long l:checkNumbers) {
-           int currentLength=0;
-           while(l>0) {
-               int digit = (int)l%10;
-               l/=10;
-               if(!validates[digit]) {
-                   return false;
-               }
-               currentLength++;
-           }
-           if(currentLength!=length) {
+      long[] checkNumbers = { number * 2, number * 3, number * 4, number * 5,
+            number * 6 };
+      boolean[] validates = new boolean[10];
+      int length = 0;
+      long num = number;
+      while (num > 0) {
+         int digit = (int) num % 10;
+         num /= 10;
+         validates[digit] = true;
+         length++;
+      }
+      for (long l : checkNumbers) {
+         int currentLength = 0;
+         while (l > 0) {
+            int digit = (int) l % 10;
+            l /= 10;
+            if (!validates[digit]) {
                return false;
-           }
-       }
-       return true;
+            }
+            currentLength++;
+         }
+         if (currentLength != length) {
+            return false;
+         }
+      }
+      return true;
+   }
+
+   public static final int getPower(long l) {
+      return (int) Math.log10(l);
+   }
+
+   public static final boolean isCombinationGreaterThan(int n, int r, int power) {
+      double result = 0;
+      int limit=n-r;
+      for (int i = n; i > limit; --i) {
+         result += Math.log10(i);
+      }
+      for (int i = r; i > 0; --i) {
+         result -= Math.log10(i);
+      }
+      return result > 6;
    }
 
    public static void main(String[] args) {
-       System.out.println(sameDigits6Times(125874));
+      System.out.println(isCombinationGreaterThan(23, 10, 6));
       
+      System.out.println(isCombinationGreaterThan(23, 9, 6));
+
    }
 }

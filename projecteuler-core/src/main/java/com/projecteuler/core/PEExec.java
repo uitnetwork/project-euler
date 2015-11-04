@@ -1139,19 +1139,19 @@ public class PEExec {
    @PEProblem(problem = 50, description = "Which prime, below one-million, can be written as the sum of the most consecutive primes?")
    public void problem50() {
       List<Long> primeNumbers = MathUtils.getPrimeNumberListBelowMax(1000000);
-      long maxPrime=primeNumbers.get(primeNumbers.size()-1);
-      int max=0;
+      long maxPrime = primeNumbers.get(primeNumbers.size() - 1);
+      int max = 0;
       long result = 0;
 
       for (int i = 0; i < primeNumbers.size(); ++i) {
-         int currentMax=0;
+         int currentMax = 0;
          long currentValue = 0;
          for (int j = i; j < primeNumbers.size() && currentValue < maxPrime; j++) {
             currentMax++;
             currentValue += primeNumbers.get(j);
             if (primeNumbers.contains(currentValue)) {
-               if(currentMax>max) {
-                  max=currentMax;
+               if (currentMax > max) {
+                  max = currentMax;
                   result = currentValue;
                   // System.out.println("Result: "+result+" with start: "+i+" and end "+j);
                }
@@ -1161,16 +1161,32 @@ public class PEExec {
 
       System.out.println("Result: " + result);
    }
-   
+
    @PEProblem(problem = 51, description = "Find the smallest prime which, by replacing part of the number (not necessarily adjacent digits) with the same digit, is part of an eight prime value family.")
    public void problem51() {
-       System.out.println("Result: 121313 (think later)");
-       
+      System.out.println("Result: 121313 (think later)");
+
    }
-   
+
    @PEProblem(problem = 52, description = "Find the smallest positive integer, x, such that 2x, 3x, 4x, 5x, and 6x, contain the same digits")
    public void problem52() {
-       OptionalLong result=LongStream.range(1, 10000000).filter(MathUtils::sameDigits6Times).findFirst();
-       System.out.println("Result: "+result.getAsLong());
+      OptionalLong result = LongStream.range(1, 10000000)
+            .filter(MathUtils::sameDigits6Times).findFirst();
+      System.out.println("Result: " + result.getAsLong());
+   }
+
+   @PEProblem(problem = 53, description = "How many, not necessarily distinct, values of  nCr, for 1 ≤ n ≤ 100, are greater than one-million?")
+   public void problem53() {
+      int max = 1000000;
+      int power = MathUtils.getPower(max);
+      int result = 0;
+      for (int r = 1; r <= 100; ++r) {
+         for (int n = r; n <= 100; ++n) {
+            if (MathUtils.isCombinationGreaterThan(n, r, power)) {
+               result++;
+            }
+         }
+      }
+      System.out.println("Result: " + result);
    }
 }
