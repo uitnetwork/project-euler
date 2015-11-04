@@ -1105,31 +1105,60 @@ public class PEExec {
 
    @PEProblem(problem = 49, description = "What 12-digit number do you form by concatenating the three terms in this sequence?")
    public void problem49() {
-       StringBuilder result=new StringBuilder();
-       int max=10000;
-       boolean[] primeArray=new boolean[max];
-       int skip = 1487;
-       for(int i=1000;i < max;++i) {
-           if(MathUtils.isPrime(i)) {
-               primeArray[i]=true;
-           }
-       }
-       
-       for(int i=1000;i < max - 3330*2;++i) {
-           if(primeArray[i] && primeArray[i+3330] && primeArray[i+2*3330]) {
-               if(i==skip) {
-                   continue;
+      StringBuilder result = new StringBuilder();
+      int max = 10000;
+      boolean[] primeArray = new boolean[max];
+      int skip = 1487;
+      for (int i = 1000; i < max; ++i) {
+         if (MathUtils.isPrime(i)) {
+            primeArray[i] = true;
+         }
+      }
+
+      for (int i = 1000; i < max - 3330 * 2; ++i) {
+         if (primeArray[i] && primeArray[i + 3330] && primeArray[i + 2 * 3330]) {
+            if (i == skip) {
+               continue;
+            }
+            long value = (long) i;
+            Set<Long> permutations = MathUtils
+                  .getAllPermutationsOfNumber(value);
+            if (permutations.contains(value)
+                  && permutations.contains(value + 3330)
+                  && permutations.contains(value + 2 * 3330)) {
+               result.append(i);
+               result.append(i + 3330);
+               result.append(i + 2 * 3330);
+               break;
+            }
+         }
+      }
+      System.out.println("Result: " + result.toString());
+   }
+
+   @PEProblem(problem = 50, description = "Which prime, below one-million, can be written as the sum of the most consecutive primes?")
+   public void problem50() {
+      List<Long> primeNumbers = MathUtils.getPrimeNumbersBelowMax(1000000);
+      long maxPrime=primeNumbers.get(primeNumbers.size()-1);
+      int max=0;
+      long result = 0;
+
+      for (int i = 0; i < primeNumbers.size(); ++i) {
+         int currentMax=0;
+         long currentValue = 0;
+         for (int j = i; j < primeNumbers.size() && currentValue < maxPrime; j++) {
+            currentMax++;
+            currentValue += primeNumbers.get(j);
+            if (primeNumbers.contains(currentValue)) {
+               if(currentMax>max) {
+                  max=currentMax;
+                  result = currentValue;
+                  // System.out.println("Result: "+result+" with start: "+i+" and end "+j);
                }
-               long value=(long) i;
-               Set<Long> permutations = MathUtils.getAllPermutationsOfNumber(value);
-               if(permutations.contains(value) && permutations.contains(value+3330) && permutations.contains(value+2*3330)) {
-                   result.append(i);
-                   result.append(i+3330);
-                   result.append(i+ 2*3330);
-                   break;
-               }
-           }
-       }
-       System.out.println("Result: "+result.toString());
+            }
+         }
+      }
+
+      System.out.println("Result: " + result);
    }
 }
