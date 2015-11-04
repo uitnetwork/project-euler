@@ -552,7 +552,7 @@ public class PEExec {
    @PEProblem(problem = 27, description = "Find the product of the coefficients, a and b, for the quadratic expression that produces the maximum number of primes for consecutive values of n, starting with n = 0.")
    public void problem27() {
       long max = 1000;
-      List<Long> primes = MathUtils.getPrimeNumbersBelowMax(max);
+      List<Long> primes = MathUtils.getPrimeNumberListBelowMax(max);
       List<Long> primesIncludeNegative = new ArrayList<Long>();
       for (Long l : primes) {
          primesIncludeNegative.add(l);
@@ -703,7 +703,7 @@ public class PEExec {
    public void problem35() {
       BiConsumer<Set<Long>, Long> longConsumer = (set, l) -> set.add(l);
       Set<Long> primes = MathUtils
-            .getPrimeNumbersBelowMax(1000000)
+            .getPrimeNumberListBelowMax(1000000)
             .stream()
             .filter(n -> !MathUtils.containEvenDigit(n))
             .collect(HashSet<Long>::new, longConsumer,
@@ -1131,5 +1131,17 @@ public class PEExec {
            }
        }
        System.out.println("Result: "+result.toString());
+   }
+   
+   @PEProblem(problem = 51, description = "Find the smallest prime which, by replacing part of the number (not necessarily adjacent digits) with the same digit, is part of an eight prime value family.")
+   public void problem51() {
+       System.out.println("Result: 121313 (think later)");
+       
+   }
+   
+   @PEProblem(problem = 52, description = "Find the smallest positive integer, x, such that 2x, 3x, 4x, 5x, and 6x, contain the same digits")
+   public void problem52() {
+       OptionalLong result=LongStream.range(1, 10000000).filter(MathUtils::sameDigits6Times).findFirst();
+       System.out.println("Result: "+result.getAsLong());
    }
 }

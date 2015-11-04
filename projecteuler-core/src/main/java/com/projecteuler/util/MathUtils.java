@@ -131,7 +131,7 @@ public class MathUtils {
    }
 
    public static final long getSmallestCommonMultipleFrom1ToN_2(long end) {
-      List<Long> primes = getPrimeNumbersBelowMax(end);
+      List<Long> primes = getPrimeNumberListBelowMax(end);
       long result = 1;
       for (Long l : primes) {
          int power = (int) (Math.log(end) / Math.log(l));
@@ -141,12 +141,16 @@ public class MathUtils {
       return result;
    }
 
-   public static List<Long> getPrimeNumbersBelowMax(long max) {
+   public static List<Long> getPrimeNumberListBelowMax(long max) {
       Supplier<List<Long>> supplier = ArrayList<Long>::new;
       ObjLongConsumer<List<Long>> longConsumer = (list, l) -> list.add(l);
       return rangeClosed(2, max).filter(MathUtils::isPrime).collect(supplier,
             longConsumer, null);
    }
+
+   public static long[] getPrimeNumberArrayBelowMax(long max) {
+       return rangeClosed(2, max).filter(MathUtils::isPrime).toArray();
+    }
 
    public static List<Long> getPrimeNumbersToNth(long n) {
       List<Long> result = new ArrayList<Long>();
@@ -607,15 +611,36 @@ public class MathUtils {
       return n == (long) n;
    }
 
-   
+   public static final boolean sameDigits6Times(long number) {
+       long [] checkNumbers={number*2, number*3, number*4, number*5, number *6};
+       boolean[] validates=new boolean[10];
+       int length=0;
+       long num=number;
+       while(num>0) {
+           int digit = (int)num%10;
+           num/=10;
+           validates[digit] =true;
+           length++;
+       }
+       for(long l:checkNumbers) {
+           int currentLength=0;
+           while(l>0) {
+               int digit = (int)l%10;
+               l/=10;
+               if(!validates[digit]) {
+                   return false;
+               }
+               currentLength++;
+           }
+           if(currentLength!=length) {
+               return false;
+           }
+       }
+       return true;
+   }
 
    public static void main(String[] args) {
-      System.out.println("Hexagonal: " + isHexagonalNumber(40755));
-      System.out.println("Hexagonal: " + isHexagonalNumber(40756));
-
-      System.out.println("Pentagonal: " + isPentagonalNumber(40755));
-      System.out.println("Pentagonal: " + isPentagonalNumber(40756));
-      System.out.println(isPandigitalNumberIncludeZero(1023456789));
-      System.out.println(isPandigitalNumberIncludeZero(123456789));
+       System.out.println(sameDigits6Times(125874));
+      
    }
 }
