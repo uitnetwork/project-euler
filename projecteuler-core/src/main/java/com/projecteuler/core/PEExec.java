@@ -1138,7 +1138,7 @@ public class PEExec {
 
    @PEProblem(problem = 50, description = "Which prime, below one-million, can be written as the sum of the most consecutive primes?")
    public void problem50() {
-      List<Long> primeNumbers = MathUtils.getPrimeNumbersBelowMax(1000000);
+      List<Long> primeNumbers = MathUtils.getPrimeNumberListBelowMax(1000000);
       long maxPrime=primeNumbers.get(primeNumbers.size()-1);
       int max=0;
       long result = 0;
