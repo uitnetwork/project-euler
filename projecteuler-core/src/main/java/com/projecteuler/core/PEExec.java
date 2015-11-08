@@ -34,6 +34,8 @@ import java.util.function.ToLongFunction;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 
+import javax.sound.sampled.ReverbType;
+
 import com.projecteuler.annotation.PEProblem;
 import com.projecteuler.model.LongHolder;
 import com.projecteuler.poker.PokerHand;
@@ -1209,6 +1211,33 @@ public class PEExec {
          }
       }
       input.close();
+      System.out.println("Result: " + count);
+   }
+
+   @PEProblem(problem = 55, description = "How many Lychrel numbers are there below ten-thousand?")
+   public void problem55() {
+      int max = 10000;
+      int count = 0;
+      int iterate = 0;
+      for (int i = 0; i < max; ++i) {
+         BigInteger bigInteger = new BigInteger(i + "");
+         iterate = 0;
+         boolean isLychrel = true;
+         while (iterate < 50) {
+            iterate++;
+            BigInteger reverse = MathUtils.reverseNumber(bigInteger);
+            BigInteger sum = bigInteger.add(reverse);
+            if (MathUtils.isPalindromeNumber(sum)) {
+               isLychrel = false;
+               break;
+            }
+            bigInteger = sum;
+         }
+         if (isLychrel) {
+            count++;
+         }
+      }
+
       System.out.println("Result: " + count);
    }
 }

@@ -646,7 +646,7 @@ public class MathUtils {
 
    public static final boolean isCombinationGreaterThan(int n, int r, int power) {
       double result = 0;
-      int limit=n-r;
+      int limit = n - r;
       for (int i = n; i > limit; --i) {
          result += Math.log10(i);
       }
@@ -656,34 +656,20 @@ public class MathUtils {
       return result > 6;
    }
 
-   public static void main(String[] args) {
-      int result = 0;
-      final int limit = 1000000;
-      final int nlimit = 100;
-       
-      int[][] pascalTriangle = new int[nlimit+1][nlimit+1];
-      for (int n = 0; n <= nlimit; n++) {
-          pascalTriangle[n][0] = 1;
-      }
-       
-      for (int n = 1; n <= nlimit; n++) {
-          for (int r = 1; r <= n; r++) {
-              pascalTriangle[n][r]= pascalTriangle[n - 1][r]
-                                          + pascalTriangle[n - 1][r - 1];
-              if (pascalTriangle[n][r]> limit) {
-                  pascalTriangle[n][r]= limit;
-                  result++;
-              }
-          }
-      }
-      
-      for(int i=0;i<=nlimit;++i) {
-         for(int j=0; j<=nlimit; ++j) {
-            System.out.print(pascalTriangle[i][j]+" ");
-         }
-         System.out.println();
-      }
+   public static final boolean isPalindromeNumber(BigInteger bigInteger) {
+      String origin = bigInteger.toString();
+      String reverse = (new StringBuilder(origin)).reverse().toString();
+      return origin.equals(reverse);
+   }
 
-      System.out.println("Result: "+result);
+   public static final BigInteger reverseNumber(BigInteger bigInteger) {
+      String origin = bigInteger.toString();
+      String reverse = (new StringBuilder(origin)).reverse().toString();
+      return new BigInteger(reverse);
+   }
+
+   public static void main(String[] args) {
+      System.out.println(isPalindromeNumber(new BigInteger("12345")));
+      System.out.println(isPalindromeNumber(new BigInteger("123454321")));
    }
 }
