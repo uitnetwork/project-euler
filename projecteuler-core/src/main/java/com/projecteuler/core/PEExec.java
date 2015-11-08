@@ -36,6 +36,7 @@ import java.util.stream.LongStream;
 
 import com.projecteuler.annotation.PEProblem;
 import com.projecteuler.model.LongHolder;
+import com.projecteuler.poker.PokerHand;
 import com.projecteuler.util.MathUtils;
 
 public class PEExec {
@@ -1188,5 +1189,26 @@ public class PEExec {
          }
       }
       System.out.println("Result: " + result);
+   }
+
+   @PEProblem(problem = 54, description = "How many hands does Player 1 win?")
+   public void problem54() throws IOException {
+      InputStream input = PEExec.class
+            .getResourceAsStream("/input/p054_poker.txt");
+      BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+      String str = null;
+      int count = 0;
+      while ((str = reader.readLine()) != null) {
+         String hand1 = str.substring(0, 14);
+         String hand2 = str.substring(15);
+         PokerHand pokerHand1 = new PokerHand(hand1);
+         PokerHand pokerHand2 = new PokerHand(hand2);
+         int compare = pokerHand1.compareTo(pokerHand2);
+         if (compare == 1) {
+            count++;
+         }
+      }
+      input.close();
+      System.out.println("Result: " + count);
    }
 }
