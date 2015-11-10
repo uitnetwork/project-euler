@@ -679,18 +679,36 @@ public class MathUtils {
       }
       return result;
    }
-   
+
    public static final long getDigitalSumByStream(BigInteger bigInteger) {
       if (bigInteger.mod(BigInteger.TEN) == BigInteger.ZERO) {
          return 1;
       }
-      return bigInteger.toString().chars().map(i->i-'0').sum();
-     
+      return bigInteger.toString().chars().map(i -> i - '0').sum();
+
+   }
+
+   public static final int compareDigits(long l1, long l2) {
+      int digit1 = 0;
+      int digit2 = 0;
+      while (l1 > 0) {
+         digit1++;
+         l1 /= 10;
+      }
+      while (l2 > 0) {
+         digit2++;
+         l2 /= 10;
+      }
+      return digit1 - digit2;
+   }
+
+   public static final int compareDigits(BigInteger bigInteger1,
+         BigInteger bigInteger2) {
+      return bigInteger1.toString().length() - bigInteger2.toString().length();
    }
 
    public static void main(String[] args) {
-      System.out.println(getDigitalSum(new BigInteger("10000000000")));
-      System.out.println(getDigitalSum(new BigInteger("10000000001")));
-      System.out.println(getDigitalSum(new BigInteger("10000000089")));
+      System.out.println(compareDigits(123, 123456));
+      System.out.println(compareDigits(123, 999));
    }
 }

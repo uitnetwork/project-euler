@@ -1279,4 +1279,28 @@ public class PEExec {
          }
       }
    }
+
+   @PEProblem(problem = 57, description = "In the first one-thousand expansions, how many fractions contain a numerator with more digits than denominator?")
+   public void problem57() {
+      final int MAX_EXPANSION = 1000;
+      BigInteger numerator = BigInteger.valueOf(1);
+      BigInteger denominator = BigInteger.valueOf(1);
+      BigInteger two = BigInteger.valueOf(2);
+      int resultCount = 0;
+      int expansionCount = 0;
+      BigInteger currentNumerator;
+      BigInteger currentDenominator;
+      while (expansionCount < MAX_EXPANSION) {
+         expansionCount++;
+         currentNumerator = denominator.multiply(two).add(numerator);
+         currentDenominator = denominator.add(numerator);
+         if (MathUtils.compareDigits(currentNumerator, currentDenominator) > 0) {
+            resultCount++;
+         }
+         numerator = currentNumerator;
+         denominator = currentDenominator;
+      }
+
+      System.out.println("Result: " + resultCount);
+   }
 }
