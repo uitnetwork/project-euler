@@ -668,8 +668,29 @@ public class MathUtils {
       return new BigInteger(reverse);
    }
 
+   public static final long getDigitalSum(BigInteger bigInteger) {
+      if (bigInteger.mod(BigInteger.TEN) == BigInteger.ZERO) {
+         return 1;
+      }
+      long result = 0;
+      String bigIntegerString = bigInteger.toString();
+      for (int i = 0; i < bigIntegerString.length(); ++i) {
+         result = result + (bigIntegerString.charAt(i) - '0');
+      }
+      return result;
+   }
+   
+   public static final long getDigitalSumByStream(BigInteger bigInteger) {
+      if (bigInteger.mod(BigInteger.TEN) == BigInteger.ZERO) {
+         return 1;
+      }
+      return bigInteger.toString().chars().map(i->i-'0').sum();
+     
+   }
+
    public static void main(String[] args) {
-      System.out.println(isPalindromeNumber(new BigInteger("12345")));
-      System.out.println(isPalindromeNumber(new BigInteger("123454321")));
+      System.out.println(getDigitalSum(new BigInteger("10000000000")));
+      System.out.println(getDigitalSum(new BigInteger("10000000001")));
+      System.out.println(getDigitalSum(new BigInteger("10000000089")));
    }
 }

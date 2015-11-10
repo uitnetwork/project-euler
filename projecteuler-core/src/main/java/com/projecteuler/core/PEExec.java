@@ -34,8 +34,6 @@ import java.util.function.ToLongFunction;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 
-import javax.sound.sampled.ReverbType;
-
 import com.projecteuler.annotation.PEProblem;
 import com.projecteuler.model.LongHolder;
 import com.projecteuler.poker.PokerHand;
@@ -1239,5 +1237,46 @@ public class PEExec {
       }
 
       System.out.println("Result: " + count);
+   }
+
+   @PEProblem(problem = 56, description = "Considering natural numbers of the form, a^b, where a, b < 100, what is the maximum digital sum?")
+   public void problem56() {
+      final int maxExclusive = 100;
+      OptionalLong optionalLong = IntStream
+            .range(2, maxExclusive)
+            .mapToLong(i -> {
+               long maxDigitalSum = i;
+               BigInteger currentNumber = BigInteger.valueOf(i);
+               BigInteger curretnBigInteger = currentNumber;
+               for (int j = 2; j < maxExclusive; ++j) { // start from ^2
+                     curretnBigInteger = curretnBigInteger
+                           .multiply(currentNumber);
+                     long digitalSum = MathUtils
+                           .getDigitalSumByStream(curretnBigInteger);
+                     if (digitalSum > maxDigitalSum) {
+                        maxDigitalSum = digitalSum;
+                     }
+                  }
+                  return maxDigitalSum;
+               }).max();
+      System.out.println("Result: " + optionalLong.getAsLong());
+   }
+
+   @PEProblem(problem = 56, description = "Considering natural numbers of the form, a^b, where a, b < 100, what is the maximum digital sum?")
+   public void problem56_2() {
+      long result = 0;
+      final int maxExclusive = 100;
+      for (int i = maxExclusive - 1; i > 1; --i) {
+         for (int j = i; j > 1; --j) {
+            if (result > (int) 9 * j * Math.log10(i)) {
+               break;
+            }
+            BigInteger bigInteger = BigInteger.valueOf(i).pow(j);
+            long digitalSum = MathUtils.getDigitalSumByStream(bigInteger);
+            if (digitalSum > result) {
+               result = digitalSum;
+            }
+         }
+      }
    }
 }
