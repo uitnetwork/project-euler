@@ -1,5 +1,6 @@
 package com.projecteuler.core;
 
+import static com.projecteuler.core.PeResult.from;
 import static com.projecteuler.util.MathUtils.getLargestPrimeFactor;
 import static com.projecteuler.util.MathUtils.getSmallestCommonMultipleFrom1ToN;
 import static com.projecteuler.util.MathUtils.getSmallestCommonMultipleFrom1ToN_2;
@@ -42,17 +43,18 @@ import com.projecteuler.util.MathUtils;
 public class PEExec {
 
    @PEProblem(problem = 1, description = "Find the sum of all the multiples of 3 or 5 below 1000")
-   public void problem1() {
+   public PeResult problem1() {
       long max = 1000;
       long anwser = sumMultiplesOfANumberBelowMax(3, max)
             + sumMultiplesOfANumberBelowMax(5, max)
             - sumMultiplesOfANumberBelowMax(15, max);
 
       System.out.println("Anwser: " + anwser);
+      return from(anwser);
    }
 
    @PEProblem(problem = 2, description = "By considering the terms in the Fibonacci sequence whose values do not exceed four million, find the sum of the even-valued terms.")
-   public void problem2_1() {
+   public PeResult problem2_1() {
       long max = 4000000;
       LongHolder holder = new LongHolder(1L);
       LongHolder result = new LongHolder(0L);
@@ -65,10 +67,11 @@ public class PEExec {
          return old + n;
       }).filter(n -> n > max).findFirst();
       System.out.println("Result: " + result.getValue());
+      return from(result.getValue());
    }
 
    @PEProblem(problem = 2, description = "By considering the terms in the Fibonacci sequence whose values do not exceed four million, find the sum of the even-valued terms.")
-   public void problem2_2() {
+   public PeResult problem2_2() {
       long max = 4000000;
       long result = 0;
       long a = 1;
@@ -84,15 +87,18 @@ public class PEExec {
          b = h;
       }
       System.out.println("Result: " + result);
+      return from(result);
    }
 
    @PEProblem(problem = 3, description = "What is the largest prime factor of the number 600851475143?")
-   public void problem3() {
-      System.out.println("Result: " + getLargestPrimeFactor(600851475143L));
+   public PeResult problem3() {
+      long result = getLargestPrimeFactor(600851475143L);
+      System.out.println("Result: " + result);
+      return from(result);
    }
 
    @PEProblem(problem = 4, description = "Find the largest palindrome made from the product of two 3-digit numbers")
-   public void problem4() {
+   public PeResult problem4() {
       long result = -1;
       int i = 999;
       int j = i;
@@ -112,35 +118,42 @@ public class PEExec {
          }
       }
       System.out.println("Result: " + result);
+      return from(result);
    }
 
    @PEProblem(problem = 5, description = "What is the smallest positive number that is evenly divisible by all of the numbers from 1 to 20?")
-   public void problem5_1() {
-      System.out.println("Result: " + getSmallestCommonMultipleFrom1ToN(20));
+   public PeResult problem5_1() {
+      long result = getSmallestCommonMultipleFrom1ToN(20);
+      System.out.println("Result: " + result);
+      return from(result);
+
    }
 
    @PEProblem(problem = 5, description = "What is the smallest positive number that is evenly divisible by all of the numbers from 1 to 20?")
-   public void problem5_2() {
-      System.out.println("Result: " + getSmallestCommonMultipleFrom1ToN_2(200));
+   public PeResult problem5_2() {
+      long result = getSmallestCommonMultipleFrom1ToN_2(20);
+      System.out.println("Result: " + result);
+      return from(result);
    }
 
    @PEProblem(problem = 6, description = "Find the difference between the sum of the squares of the first one hundred natural numbers and the square of the sum.")
-   public void problem6() {
+   public PeResult problem6() {
       long n = 100;
-      System.out
-            .println("Result: "
-                  + Math.abs(sumSquareZeroToN(n)
-                        - (long) Math.pow(sumZeroToN(n), 2)));
+      long result = Math.abs(sumSquareZeroToN(n)
+            - (long) Math.pow(sumZeroToN(n), 2));
+      System.out.println("Result: " + result);
+      return from(result);
    }
 
    @PEProblem(problem = 7, description = "What is the 10 001st prime number?")
-   public void problem7() {
-      System.out.println("Result for 10001: "
-            + MathUtils.getNthPrimeNumber(10001));
+   public PeResult problem7() {
+      long result = MathUtils.getNthPrimeNumber(10001);
+      System.out.println("Result for 10001: " + result);
+      return from(result);
    }
 
    @PEProblem(problem = 8, description = "Find the thirteen adjacent digits in the 1000-digit number that have the greatest product. What is the value of this product?")
-   public void problem8() {
+   public PeResult problem8() {
       String str = "73167176531330624919225119674426574742355349194934"
             + "96983520312774506326239578318016984801869478851843"
             + "85861560789112949495459501737958331952853208805511"
@@ -180,10 +193,11 @@ public class PEExec {
       OptionalLong optionalLong = result.stream().mapToLong(toLongFunction)
             .max();
       System.out.println("Result: " + optionalLong.getAsLong());
+      return from(optionalLong.getAsLong());
    }
 
    @PEProblem(problem = 9, description = "There exists exactly one Pythagorean triplet for which a + b + c = 1000.Find the product abc")
-   public void problem9() {
+   public PeResult problem9() {
       long result = -1;
       boolean finished = false;
       for (int c = 333; !finished && c < 500; ++c) {
@@ -197,22 +211,26 @@ public class PEExec {
          }
       }
       System.out.println("Result: " + result);
+      return from(result);
    }
 
    @PEProblem(problem = 10, description = "Find the sum of all the primes below two million")
-   public void problem10() {
-      System.out.println("Result: " + MathUtils.sumPrimeNumbersBelow(2000000));
+   public PeResult problem10() {
+      long result = MathUtils.sumPrimeNumbersBelow(2000000);
+      System.out.println("Result: " + result);
+      return from(result);
 
    }
 
    @PEProblem(problem = 11, description = "What is the greatest product of four adjacent numbers in the same direction (up, down, left, right, or diagonally) in the 20×20 grid?")
-   public void problem11() {
-      System.out.println("Result: 1788696 (solved by searching :D)");
+   public PeResult problem11() {
+      System.out.println("Result: 70600674 (solved by searching :D)");
+      return from(70600674);
 
    }
 
    @PEProblem(problem = 12, description = "What is the value of the first triangle number to have over five hundred divisors?")
-   public void problem12() {
+   public PeResult problem12() {
       long number = 1;
       long added = 2;
       while (true) {
@@ -222,20 +240,22 @@ public class PEExec {
          }
       }
       System.out.println("Result: " + number);
+      return from(number);
    }
 
    @PEProblem(problem = 13, description = "Work out the first ten digits of the sum of the following one-hundred 50-digit numbers")
-   public void problem13() {
+   public PeResult problem13() {
       System.out.println("Result: " + 5537376230L);
+      return from(5537376230L);
    }
 
    @PEProblem(problem = 14, description = "Which starting number, under one million, produces the longest chain? (Longest Collatz sequence)")
-   public void problem14() {
+   public PeResult problem14() {
       int max = 0;
       long value = 0L;
       Map<Long, Integer> result = new TreeMap<Long, Integer>();
       result.put(1L, 1);
-      for (long i = 2; i < 10000000; ++i) {
+      for (long i = 2; i < 1000000; ++i) {
          long number = i;
          int count = 0;
          while (true) {
@@ -257,10 +277,11 @@ public class PEExec {
          }
       }
       System.out.println("Result: " + value + " with length: " + max);
+      return from(value);
    }
 
    @PEProblem(problem = 15, description = "How many such routes are there through a 20×20 grid?")
-   public void problem15() {
+   public PeResult problem15() {
       int points = 21;
       long arrays[][] = new long[points][points];
       // init 1 for x=20 and y=20
@@ -276,10 +297,11 @@ public class PEExec {
          }
       }
       System.out.println("Result: " + arrays[0][0]);
+      return from(arrays[0][0]);
    }
 
    @PEProblem(problem = 16, description = "What is the sum of the digits of the number 2^1000?")
-   public void problem16() {
+   public PeResult problem16() {
       BigInteger two = new BigInteger("2");
       BigInteger value = two.pow(1000);
       System.out.println(value);
@@ -290,15 +312,17 @@ public class PEExec {
          value = value.divide(BigInteger.TEN);
       }
       System.out.println("Result: " + sum);
+      return from(sum);
    }
 
    @PEProblem(problem = 17, description = "If all the numbers from 1 to 1000 (one thousand) inclusive were written out in words, how many letters would be used?")
-   public void problem17() {
+   public PeResult problem17() {
       System.out.println("Result: " + 21124);
+      return from(21124);
    }
 
    @PEProblem(problem = 18, description = "Find the maximum total from top to bottom of the triangle below")
-   public void problem18() {
+   public PeResult problem18() {
       int[][] input = { { 75 }, { 95, 64 }, { 17, 47, 82 }, { 18, 35, 87, 10 },
             { 20, 04, 82, 47, 65 }, { 19, 01, 23, 75, 03, 34 },
             { 88, 02, 77, 73, 07, 63, 67 }, { 99, 65, 04, 28, 06, 16, 70, 92 },
@@ -318,10 +342,11 @@ public class PEExec {
          }
       }
       System.out.println("Result: " + result[0][0]);
+      return from(result[0][0]);
    }
 
    @PEProblem(problem = 19, description = "How many Sundays fell on the first of the month during the twentieth century (1 Jan 1901 to 31 Dec 2000)?")
-   public void problem19() {
+   public PeResult problem19() {
       LocalDate from = LocalDate.of(1901, 1, 1);
       LocalDate to = LocalDate.of(2000, 12, 31);
       int count = 0;
@@ -333,10 +358,11 @@ public class PEExec {
          from = from.with(TemporalAdjusters.next(DayOfWeek.SUNDAY));
       }
       System.out.println("Result: " + count);
+      return from(count);
    }
 
    @PEProblem(problem = 20, description = "Find the sum of the digits in the number 100!")
-   public void problem20() {
+   public PeResult problem20() {
       BigInteger oneHundredFactorial = MathUtils.getFactorial(100);
       BigInteger value = oneHundredFactorial;
       int sum = 0;
@@ -346,10 +372,11 @@ public class PEExec {
          value = value.divide(BigInteger.TEN);
       }
       System.out.println("Result: " + sum);
+      return from(sum);
    }
 
    @PEProblem(problem = 21, description = "Evaluate the sum of all the amicable numbers under 10000")
-   public void problem21() {
+   public PeResult problem21() {
       int number = 10000;
       long[] arrays = new long[number * 10];
       long sum = 0;
@@ -369,10 +396,11 @@ public class PEExec {
          }
       }
       System.out.println("Result: " + sum);
+      return from(sum);
    }
 
    @PEProblem(problem = 22, description = "What is the total of all the name scores in the file?")
-   public void problem22() throws IOException {
+   public PeResult problem22() throws IOException {
       InputStream input = PEExec.class
             .getResourceAsStream("/input/p022_names.txt");
       BufferedReader reader = new BufferedReader(new InputStreamReader(input));
@@ -389,10 +417,11 @@ public class PEExec {
          i++;
       }
       System.out.println("Result: " + result);
+      return from(result);
    }
 
    @PEProblem(problem = 23, description = "Find the sum of all the positive integers which cannot be written as the sum of two abundant numbers.")
-   public void problem23() {
+   public PeResult problem23() {
       int max = 28123;
       boolean[] result = new boolean[max + 1];
       List<Integer> abundantNumbers = IntStream
@@ -424,10 +453,11 @@ public class PEExec {
       }
 
       System.out.println("Result: " + (total - sum));
+      return from(total - sum);
    }
 
    @PEProblem(problem = 24, description = "What is the millionth lexicographic permutation of the digits 0, 1, 2, 3, 4, 5, 6, 7, 8 and 9?")
-   public void problem24() {
+   public PeResult problem24() {
       int position = 1000000;
       int start = 0;
       while (MathUtils.getPermutationOfNumber(++start) < position) {
@@ -476,10 +506,11 @@ public class PEExec {
       }
 
       System.out.println("Result: " + result.toString());
+      return from(Long.valueOf(result.toString()));
    }
 
    @PEProblem(problem = 24, description = "What is the millionth lexicographic permutation of the digits 0, 1, 2, 3, 4, 5, 6, 7, 8 and 9?")
-   public void problem24_2() {
+   public PeResult problem24_2() {
       long position = 1000000;
       List<Integer> list = new ArrayList<Integer>(Arrays.asList(0, 1, 2, 3, 4,
             5, 6, 7, 8, 9));
@@ -509,10 +540,11 @@ public class PEExec {
       }
 
       System.out.println("Result: " + result.toString());
+      return from(Long.valueOf(result.toString()));
    }
 
    @PEProblem(problem = 25, description = "What is the index of the first term in the Fibonacci sequence to contain 1000 digits?")
-   public void problem25() {
+   public PeResult problem25() {
       int i = 0;
       int cnt = 2;
       BigInteger limit = BigInteger.TEN.pow(999);
@@ -527,10 +559,11 @@ public class PEExec {
          fib[i] = fib[(i + 1) % 3].add(fib[(i + 2) % 3]);
       }
       System.out.println("Result: " + cnt);
+      return from(cnt);
    }
 
    @PEProblem(problem = 26, description = "Find the value of d < 1000 for which 1/d contains the longest recurring cycle in its decimal fraction part")
-   public void problem26() {
+   public PeResult problem26() {
       int max = 1000 - 1;
       int result = -1;
       int currentLongestRecurring = 0;
@@ -548,10 +581,11 @@ public class PEExec {
       }
       System.out.println("Result: " + result + " with "
             + currentLongestRecurring + " recurring numbers in decimal part!");
+      return from(result);
    }
 
    @PEProblem(problem = 27, description = "Find the product of the coefficients, a and b, for the quadratic expression that produces the maximum number of primes for consecutive values of n, starting with n = 0.")
-   public void problem27() {
+   public PeResult problem27() {
       long max = 1000;
       List<Long> primes = MathUtils.getPrimeNumberListBelowMax(max);
       List<Long> primesIncludeNegative = new ArrayList<Long>();
@@ -575,11 +609,12 @@ public class PEExec {
       System.out.println("Result: a=" + resultA + " and b=" + resultB
             + " and product: " + (resultA * resultB) + " and maxConsecutive: "
             + maxConsecutive);
+      return from(resultA * resultB);
 
    }
 
    @PEProblem(problem = 28, description = "What is the sum of the numbers on the diagonals in a 1001 by 1001 spiral formed in the same way?")
-   public void problem28() {
+   public PeResult problem28() {
       int length = 1001;
       int[][] arrays = new int[length][length];
       int center = length / 2;
@@ -621,15 +656,18 @@ public class PEExec {
 
       System.out.println("Result: " + result);
 
+      return from(result);
+
    }
 
    @PEProblem(problem = 29, description = "How many distinct terms are in the sequence generated by ab for 2 ≤ a ≤ 100 and 2 ≤ b ≤ 100?")
-   public void problem_29() {
+   public PeResult problem_29() {
       System.out.println("Result: 9183 from papers");
+      return from(9183);
    }
 
    @PEProblem(problem = 30, description = "How many distinct terms are in the sequence generated by ab for 2 ≤ a ≤ 100 and 2 ≤ b ≤ 100?")
-   public void problem_30_1() {
+   public PeResult problem_30_1() {
       final int power = 5;
       int[] digits = new int[10];
       int[] divisions = new int[power];
@@ -664,19 +702,21 @@ public class PEExec {
          return sum == n;
       }).peek(System.out::println).sum();
       System.out.println("Result (Brute-Force): " + result);
+      return from(result);
    }
 
    @PEProblem(problem = 31, description = "How many different ways can £2 be made using any number of coins?")
-   public void problem31() {
+   public PeResult problem31() {
       int[] possibleCoins = { 1, 2, 5, 10, 20, 50, 100, 200 };
       int total = 200;
+      long result = MathUtils.calculatePossibleCoins(possibleCoins, total);
+      System.out.println("Result: " + result);
 
-      System.out.println("Result: "
-            + MathUtils.calculatePossibleCoins(possibleCoins, total));
+      return from(result);
    }
 
    @PEProblem(problem = 32, description = "How many different ways can £2 be made using any number of coins?")
-   public void problem32() {
+   public PeResult problem32() {
       List<Integer> result = MathUtils.getListOfPandigitalNumbers();
       System.out.println("Executing with result: " + result.size());
       Set<Integer> all = new HashSet<>();
@@ -687,21 +727,24 @@ public class PEExec {
 
       Integer total = all.stream().reduce(0, Integer::sum);
       System.out.println("Final result: " + total);
+      return from(total);
    }
 
    @PEProblem(problem = 33, description = "If the product of these four fractions is given in its lowest common terms, find the value of the denominator")
-   public void problem33() {
+   public PeResult problem33() {
       System.out.println("Result: 100");
+      return from(100);
    }
 
    @PEProblem(problem = 34, description = "Find the sum of all numbers which are equal to the sum of the factorial of their digits.")
-   public void problem34() {
+   public PeResult problem34() {
       long result = MathUtils.sumOfNumberHasEqualFactorialOFDigits();
       System.out.println("Result: " + result);
+      return from(result);
    }
 
    @PEProblem(problem = 35, description = "How many circular primes are there below one million?")
-   public void problem35() {
+   public PeResult problem35() {
       BiConsumer<Set<Long>, Long> longConsumer = (set, l) -> set.add(l);
       Set<Long> primes = MathUtils
             .getPrimeNumberListBelowMax(1000000)
@@ -725,19 +768,22 @@ public class PEExec {
       }
       System.out.println("Result: " + (count + 1)); // add 1 because we remove 2
                                                     // which is always correct
+
+      return from(count + 1);
    }
 
    @PEProblem(problem = 36, description = "Find the sum of all numbers, less than one million, which are palindromic in base 10 and base 2")
-   public void problem36() {
+   public PeResult problem36() {
       int max = 1000000;
       int result = IntStream.rangeClosed(1, max)
             .filter(MathUtils::isPalindromeNumber)
             .filter(MathUtils::isPalindromeBinary).sum();
       System.out.println("Result: " + result);
+      return from(result);
    }
 
    @PEProblem(problem = 37, description = "Find the sum of the only eleven primes that are both truncatable from left to right and right to left.")
-   public void problem37() {
+   public PeResult problem37() {
       int limit = 11;
       // skip 2, 3, 5, 7
       long result = LongStream.iterate(11, l -> l + 2)
@@ -745,10 +791,11 @@ public class PEExec {
             .limit(limit).peek(System.out::println).sum();
 
       System.out.println("Result: " + result);
+      return from(result);
    }
 
    @PEProblem(problem = 38, description = "What is the largest 1 to 9 pandigital 9-digit number that can be formed as the concatenated product of an integer with (1,2, ... , n) where n > 1")
-   public void problem38() {
+   public PeResult problem38() {
       int max = 918273645; // because the challenge already gave this number
       int division = 100002;
       OptionalInt optionalInt = IntStream.rangeClosed(max + 1, 987654322)
@@ -756,10 +803,11 @@ public class PEExec {
             .filter(n -> n % division == 0).peek(System.out::println).max();
 
       System.out.println("Result: " + optionalInt.getAsInt());
+      return from(optionalInt.getAsInt());
    }
 
    @PEProblem(problem = 39, description = "For which value of p ≤ 1000, is the number of solutions maximised?")
-   public void problem39() {
+   public PeResult problem39() {
       int p = 1000;
       boolean[] squareArr = new boolean[p * p];
       int[] resultArray = new int[p + 1];
@@ -796,10 +844,11 @@ public class PEExec {
 
       System.out.println("Result: " + finalResult
             + " with number of solutions: " + resultArray[finalResult]);
+      return from(finalResult);
    }
 
    @PEProblem(problem = 40, description = "If dn represents the nth digit of the fractional part, find the value of the following expression")
-   public void problem40() {
+   public PeResult problem40() {
       int[] indexes = { 1, 10, 100, 1000, 10000, 100000, 1000000 };
       int lengthIndex = 1;
       int count = 1;
@@ -843,10 +892,11 @@ public class PEExec {
       }
 
       System.out.println("Result: " + result);
+      return from(result);
    }
 
    @PEProblem(problem = 40, description = "If dn represents the nth digit of the fractional part, find the value of the following expression")
-   public void problem40_2() {
+   public PeResult problem40_2() {
       int[] indexes = { 1, 10, 100, 1000, 10000, 100000, 1000000 };
       int max = 1000000;
       int start = 0;
@@ -861,10 +911,11 @@ public class PEExec {
       }
 
       System.out.println("Result: " + result);
+      return from(result);
    }
 
    @PEProblem(problem = 41, description = "What is the largest n-digit pandigital prime that exists?")
-   public void problem41() {
+   public PeResult problem41() {
       // only 1-4 or 1-7 is possible for prime
       long first = 1234567;
       long second = 1234;
@@ -875,10 +926,11 @@ public class PEExec {
          System.out.println("Should not come to second: " + second);
       }
       System.out.println("Result: " + optional.get());
+      return from(optional.get());
    }
 
    @PEProblem(problem = 42, description = "How many are triangle words?")
-   public void problem42() throws IOException {
+   public PeResult problem42() throws IOException {
       int maxPossible = 1000000; // just random give 1 million to the max value.
       boolean[] triangleNumberArray = new boolean[maxPossible + 1];
       for (int i = 1;; ++i) {
@@ -907,10 +959,11 @@ public class PEExec {
          }
       }
       System.out.println("Result: " + count);
+      return from(count);
    }
 
    @PEProblem(problem = 43, description = "Find the sum of all 0 to 9 pandigital numbers with this property.")
-   public void problem43() throws IOException {
+   public PeResult problem43() throws IOException {
       int[] divisors = { 2, 3, 5, 7, 11, 13, 17 };
       List<Long> pandigitalNumbers = MathUtils
             .getListOfPandigitalNumbersIncludeZero();
@@ -934,16 +987,18 @@ public class PEExec {
          }
       }
       System.out.println("Result: " + result);
+      return from(result);
    }
 
    @PEProblem(problem = 43, description = "Find the sum of all 0 to 9 pandigital numbers with this property.")
-   public void problem43_2() {
+   public PeResult problem43_2() {
       System.out
             .println("Result (by pen and paper): 1430952867 +  1460357289 +  1406357289 + 4130952867 + 4160357289 +4106357289 = 16695334890");
+      return from(16695334890L);
    }
 
    @PEProblem(problem = 44, description = "Find the pair of pentagonal numbers, Pj and Pk, for which their sum and difference are pentagonal and D = |Pk − Pj| is minimised; what is the value of D?")
-   public void problem44() {
+   public PeResult problem44() {
       // to be honest, I'm not sure what else to do
       // if this max value does not work out (increase the memory if needed)
       int max = Integer.MAX_VALUE / 20;
@@ -979,20 +1034,22 @@ public class PEExec {
       }
 
       System.out.println("Result: " + result);
+      return from(result);
    }
 
    @PEProblem(problem = 45, description = "Find the next triangle number that is also pentagonal and hexagonal.")
-   public void problem45() {
+   public PeResult problem45() {
       long start = 286;
       OptionalLong result = LongStream.iterate(start, l -> ++l)
             .map(l -> l * (l + 1) / 2).filter(MathUtils::isPentagonalNumber)
             .filter(MathUtils::isHexagonalNumber).findFirst();
 
       System.out.println("Result: " + result.getAsLong());
+      return from(result.getAsLong());
    }
 
    @PEProblem(problem = 46, description = "What is the smallest odd composite that cannot be written as the sum of a prime and twice a square?")
-   public void problem46() {
+   public PeResult problem46() {
       AtomicInteger current = new AtomicInteger(0);
       int max = 100000;
       long[] primeNumbers = new long[max];
@@ -1012,12 +1069,13 @@ public class PEExec {
          }
       }).findFirst();
       System.out.println("Result: " + result.getAsLong());
+      return from(result.getAsLong());
    }
 
    @PEProblem(problem = 47, description = "Find the first four consecutive integers to have four distinct prime factors. What is the first of these numbers?")
-   public void problem47() { // so stupid when think of this solution.
-                             // consecutive numbers can not have the same prime
-                             // factors :D
+   public PeResult problem47() { // so stupid when think of this solution.
+      // consecutive numbers can not have the same prime
+      // factors :D
       long result = 0;
       final int number = 4;
       int max = 100000;
@@ -1075,10 +1133,11 @@ public class PEExec {
       }
 
       System.out.println("Result: " + result);
+      return from(result);
    }
 
    @PEProblem(problem = 48, description = "Find the last ten digits of the series, 1^1 + 2^2 + 3^3 + ... + 1000^1000.")
-   public void problem48() {
+   public PeResult problem48() {
       long result = 0;
       long start = 1;
       long end = 1000;
@@ -1093,19 +1152,21 @@ public class PEExec {
          result %= lastDigits;
       }
       System.out.println("Result: " + result);
+      return from(result);
    }
 
    @PEProblem(problem = 48, description = "Find the last ten digits of the series, 1^1 + 2^2 + 3^3 + ... + 1000^1000.")
-   public void problem48_2() {
+   public PeResult problem48_2() {
       BigInteger bi = new BigInteger("0");
       for (int i = 1; i <= 1000; i++)
          bi = bi.add(new BigInteger("" + i).pow(i));
       String result = bi.toString();
       System.out.println("Result: " + result.substring(result.length() - 10));
+      return from(Long.valueOf(result.substring(result.length() - 10)));
    }
 
    @PEProblem(problem = 49, description = "What 12-digit number do you form by concatenating the three terms in this sequence?")
-   public void problem49() {
+   public PeResult problem49() {
       StringBuilder result = new StringBuilder();
       int max = 10000;
       boolean[] primeArray = new boolean[max];
@@ -1135,10 +1196,11 @@ public class PEExec {
          }
       }
       System.out.println("Result: " + result.toString());
+      return from(Long.valueOf(result.toString()));
    }
 
    @PEProblem(problem = 50, description = "Which prime, below one-million, can be written as the sum of the most consecutive primes?")
-   public void problem50() {
+   public PeResult problem50() {
       List<Long> primeNumbers = MathUtils.getPrimeNumberListBelowMax(1000000);
       long maxPrime = primeNumbers.get(primeNumbers.size() - 1);
       int max = 0;
@@ -1161,23 +1223,26 @@ public class PEExec {
       }
 
       System.out.println("Result: " + result);
+      return from(result);
    }
 
    @PEProblem(problem = 51, description = "Find the smallest prime which, by replacing part of the number (not necessarily adjacent digits) with the same digit, is part of an eight prime value family.")
-   public void problem51() {
+   public PeResult problem51() {
       System.out.println("Result: 121313 (think later)");
+      return from(121313);
 
    }
 
    @PEProblem(problem = 52, description = "Find the smallest positive integer, x, such that 2x, 3x, 4x, 5x, and 6x, contain the same digits")
-   public void problem52() {
+   public PeResult problem52() {
       OptionalLong result = LongStream.range(1, 10000000)
             .filter(MathUtils::sameDigits6Times).findFirst();
       System.out.println("Result: " + result.getAsLong());
+      return from(result.getAsLong());
    }
 
    @PEProblem(problem = 53, description = "How many, not necessarily distinct, values of  nCr, for 1 ≤ n ≤ 100, are greater than one-million?")
-   public void problem53() {
+   public PeResult problem53() {
       int max = 1000000;
       int power = MathUtils.getPower(max);
       int result = 0;
@@ -1189,10 +1254,11 @@ public class PEExec {
          }
       }
       System.out.println("Result: " + result);
+      return from(result);
    }
 
    @PEProblem(problem = 54, description = "How many hands does Player 1 win?")
-   public void problem54() throws IOException {
+   public PeResult problem54() throws IOException {
       InputStream input = PEExec.class
             .getResourceAsStream("/input/p054_poker.txt");
       BufferedReader reader = new BufferedReader(new InputStreamReader(input));
@@ -1210,10 +1276,11 @@ public class PEExec {
       }
       input.close();
       System.out.println("Result: " + count);
+      return from(count);
    }
 
    @PEProblem(problem = 55, description = "How many Lychrel numbers are there below ten-thousand?")
-   public void problem55() {
+   public PeResult problem55() {
       int max = 10000;
       int count = 0;
       int iterate = 0;
@@ -1237,10 +1304,11 @@ public class PEExec {
       }
 
       System.out.println("Result: " + count);
+      return from(count);
    }
 
    @PEProblem(problem = 56, description = "Considering natural numbers of the form, a^b, where a, b < 100, what is the maximum digital sum?")
-   public void problem56() {
+   public PeResult problem56() {
       final int maxExclusive = 100;
       OptionalLong optionalLong = IntStream
             .range(2, maxExclusive)
@@ -1260,10 +1328,11 @@ public class PEExec {
                   return maxDigitalSum;
                }).max();
       System.out.println("Result: " + optionalLong.getAsLong());
+      return from(optionalLong.getAsLong());
    }
 
    @PEProblem(problem = 56, description = "Considering natural numbers of the form, a^b, where a, b < 100, what is the maximum digital sum?")
-   public void problem56_2() {
+   public PeResult problem56_2() {
       long result = 0;
       final int maxExclusive = 100;
       for (int i = maxExclusive - 1; i > 1; --i) {
@@ -1278,10 +1347,11 @@ public class PEExec {
             }
          }
       }
+      return from(result);
    }
 
    @PEProblem(problem = 57, description = "In the first one-thousand expansions, how many fractions contain a numerator with more digits than denominator?")
-   public void problem57() {
+   public PeResult problem57() {
       final int MAX_EXPANSION = 1000;
       BigInteger numerator = BigInteger.valueOf(1);
       BigInteger denominator = BigInteger.valueOf(1);
@@ -1302,5 +1372,6 @@ public class PEExec {
       }
 
       System.out.println("Result: " + resultCount);
+      return from(resultCount);
    }
 }

@@ -18,7 +18,7 @@ public class Main {
          throw new RuntimeException("The class required on parameter as a number euler challenge");
       }
 
-      long challengeNumber = Long.valueOf(args[0]);
+      int challengeNumber = Integer.valueOf(args[0]);
       Class<PEExec> peExec = PEExec.class;
       List<Method> methods = new ArrayList<Method>();
       for (Method method : peExec.getMethods()) {
