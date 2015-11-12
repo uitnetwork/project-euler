@@ -16,24 +16,31 @@ import java.util.function.Supplier;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 
+import org.springframework.util.Assert;
+
 public class MathUtils {
 
-   public static final long sumMultiplesOfANumberBelowMax(long number, long max) {
-      // n + n*2 +...+ n*m = n*(1+2+...+m) = n*m*(m+1)/2;
-      long m = (max - 1) / number; // -1 because of below max
-      return number * sumZeroToN(m);
+   /**
+    * Return the sum from 0(zero) to n
+    * 
+    * @param
+    * @return sum to n
+    */
+   public static final long sumToN(final long number) {
+      validateZeroOrPositive(number);
+
+      return number * (number + 1) / 2;
    }
 
-   public static final long sumZeroToN(long n) {
-      return n * (n + 1) / 2;
-   }
+   public static final long getLargestPrimeFactor(final long number) {
+      validateZeroOrPositive(number);
 
-   public static final long getLargestPrimeFactor(long number) {
-      long result = -1;
+      long result = 1;
       long start = 2;
-      while (start <= number) {
-         while (number % start == 0) {
-            number /= start;
+      long remainder = number;
+      while (start <= remainder) {
+         while (remainder % start == 0) {
+            remainder /= start;
             result = start;
          }
          ++start;
@@ -43,66 +50,66 @@ public class MathUtils {
 
    // palindrome number is the number which will be equaled to the reverse of
    // that number: eg: 10001
-   public static final boolean isPalindromeNumber(long number) {
-      long temp = number;
-      int length = 1;
-      while ((temp /= 10) > 0) {
-         length *= 10;
-      }
-      while (number > 0) {
-         long start = number / length;
-         long end = number % 10;
-         if (start != end) {
-            return false;
-         }
-         number = (number % length) / 10;
-         length /= 100;
-      }
-      return true;
-   }
+   public static boolean isPalindromeNumber(final long number) {
+      validateZeroOrPositive(number);
 
-   public static final boolean isPalindromeNumber(int number, int base) {
-      int reversed = 0;
-      int k = number;
-
-      while (k > 0) {
-         reversed = base * reversed + k % base;
-         k /= base;
-      }
-      return number == reversed;
-   }
-
-   public static boolean isPalindromeNumber2(int x) {
-      if (x < 0)
+      if (number < 0)
          return false;
       int div = 1;
-      while (x / div >= 10) {
+      while (number / div >= 10) {
          div *= 10;
       }
-      while (x != 0) {
-         int l = x / div;
-         int r = x % 10;
-         if (l != r)
+
+      long remainder = number;
+      while (remainder != 0) {
+         long left = remainder / div;
+         long right = remainder % 10;
+         if (left != right)
             return false;
-         x = (x % div) / 10;
+         remainder = (remainder % div) / 10;
          div /= 100;
       }
       return true;
    }
 
-   public static final boolean isPalindromeBinary(int value) {
-      String binary = Integer.toBinaryString(value);
-      String reverse = new StringBuilder(binary).reverse().toString();
-      return binary.equals(reverse);
+   public static final boolean isPalindromeBiginteger(BigInteger bigInteger) {
+      String origin = bigInteger.toString();
+      String reverse = (new StringBuilder(origin)).reverse().toString();
+      return origin.equals(reverse);
    }
 
-   public static final long reverseNumber(long number) {
-      long result = 0;
-      while (number > 0) {
-         result = result * 10 + number % 10;
-         number /= 10;
+   public static final boolean isPalindromeNumberInBase(final long number,
+         final int base) {
+      validateZeroOrPositive(number);
+      validateZeroOrPositive(base);
+
+      long reverseNumber = 0;
+      long k = number;
+
+      while (k > 0) {
+         reverseNumber = base * reverseNumber + k % base;
+         k /= base;
       }
-      return result;
+      return number == reverseNumber;
+   }
+
+   public static final long reverseNumber(final long number) {
+      validateZeroOrPositive(number);
+
+      long reverseNumber = 0;
+      long remainder = number;
+
+      while (remainder > 0) {
+         reverseNumber = reverseNumber * 10 + remainder % 10;
+         remainder /= 10;
+      }
+      return reverseNumber;
+   }
+
+   public static final BigInteger reverseBigInteger(BigInteger bigInteger) {
+      String origin = bigInteger.toString();
+      String reverse = (new StringBuilder(origin)).reverse().toString();
+      return new BigInteger(reverse);
    }
 
    public static final long getSmallestCommonMultipleFrom1ToN(long end) {
@@ -656,18 +663,6 @@ public class MathUtils {
       return result > 6;
    }
 
-   public static final boolean isPalindromeNumber(BigInteger bigInteger) {
-      String origin = bigInteger.toString();
-      String reverse = (new StringBuilder(origin)).reverse().toString();
-      return origin.equals(reverse);
-   }
-
-   public static final BigInteger reverseNumber(BigInteger bigInteger) {
-      String origin = bigInteger.toString();
-      String reverse = (new StringBuilder(origin)).reverse().toString();
-      return new BigInteger(reverse);
-   }
-
    public static final long getDigitalSum(BigInteger bigInteger) {
       if (bigInteger.mod(BigInteger.TEN) == BigInteger.ZERO) {
          return 1;
@@ -710,5 +705,9 @@ public class MathUtils {
    public static void main(String[] args) {
       System.out.println(compareDigits(123, 123456));
       System.out.println(compareDigits(123, 999));
+   }
+
+   private static final void validateZeroOrPositive(long number) {
+      Assert.isTrue(number >= 0, "n should be zero or positive");
    }
 }
