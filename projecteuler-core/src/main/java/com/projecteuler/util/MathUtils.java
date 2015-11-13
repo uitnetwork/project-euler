@@ -5,10 +5,8 @@ import static java.util.stream.LongStream.rangeClosed;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.OptionalLong;
 import java.util.Set;
 import java.util.function.ObjLongConsumer;
@@ -26,21 +24,27 @@ public class MathUtils {
     * @param
     * @return sum to n
     */
-   public static final long sumToN(final long number) {
-      validateZeroOrPositive(number);
+   public static final long sumToN(long n) {
+      validateZeroOrPositive(n);
 
-      return number * (number + 1) / 2;
+      return n * (n + 1) / 2;
    }
 
-   public static final long getLargestPrimeFactor(final long number) {
+   // 1^2+2^2+.....n^2
+   public static long sumSquaresToN(long n) {
+      validateZeroOrPositive(n);
+
+      return n * (n + 1) * (2 * n + 1) / 6;
+   }
+
+   public static final long getLargestPrimeFactor(long number) {
       validateZeroOrPositive(number);
 
       long result = 1;
       long start = 2;
-      long remainder = number;
-      while (start <= remainder) {
-         while (remainder % start == 0) {
-            remainder /= start;
+      while (start <= number) {
+         while (number % start == 0) {
+            number /= start;
             result = start;
          }
          ++start;
@@ -50,7 +54,7 @@ public class MathUtils {
 
    // palindrome number is the number which will be equaled to the reverse of
    // that number: eg: 10001
-   public static boolean isPalindromeNumber(final long number) {
+   public static boolean isPalindromeNumber(long number) {
       validateZeroOrPositive(number);
 
       if (number < 0)
@@ -60,13 +64,12 @@ public class MathUtils {
          div *= 10;
       }
 
-      long remainder = number;
-      while (remainder != 0) {
-         long left = remainder / div;
-         long right = remainder % 10;
+      while (number != 0) {
+         long left = number / div;
+         long right = number % 10;
          if (left != right)
             return false;
-         remainder = (remainder % div) / 10;
+         number = (number % div) / 10;
          div /= 100;
       }
       return true;
@@ -78,30 +81,27 @@ public class MathUtils {
       return origin.equals(reverse);
    }
 
-   public static final boolean isPalindromeNumberInBase(final long number,
-         final int base) {
+   public static final boolean isPalindromeNumberInBase(long number, int base) {
       validateZeroOrPositive(number);
       validateZeroOrPositive(base);
-
-      long reverseNumber = 0;
-      long k = number;
-
-      while (k > 0) {
-         reverseNumber = base * reverseNumber + k % base;
-         k /= base;
-      }
-      return number == reverseNumber;
-   }
-
-   public static final long reverseNumber(final long number) {
-      validateZeroOrPositive(number);
 
       long reverseNumber = 0;
       long remainder = number;
 
       while (remainder > 0) {
-         reverseNumber = reverseNumber * 10 + remainder % 10;
-         remainder /= 10;
+         reverseNumber = base * reverseNumber + remainder % base;
+         remainder /= base;
+      }
+      return number == reverseNumber;
+   }
+
+   public static final long reverseNumber(long number) {
+      validateZeroOrPositive(number);
+
+      long reverseNumber = 0;
+      while (number > 0) {
+         reverseNumber = reverseNumber * 10 + number % 10;
+         number /= 10;
       }
       return reverseNumber;
    }
@@ -112,42 +112,61 @@ public class MathUtils {
       return new BigInteger(reverse);
    }
 
-   public static final long getSmallestCommonMultipleFrom1ToN(long end) {
+   public static long gcd(long number1, long number2) {
+      validateZeroOrPositive(number1);
+      validateZeroOrPositive(number2);
+
+      if (number1 == 0)
+         return number2;
+      while (number2 != 0) {
+         number1 %= number2;
+         number1 ^= number2;
+         number2 ^= number1;
+         number1 ^= number2;
+         // if (a > b)
+         // a = a - b;
+         // else
+         // b = b - a;
+      }
+      return number1;
+   }
+
+   public static final long lcd(long number1, long number2) {
+      validateZeroOrPositive(number1);
+      validateZeroOrPositive(number2);
+
+      return number1 / gcd(number1, number2) * number2; // number1*number2 may >
+                                                        // Long.MAX_VALUE
+   }
+
+   public static final long lcdToN(long n) {
+      validateZeroOrPositive(n);
+
       long result = 1;
-      for (long i = 2; i <= end; ++i) {
-         result = getSmallestCommonMultipleOf2Number(result, i);
+      for (long i = 2; i <= n; ++i) {
+         result = lcd(result, i);
       }
       return result;
    }
 
-   public static final long getSmallestCommonMultipleOf2Number(long num1,
-         long num2) {
-      return (num1 * num2) / getGreatestCommonDivisor(num1, num2);
-   }
+   public static final long lcdToNUsingPrime(long n) {
+      validateZeroOrPositive(n);
 
-   public static long getGreatestCommonDivisor(long a, long b) {
-      if (a == 0)
-         return b;
-      while (b != 0) {
-         if (a > b)
-            a = a - b;
-         else
-            b = b - a;
-      }
-      return a;
-   }
-
-   public static final long getSmallestCommonMultipleFrom1ToN_2(long end) {
-      List<Long> primes = getPrimeNumberListBelowMax(end);
+      long[] primes = getPrimeNumberArrayBelowMax(n);
       long result = 1;
-      for (Long l : primes) {
-         int power = (int) (Math.log(end) / Math.log(l));
-         System.out.println("l: " + l + " and power: " + power);
+      for (long l : primes) {
+         long power = (long) (Math.log(n) / Math.log(l));
          result *= (long) Math.pow(l, power);
       }
       return result;
    }
 
+   // TODO: need refacter using sieve
+   public static long[] getPrimeNumberArrayBelowMax(long max) {
+      return rangeClosed(2, max).filter(MathUtils::isPrime).toArray();
+   }
+
+   // TODO: need refacter using sieve
    public static List<Long> getPrimeNumberListBelowMax(long max) {
       Supplier<List<Long>> supplier = ArrayList<Long>::new;
       ObjLongConsumer<List<Long>> longConsumer = (list, l) -> list.add(l);
@@ -155,10 +174,7 @@ public class MathUtils {
             longConsumer, null);
    }
 
-   public static long[] getPrimeNumberArrayBelowMax(long max) {
-      return rangeClosed(2, max).filter(MathUtils::isPrime).toArray();
-   }
-
+   // TODO: need refacter using sieve
    public static List<Long> getPrimeNumbersToNth(long n) {
       List<Long> result = new ArrayList<Long>();
       result.add(2L);
@@ -175,6 +191,7 @@ public class MathUtils {
       return result;
    }
 
+   // TODO: need refacter using sieve
    public static boolean isPrime(long n) {
       if (n < 2) {
          return false;
@@ -190,11 +207,7 @@ public class MathUtils {
       return true;
    }
 
-   // 1^2+2^2+.....n^2
-   public static long sumSquareZeroToN(long n) {
-      return n * (n + 1) * (2 * n + 1) / 6;
-   }
-
+   // TODO: need refacter using sieve
    public static long getNthPrimeNumber(int n) {
       if (n == 1)
          return 2;
@@ -204,6 +217,7 @@ public class MathUtils {
       return result.getAsLong();
    }
 
+   // TODO: need refacter using sieve
    public static long sumPrimeNumbersBelow(int n) {
       long result = 2;
       for (int i = 3; i < n; i = i + 2) {
@@ -214,79 +228,69 @@ public class MathUtils {
       return result;
    }
 
-   public static int countNumberOfDivisors(long number) {
+   @SuppressWarnings("unused")
+   // for reference only
+   private static int __countNumberOfDivisors(long number) {
       int count = 2; // include 1 and itself
       for (long i = 2; i < number / 2; ++i) {
          if (number % i == 0) {
-            // System.out.print(i+" ");
             count++;
          }
       }
       return count;
    }
 
-   public static final long countNumberOfDivisors_2(long number) {
-      Map<Long, Integer> primeForm = calculatePrimeForm(number);
-      long result = 1;
-      for (Integer value : primeForm.values()) {
-         result *= (value + 1);
-      }
-      System.out.println(number + " is " + result);
-      return result;
-   }
+   public static final long countNumberOfDivisors(long number) {
+      validateZeroOrPositive(number);
 
-   public static final Map<Long, Integer> calculatePrimeForm(long number) {
-      Map<Long, Integer> result = new HashMap<Long, Integer>();
+      long result = 1;
+
       long start = 2;
+      int count;
       while (start <= number) {
+         count = 0;
          while (number % start == 0) {
             number /= start;
-            if (result.containsKey(start)) {
-               result.put(start, result.get(start) + 1);
-            } else {
-               result.put(start, 1);
-            }
+            count++;
+         }
+         if (count > 0) {
+            result *= (count + 1);
          }
          ++start;
       }
       return result;
    }
 
-   public static final List<Long> getProperDivisors(long number) {
-      List<Long> result = new ArrayList<Long>();
-      if (number <= 1)
-         return result;
-      result.add(1L);
-
+   public static final long[] getAllDivisors(long number) {
       long sqrtOfNumber = (long) Math.sqrt(number);
-      if (sqrtOfNumber * sqrtOfNumber == number) {
-         // add sqrtOfNumber only one
-         result.add(sqrtOfNumber);
-         sqrtOfNumber--;
-      }
-      long start = 2;
-      while (start <= sqrtOfNumber) {
-         if (number % start == 0) {
-            result.add(start);
-            result.add(number / start);
-         }
-         ++start;
-      }
+      long[] result = LongStream.rangeClosed(1, sqrtOfNumber)
+            .filter(l -> number % l == 0).flatMap(l -> {
+               long remainder = number / l;
+               if (remainder == l) {
+                  return LongStream.of(l);
+               } else {
+                  return LongStream.of(l, remainder);
+               }
+            }).toArray();
+
+      Arrays.sort(result);
+      return result;
+   }
+
+   public static final long[] getProperDivisors(long number) {
+      long[] allDivisors = getAllDivisors(number);
+      long[] result = Arrays.copyOf(allDivisors, allDivisors.length - 1);
       return result;
    }
 
    public static final long getSumOfProperDivisors(long number) {
-      List<Long> properDivisors = getProperDivisors(number);
-      long result = 0;
-      for (Long divisor : properDivisors) {
-         result += divisor;
-      }
-      return result;
+      long[] properDivisors = getProperDivisors(number);
+      return LongStream.of(properDivisors).sum();
    }
 
-   public static final BigInteger getFactorial(int number) {
+   public static final BigInteger getBigIntegerFactorial(long number) {
       BigInteger fact = BigInteger.valueOf(1);
-      for (int i = 1; i <= number; i++)
+      for (long i = 2; i <= number; i++)
          fact = fact.multiply(BigInteger.valueOf(i));
       return fact;
    }
@@ -486,7 +490,7 @@ public class MathUtils {
    public static final long sumOfNumberHasEqualFactorialOFDigits() {
       int[] factorials = new int[10];
       for (int i = 0; i < factorials.length; ++i) {
-         factorials[i] = getFactorial(i).intValueExact();
+         factorials[i] = getBigIntegerFactorial(i).intValueExact();
       }
       long sum = 0;
       // 2540160 = 7*9!

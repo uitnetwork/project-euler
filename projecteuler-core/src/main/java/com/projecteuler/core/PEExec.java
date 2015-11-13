@@ -2,10 +2,10 @@ package com.projecteuler.core;
 
 import static com.projecteuler.core.PeResult.from;
 import static com.projecteuler.util.MathUtils.getLargestPrimeFactor;
-import static com.projecteuler.util.MathUtils.getSmallestCommonMultipleFrom1ToN;
-import static com.projecteuler.util.MathUtils.getSmallestCommonMultipleFrom1ToN_2;
+import static com.projecteuler.util.MathUtils.lcdToNUsingPrime;
 import static com.projecteuler.util.MathUtils.isPalindromeNumber;
-import static com.projecteuler.util.MathUtils.sumSquareZeroToN;
+import static com.projecteuler.util.MathUtils.lcdToN;
+import static com.projecteuler.util.MathUtils.sumSquaresToN;
 import static com.projecteuler.util.MathUtils.sumToN;
 
 import java.io.BufferedReader;
@@ -124,7 +124,7 @@ public class PEExec {
 
    @PEProblem(problem = 5, description = "What is the smallest positive number that is evenly divisible by all of the numbers from 1 to 20?")
    public PeResult problem5_1() {
-      long result = getSmallestCommonMultipleFrom1ToN(20);
+      long result = lcdToN(20);
       System.out.println("Result: " + result);
       return from(result);
 
@@ -132,7 +132,7 @@ public class PEExec {
 
    @PEProblem(problem = 5, description = "What is the smallest positive number that is evenly divisible by all of the numbers from 1 to 20?")
    public PeResult problem5_2() {
-      long result = getSmallestCommonMultipleFrom1ToN_2(20);
+      long result = lcdToNUsingPrime(20);
       System.out.println("Result: " + result);
       return from(result);
    }
@@ -140,7 +140,7 @@ public class PEExec {
    @PEProblem(problem = 6, description = "Find the difference between the sum of the squares of the first one hundred natural numbers and the square of the sum.")
    public PeResult problem6() {
       long n = 100;
-      long result = Math.abs(sumSquareZeroToN(n)
+      long result = Math.abs(sumSquaresToN(n)
             - (long) Math.pow(sumToN(n), 2));
       System.out.println("Result: " + result);
       return from(result);
@@ -236,7 +236,7 @@ public class PEExec {
       long added = 2;
       while (true) {
          number += added++;
-         if (MathUtils.countNumberOfDivisors_2(number) > 500) {
+         if (MathUtils.countNumberOfDivisors(number) > 500) {
             break;
          }
       }
@@ -364,7 +364,7 @@ public class PEExec {
 
    @PEProblem(problem = 20, description = "Find the sum of the digits in the number 100!")
    public PeResult problem20() {
-      BigInteger oneHundredFactorial = MathUtils.getFactorial(100);
+      BigInteger oneHundredFactorial = MathUtils.getBigIntegerFactorial(100);
       BigInteger value = oneHundredFactorial;
       int sum = 0;
       while (value != BigInteger.ZERO) {
