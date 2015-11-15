@@ -37,7 +37,9 @@ import java.util.stream.LongStream;
 import com.projecteuler.annotation.PEProblem;
 import com.projecteuler.model.LongHolder;
 import com.projecteuler.poker.PokerHand;
+import com.projecteuler.util.CoinUtils;
 import com.projecteuler.util.MathUtils;
+import com.projecteuler.util.PrimeUtils;
 
 public class PEExec {
 
@@ -148,7 +150,7 @@ public class PEExec {
 
    @PEProblem(problem = 7, description = "What is the 10 001st prime number?")
    public PeResult problem7() {
-      long result = MathUtils.getNthPrimeNumber(10001);
+      long result = PrimeUtils.getNthPrimeNumber(10001);
       System.out.println("Result for 10001: " + result);
       return from(result);
    }
@@ -217,7 +219,7 @@ public class PEExec {
 
    @PEProblem(problem = 10, description = "Find the sum of all the primes below two million")
    public PeResult problem10() {
-      long result = MathUtils.sumPrimeNumbersBelow(2000000);
+      long result = PrimeUtils.sumPrimeNumbersBelow(2000000);
       System.out.println("Result: " + result);
       return from(result);
 
@@ -364,7 +366,7 @@ public class PEExec {
 
    @PEProblem(problem = 20, description = "Find the sum of the digits in the number 100!")
    public PeResult problem20() {
-      BigInteger oneHundredFactorial = MathUtils.getBigIntegerFactorial(100);
+      BigInteger oneHundredFactorial = MathUtils.getFactorialBigInteger(100);
       BigInteger value = oneHundredFactorial;
       int sum = 0;
       while (value != BigInteger.ZERO) {
@@ -414,7 +416,7 @@ public class PEExec {
       long result = 0;
       int i = 1;
       for (String tmp : strArrays) {
-         result += i * MathUtils.getAlphabeticalvalue(tmp);
+         result += i * MathUtils.getAlphabeticalValue(tmp);
          i++;
       }
       System.out.println("Result: " + result);
@@ -461,7 +463,7 @@ public class PEExec {
    public PeResult problem24() {
       int position = 1000000;
       int start = 0;
-      while (MathUtils.getPermutationOfNumber(++start) < position) {
+      while (MathUtils.getFactorial(++start) < position) {
          // donothing
       }
       start--;
@@ -470,13 +472,13 @@ public class PEExec {
       for (int i = start; i > 0; --i) {
          int currentMark = 0;
          while (true) {
-            if ((currentSum + currentMark * MathUtils.getPermutationOfNumber(i)) > position) {
+            if ((currentSum + currentMark * MathUtils.getFactorial(i)) > position) {
                break;
             }
             currentMark++;
          }
          currentMark--;
-         currentSum += currentMark * MathUtils.getPermutationOfNumber(i);
+         currentSum += currentMark * MathUtils.getFactorial(i);
          map.put(i, currentMark);
          if (currentSum == position) {
             break;
@@ -518,7 +520,7 @@ public class PEExec {
       StringBuilder result = new StringBuilder();
       int start = 9;
       while (position > 0) {
-         long value = MathUtils.getPermutationOfNumber(start);
+         long value = MathUtils.getFactorial(start);
          int index = (int) (position / value);
          position %= value;
 
@@ -574,7 +576,7 @@ public class PEExec {
                    // get a result which is greater that that value because
                    // there is only i-1 remainder
          }
-         int recurring = MathUtils.getRecurringCycleDecimalOfN(i);
+         int recurring = MathUtils.getNumberOfRecurringDigitsInDecimalFractionPart(i);
          if (recurring > currentLongestRecurring) {
             currentLongestRecurring = recurring;
             result = i;
@@ -588,7 +590,7 @@ public class PEExec {
    @PEProblem(problem = 27, description = "Find the product of the coefficients, a and b, for the quadratic expression that produces the maximum number of primes for consecutive values of n, starting with n = 0.")
    public PeResult problem27() {
       long max = 1000;
-      List<Long> primes = MathUtils.getPrimeNumberListBelowMax(max);
+      List<Long> primes = PrimeUtils.getPrimeNumberListBelowMax(max);
       List<Long> primesIncludeNegative = new ArrayList<Long>();
       for (Long l : primes) {
          primesIncludeNegative.add(l);
@@ -599,7 +601,7 @@ public class PEExec {
       long resultB = -1;
       for (Long prime : primesIncludeNegative) {
          for (long i = -1 * max + 1; i < max; ++i) {
-            int tmp = MathUtils.getConsecutivePrimesOfNumber(prime, i);
+            int tmp = PrimeUtils.getConsecutivePrimesOfNumber(prime, i);
             if (tmp > maxConsecutive) {
                maxConsecutive = tmp;
                resultA = i;
@@ -710,7 +712,7 @@ public class PEExec {
    public PeResult problem31() {
       int[] possibleCoins = { 1, 2, 5, 10, 20, 50, 100, 200 };
       int total = 200;
-      long result = MathUtils.calculatePossibleCoins(possibleCoins, total);
+      long result = CoinUtils.calculatePossibleCoins(possibleCoins, total);
       System.out.println("Result: " + result);
 
       return from(result);
@@ -718,15 +720,14 @@ public class PEExec {
 
    @PEProblem(problem = 32, description = "How many different ways can £2 be made using any number of coins?")
    public PeResult problem32() {
-      List<Integer> result = MathUtils.getListOfPandigitalNumbers();
-      System.out.println("Executing with result: " + result.size());
-      Set<Integer> all = new HashSet<>();
-      for (Integer number : result) {
-         List<Integer> temp = MathUtils.getProductOfPandigital(number);
+      long[] result = MathUtils.getListOfPandigitalNumbers();
+      Set<Long> all = new HashSet<>();
+      for (long number : result) {
+         List<Long> temp = MathUtils.getProductOfPandigital(number);
          all.addAll(temp);
       }
 
-      Integer total = all.stream().reduce(0, Integer::sum);
+      Long total = all.stream().reduce(0l, Long::sum);
       System.out.println("Final result: " + total);
       return from(total);
    }
@@ -739,7 +740,28 @@ public class PEExec {
 
    @PEProblem(problem = 34, description = "Find the sum of all numbers which are equal to the sum of the factorial of their digits.")
    public PeResult problem34() {
-      long result = MathUtils.sumOfNumberHasEqualFactorialOFDigits();
+      long result = 0;
+      int[] factorials = new int[10];
+      for (int i = 0; i < factorials.length; ++i) {
+         factorials[i] = MathUtils.getFactorialBigInteger(i).intValueExact();
+      }
+      // 2540160 = 7*9!
+      for (int i = 10; i < 2540160; ++i) {
+         int n = i;
+         int temp = 0;
+         while (n > 0) {
+            int digit = n % 10;
+            n /= 10;
+            temp += factorials[digit];
+            if (temp > i) {
+               break;
+            }
+         }
+         if (temp == i) {
+            System.out.println("i is " + i);
+            result += temp;
+         }
+      }
       System.out.println("Result: " + result);
       return from(result);
    }
@@ -747,10 +769,10 @@ public class PEExec {
    @PEProblem(problem = 35, description = "How many circular primes are there below one million?")
    public PeResult problem35() {
       BiConsumer<Set<Long>, Long> longConsumer = (set, l) -> set.add(l);
-      Set<Long> primes = MathUtils
+      Set<Long> primes = PrimeUtils
             .getPrimeNumberListBelowMax(1000000)
             .stream()
-            .filter(n -> !MathUtils.containEvenDigit(n))
+            .filter(n -> !MathUtils.hasEvenDigit(n))
             .collect(HashSet<Long>::new, longConsumer,
                   (s1, s2) -> s1.addAll(s2));
       Set<Long> done = new HashSet<Long>();
@@ -789,7 +811,7 @@ public class PEExec {
       int limit = 11;
       // skip 2, 3, 5, 7
       long result = LongStream.iterate(11, l -> l + 2)
-            .filter(MathUtils::isPrime).filter(MathUtils::isTruncatable)
+            .filter(PrimeUtils::isPrime).filter(MathUtils::isTruncatablePrime)
             .limit(limit).peek(System.out::println).sum();
 
       System.out.println("Result: " + result);
@@ -923,7 +945,7 @@ public class PEExec {
       long second = 1234;
       Set<Long> all7Pandigital = MathUtils.getAllPermutationsOfNumber(first);
       Optional<Long> optional = all7Pandigital.stream()
-            .filter(MathUtils::isPrime).max(Long::compare);
+            .filter(PrimeUtils::isPrime).max(Long::compare);
       if (!optional.isPresent()) {
          System.out.println("Should not come to second: " + second);
       }
@@ -955,7 +977,7 @@ public class PEExec {
 
       long count = 0;
       for (String tmp : strArrays) {
-         int t = MathUtils.getAlphabeticalvalue(tmp);
+         int t = MathUtils.getAlphabeticalValue(tmp);
          if (triangleNumberArray[t]) {
             count++;
          }
@@ -967,7 +989,7 @@ public class PEExec {
    @PEProblem(problem = 43, description = "Find the sum of all 0 to 9 pandigital numbers with this property.")
    public PeResult problem43() throws IOException {
       int[] divisors = { 2, 3, 5, 7, 11, 13, 17 };
-      List<Long> pandigitalNumbers = MathUtils
+      long[] pandigitalNumbers = MathUtils
             .getListOfPandigitalNumbersIncludeZero();
 
       long result = 0;
@@ -1057,7 +1079,7 @@ public class PEExec {
       long[] primeNumbers = new long[max];
       primeNumbers[current.getAndIncrement()] = 2;
       OptionalLong result = LongStream.iterate(3, n -> n + 2).filter(l -> {
-         if (MathUtils.isPrime(l)) {
+         if (PrimeUtils.isPrime(l)) {
             primeNumbers[current.getAndIncrement()] = l;
             return false;
          } else {
@@ -1085,7 +1107,7 @@ public class PEExec {
       long[] primeNumbers = new long[max];
       primeNumbers[current++] = 2;
       for (long l = 3; l < Long.MAX_VALUE; ++l) {
-         if (MathUtils.isPrime(l)) {
+         if (PrimeUtils.isPrime(l)) {
             if (l > primeNumbers[current]) {
                primeNumbers[current++] = l;
             }
@@ -1098,7 +1120,7 @@ public class PEExec {
             for (long value = l; value <= l + number - 1; ++value) {
                int count = 0;
                long temp = value;
-               if (MathUtils.isPrime(temp)) {
+               if (PrimeUtils.isPrime(temp)) {
                   primeNumbers[current++] = temp;
                   l = temp;
                   found = false;
@@ -1174,7 +1196,7 @@ public class PEExec {
       boolean[] primeArray = new boolean[max];
       int skip = 1487;
       for (int i = 1000; i < max; ++i) {
-         if (MathUtils.isPrime(i)) {
+         if (PrimeUtils.isPrime(i)) {
             primeArray[i] = true;
          }
       }
@@ -1203,7 +1225,7 @@ public class PEExec {
 
    @PEProblem(problem = 50, description = "Which prime, below one-million, can be written as the sum of the most consecutive primes?")
    public PeResult problem50() {
-      List<Long> primeNumbers = MathUtils.getPrimeNumberListBelowMax(1000000);
+      List<Long> primeNumbers = PrimeUtils.getPrimeNumberListBelowMax(1000000);
       long maxPrime = primeNumbers.get(primeNumbers.size() - 1);
       int max = 0;
       long result = 0;
@@ -1246,7 +1268,7 @@ public class PEExec {
    @PEProblem(problem = 53, description = "How many, not necessarily distinct, values of  nCr, for 1 ≤ n ≤ 100, are greater than one-million?")
    public PeResult problem53() {
       int max = 1000000;
-      int power = MathUtils.getPower(max);
+      int power = MathUtils.getExponentOf10(max);
       int result = 0;
       for (int r = 1; r <= 100; ++r) {
          for (int n = r; n <= 100; ++n) {
@@ -1322,7 +1344,7 @@ public class PEExec {
                      curretnBigInteger = curretnBigInteger
                            .multiply(currentNumber);
                      long digitalSum = MathUtils
-                           .getDigitalSumByStream(curretnBigInteger);
+                           .getDigitalSum(curretnBigInteger);
                      if (digitalSum > maxDigitalSum) {
                         maxDigitalSum = digitalSum;
                      }
@@ -1343,7 +1365,7 @@ public class PEExec {
                break;
             }
             BigInteger bigInteger = BigInteger.valueOf(i).pow(j);
-            long digitalSum = MathUtils.getDigitalSumByStream(bigInteger);
+            long digitalSum = MathUtils.getDigitalSum(bigInteger);
             if (digitalSum > result) {
                result = digitalSum;
             }
@@ -1366,7 +1388,7 @@ public class PEExec {
          expansionCount++;
          currentNumerator = denominator.multiply(two).add(numerator);
          currentDenominator = denominator.add(numerator);
-         if (MathUtils.compareDigits(currentNumerator, currentDenominator) > 0) {
+         if (MathUtils.compareNumberOfDigits(currentNumerator, currentDenominator) > 0) {
             resultCount++;
          }
          numerator = currentNumerator;

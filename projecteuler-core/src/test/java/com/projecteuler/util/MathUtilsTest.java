@@ -126,61 +126,6 @@ public class MathUtilsTest {
    }
 
    @Test
-   public void testGetSmallestCommonMultipleFrom1ToN() {
-      fail("Not yet implemented");
-   }
-
-   @Test
-   public void testGetSmallestCommonMultipleOf2Number() {
-      fail("Not yet implemented");
-   }
-
-   @Test
-   public void testGetGreatestCommonDivisor() {
-      fail("Not yet implemented");
-   }
-
-   @Test
-   public void testGetSmallestCommonMultipleFrom1ToN_2() {
-      fail("Not yet implemented");
-   }
-
-   @Test
-   public void testGetPrimeNumberListBelowMax() {
-      fail("Not yet implemented");
-   }
-
-   @Test
-   public void testGetPrimeNumberArrayBelowMax() {
-      fail("Not yet implemented");
-   }
-
-   @Test
-   public void testGetPrimeNumbersToNth() {
-      fail("Not yet implemented");
-   }
-
-   @Test
-   public void testIsPrime() {
-      fail("Not yet implemented");
-   }
-
-   @Test
-   public void testSumSquareZeroToN() {
-      fail("Not yet implemented");
-   }
-
-   @Test
-   public void testGetNthPrimeNumber() {
-      fail("Not yet implemented");
-   }
-
-   @Test
-   public void testSumPrimeNumbersBelow() {
-      fail("Not yet implemented");
-   }
-
-   @Test
    public void testCountNumberOfDivisors() {
       assertEquals("Should be 4", 4, MathUtils.countNumberOfDivisors(6));
       assertEquals("Should be 8", 8, MathUtils.countNumberOfDivisors(30));
@@ -231,64 +176,87 @@ public class MathUtilsTest {
    }
 
    @Test
-   public void testGetBigIntegerFactorial() {
+   public void testGetFactorialBigInteger() {
       assertEquals("Should be 3628800", new BigInteger("3628800"),
-            MathUtils.getBigIntegerFactorial(10));
+            MathUtils.getFactorialBigInteger(10));
 
       assertEquals("Should be 120", new BigInteger("120"),
-            MathUtils.getBigIntegerFactorial(5));
+            MathUtils.getFactorialBigInteger(5));
 
       assertEquals("Should be 40320", new BigInteger("40320"),
-            MathUtils.getBigIntegerFactorial(8));
+            MathUtils.getFactorialBigInteger(8));
 
       assertEquals("Should be 6227020800", new BigInteger("6227020800"),
-            MathUtils.getBigIntegerFactorial(13));
+            MathUtils.getFactorialBigInteger(13));
 
    }
 
    @Test
-   public void testGetPermutationOfNumber() {
-      fail("Not yet implemented");
+   public void testGetFactorial() {
+      assertEquals("Should be 3628800", 3628800, MathUtils.getFactorial(10));
+      assertEquals("Should be 120", 120, MathUtils.getFactorial(5));
+      assertEquals("Should be 40320", 40320, MathUtils.getFactorial(8));
+      assertEquals("Should be 6227020800", 6227020800l,
+            MathUtils.getFactorial(13));
    }
 
    @Test
-   public void testGetAlphabeticalvalue() {
-      fail("Not yet implemented");
+   public void testGetAlphabeticalValue() {
+      assertEquals("Should be 6", 6, MathUtils.getAlphabeticalValue("ABC"));
+      assertEquals("Should be 75", 75, MathUtils.getAlphabeticalValue("XYZ"));
+      assertEquals("Should be 33", 33, MathUtils.getAlphabeticalValue("KJL"));
+      assertEquals("Should be 39", 39, MathUtils.getAlphabeticalValue("NML"));
    }
 
    @Test
    public void testIsAbundantNumber() {
-      fail("Not yet implemented");
+      assertTrue("Should be true", MathUtils.isAbundantNumber(30));
+      assertTrue("Should be true", MathUtils.isAbundantNumber(104));
+      assertFalse("Should be false", MathUtils.isAbundantNumber(49));
+      assertFalse("Should be false", MathUtils.isAbundantNumber(79));
    }
 
    @Test
    public void testGetRecurringCycleDecimalOfN() {
-      fail("Not yet implemented");
-   }
-
-   @Test
-   public void testGetConsecutivePrimesOfNumber() {
-      fail("Not yet implemented");
-   }
-
-   @Test
-   public void testCalculatePossibleCoins() {
-      fail("Not yet implemented");
+      assertEquals("Should be 1", 1,
+            MathUtils.getNumberOfRecurringDigitsInDecimalFractionPart(6));
+      assertEquals("Should be 6", 6,
+            MathUtils.getNumberOfRecurringDigitsInDecimalFractionPart(7));
+      assertEquals("Should be 0", 0,
+            MathUtils.getNumberOfRecurringDigitsInDecimalFractionPart(2));
+      assertEquals("Should be 1", 1,
+            MathUtils.getNumberOfRecurringDigitsInDecimalFractionPart(3));
    }
 
    @Test
    public void testIsPandigitalNumber() {
-      fail("Not yet implemented");
-   }
+      assertTrue("Should be true", MathUtils.isPandigitalNumber(123456789));
+      assertTrue("Should be true", MathUtils.isPandigitalNumber(12345));
+      assertTrue("Should be true", MathUtils.isPandigitalNumber(321));
+      assertTrue("Should be true", MathUtils.isPandigitalNumber(123));
+      assertTrue("Should be true", MathUtils.isPandigitalNumber(1234567));
+      assertTrue("Should be true", MathUtils.isPandigitalNumber(12345678));
 
-   @Test
-   public void testIsPandigitalNumber2() {
-      fail("Not yet implemented");
+      assertFalse("Should be false", MathUtils.isPandigitalNumber(123567));
+      assertFalse("Should be false", MathUtils.isPandigitalNumber(1235678));
+      assertFalse("Should be false", MathUtils.isPandigitalNumber(23456789));
+      assertFalse("Should be false", MathUtils.isPandigitalNumber(12345689));
+      assertFalse("Should be false", MathUtils.isPandigitalNumber(1023456789));
+
    }
 
    @Test
    public void testIsPandigitalNumberIncludeZero() {
-      fail("Not yet implemented");
+      assertTrue("Should be true",
+            MathUtils.isPandigitalNumberIncludeZero(1023456789));
+      assertTrue("Should be true",
+            MathUtils.isPandigitalNumberIncludeZero(1234567890));
+
+      assertFalse("Should be false",
+            MathUtils.isPandigitalNumberIncludeZero(1023456788));
+      assertFalse("Should be false",
+            MathUtils.isPandigitalNumberIncludeZero(1023456778));
+
    }
 
    @Test
@@ -307,13 +275,15 @@ public class MathUtilsTest {
    }
 
    @Test
-   public void testSumOfNumberHasEqualFactorialOFDigits() {
-      fail("Not yet implemented");
-   }
+   public void testHasEvenDigit() {
+      assertTrue("Should be true", MathUtils.hasEvenDigit(12345));
+      assertTrue("Should be true", MathUtils.hasEvenDigit(135798));
+      assertTrue("Should be true", MathUtils.hasEvenDigit(127953));
 
-   @Test
-   public void testContainEvenDigit() {
-      fail("Not yet implemented");
+      assertFalse("Should be false", MathUtils.hasEvenDigit(13));
+      assertFalse("Should be false", MathUtils.hasEvenDigit(531));
+      assertFalse("Should be false", MathUtils.hasEvenDigit(3579));
+
    }
 
    @Test
@@ -327,13 +297,16 @@ public class MathUtilsTest {
    }
 
    @Test
-   public void testCreatePalindrome() {
-      fail("Not yet implemented");
-   }
-
-   @Test
    public void testIsTruncatable() {
-      fail("Not yet implemented");
+      assertTrue("", MathUtils.isTruncatablePrime(3797));
+      assertTrue("", MathUtils.isTruncatablePrime(739397));
+      assertTrue("", MathUtils.isTruncatablePrime(3137));
+      assertTrue("", MathUtils.isTruncatablePrime(313));
+
+      assertFalse("", MathUtils.isTruncatablePrime(347));
+      assertFalse("", MathUtils.isTruncatablePrime(397));
+      assertFalse("", MathUtils.isTruncatablePrime(37397));
+      assertFalse("", MathUtils.isTruncatablePrime(7393931));
    }
 
    @Test
@@ -352,8 +325,11 @@ public class MathUtilsTest {
    }
 
    @Test
-   public void testGetPower() {
-      fail("Not yet implemented");
+   public void testGetExponent() {
+      assertEquals("Should be 2", 2, MathUtils.getExponentOf10(100));
+      assertEquals("Should be 1", 1, MathUtils.getExponentOf10(99));
+      assertEquals("Should be 2", 2, MathUtils.getExponentOf10(999));
+      assertEquals("Should be 3", 3, MathUtils.getExponentOf10(1000));
    }
 
    @Test
@@ -362,98 +338,28 @@ public class MathUtilsTest {
    }
 
    @Test
-   public void testIsPalindromeNumberBigInteger() {
-      fail("Not yet implemented");
-   }
-
-   @Test
-   public void testReverseNumberBigInteger() {
-      fail("Not yet implemented");
-   }
-
-   @Test
    public void testGetDigitalSum() {
-      fail("Not yet implemented");
+      assertEquals("Should be 15", 15,
+            MathUtils.getDigitalSum(new BigInteger("12345")));
+      assertEquals("Should be 20", 20,
+            MathUtils.getDigitalSum(new BigInteger("123455")));
+      assertEquals("Should be 27", 27,
+            MathUtils.getDigitalSum(new BigInteger("1234557")));
+      assertEquals("Should be 36", 36,
+            MathUtils.getDigitalSum(new BigInteger("12345579")));
    }
 
    @Test
-   public void testGetDigitalSumByStream() {
-      fail("Not yet implemented");
-   }
+   public void testCompareNumberOfDigits() {
+      assertEquals("Should be -1", -1, MathUtils.compareNumberOfDigits(
+            new BigInteger("12345"), new BigInteger("123456")));
+      assertEquals("Should be 6", 6, MathUtils.compareNumberOfDigits(
+            new BigInteger("123456789"), new BigInteger("123")));
+      assertEquals("Should be 3", 3, MathUtils.compareNumberOfDigits(
+            new BigInteger("123456"), new BigInteger("123")));
+      assertEquals("Should be 2", 2, MathUtils.compareNumberOfDigits(
+            new BigInteger("9876"), new BigInteger("22")));
 
-   @Test
-   public void testCompareDigitsLongLong() {
-      fail("Not yet implemented");
-   }
-
-   @Test
-   public void testCompareDigitsBigIntegerBigInteger() {
-      fail("Not yet implemented");
-   }
-
-   @Test
-   public void testMain() {
-      fail("Not yet implemented");
-   }
-
-   @Test
-   public void testObject() {
-      fail("Not yet implemented");
-   }
-
-   @Test
-   public void testGetClass() {
-      fail("Not yet implemented");
-   }
-
-   @Test
-   public void testHashCode() {
-      fail("Not yet implemented");
-   }
-
-   @Test
-   public void testEquals() {
-      fail("Not yet implemented");
-   }
-
-   @Test
-   public void testClone() {
-      fail("Not yet implemented");
-   }
-
-   @Test
-   public void testToString() {
-      fail("Not yet implemented");
-   }
-
-   @Test
-   public void testNotify() {
-      fail("Not yet implemented");
-   }
-
-   @Test
-   public void testNotifyAll() {
-      fail("Not yet implemented");
-   }
-
-   @Test
-   public void testWaitLong() {
-      fail("Not yet implemented");
-   }
-
-   @Test
-   public void testWaitLongInt() {
-      fail("Not yet implemented");
-   }
-
-   @Test
-   public void testWait() {
-      fail("Not yet implemented");
-   }
-
-   @Test
-   public void testFinalize() {
-      fail("Not yet implemented");
    }
 
 }
