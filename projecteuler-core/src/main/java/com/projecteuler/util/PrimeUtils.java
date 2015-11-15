@@ -28,7 +28,7 @@ public class PrimeUtils {
    }
 
    // TODO: need refacter using sieve
-   public static long getNthPrimeNumber(int n) {
+   public static long getNthPrime(int n) {
       if (n == 1)
          return 2;
       int position = n - 2; // skip 2;
@@ -48,6 +48,7 @@ public class PrimeUtils {
       return result;
    }
 
+   // TODO: need refactor INDEED
    public static final int getConsecutivePrimesOfNumber(long a, long b) {
       int count = 0;
       for (int i = 0;; i++) {
@@ -64,12 +65,12 @@ public class PrimeUtils {
    }
 
    // TODO: need refacter using sieve
-   public static long[] getPrimeNumberArrayBelowMax(long max) {
+   public static long[] getPrimesBelowMaxInclusive(long max) {
       return rangeClosed(2, max).filter(PrimeUtils::isPrime).toArray();
    }
 
    // TODO: need refacter using sieve
-   public static List<Long> getPrimeNumberListBelowMax(long max) {
+   public static List<Long> getPrimeListBelowMax(long max) {
       Supplier<List<Long>> supplier = ArrayList<Long>::new;
       ObjLongConsumer<List<Long>> longConsumer = (list, l) -> list.add(l);
       return rangeClosed(2, max).filter(PrimeUtils::isPrime).collect(supplier,

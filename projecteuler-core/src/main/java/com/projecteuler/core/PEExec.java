@@ -150,7 +150,7 @@ public class PEExec {
 
    @PEProblem(problem = 7, description = "What is the 10 001st prime number?")
    public PeResult problem7() {
-      long result = PrimeUtils.getNthPrimeNumber(10001);
+      long result = PrimeUtils.getNthPrime(10001);
       System.out.println("Result for 10001: " + result);
       return from(result);
    }
@@ -590,7 +590,7 @@ public class PEExec {
    @PEProblem(problem = 27, description = "Find the product of the coefficients, a and b, for the quadratic expression that produces the maximum number of primes for consecutive values of n, starting with n = 0.")
    public PeResult problem27() {
       long max = 1000;
-      List<Long> primes = PrimeUtils.getPrimeNumberListBelowMax(max);
+      List<Long> primes = PrimeUtils.getPrimeListBelowMax(max);
       List<Long> primesIncludeNegative = new ArrayList<Long>();
       for (Long l : primes) {
          primesIncludeNegative.add(l);
@@ -770,7 +770,7 @@ public class PEExec {
    public PeResult problem35() {
       BiConsumer<Set<Long>, Long> longConsumer = (set, l) -> set.add(l);
       Set<Long> primes = PrimeUtils
-            .getPrimeNumberListBelowMax(1000000)
+            .getPrimeListBelowMax(1000000)
             .stream()
             .filter(n -> !MathUtils.hasEvenDigit(n))
             .collect(HashSet<Long>::new, longConsumer,
@@ -1225,7 +1225,7 @@ public class PEExec {
 
    @PEProblem(problem = 50, description = "Which prime, below one-million, can be written as the sum of the most consecutive primes?")
    public PeResult problem50() {
-      List<Long> primeNumbers = PrimeUtils.getPrimeNumberListBelowMax(1000000);
+      List<Long> primeNumbers = PrimeUtils.getPrimeListBelowMax(1000000);
       long maxPrime = primeNumbers.get(primeNumbers.size() - 1);
       int max = 0;
       long result = 0;

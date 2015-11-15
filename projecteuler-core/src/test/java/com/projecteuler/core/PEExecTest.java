@@ -8,7 +8,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
+import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -18,6 +21,8 @@ import com.projecteuler.annotation.PEProblem;
 public class PEExecTest {
 
    private static Map<Integer, List<Method>> peExecMap = new HashMap<Integer, List<Method>>();
+
+   private static Set<ExecutionResult> executionResultTracking = new TreeSet<>();
 
    PEExec instance = new PEExec();
 
@@ -40,6 +45,17 @@ public class PEExecTest {
       }
    }
 
+   @AfterClass
+   public static void report() {
+      System.out.println("----------------Report--------------------\n\n");
+      for (ExecutionResult executionResult : executionResultTracking) {
+         System.out.println("Execution time: "
+               + executionResult.getExecutionTime() + " for method: "
+               + executionResult.getMethodName());
+      }
+      System.out.println("\n\n----------------END--------------------");
+   }
+
    @Test
    public void test() throws IllegalAccessException, IllegalArgumentException,
          InvocationTargetException {
@@ -56,13 +72,18 @@ public class PEExecTest {
 
       for (Method method : peExecMap.get(challengeNumber)) {
 
-         PeResult peResult = (PeResult) method.invoke(instance);
+         long start = System.currentTimeMillis();
 
+         PeResult peResult = (PeResult) method.invoke(instance);
          Assert.assertEquals("Solution for challenge number " + challengeNumber
                + " with name " + method.getName()
                + " does not work as expected.", result, peResult.getResult());
+
+         long executionTime = System.currentTimeMillis() - start;
+         executionResultTracking.add(new ExecutionResult(executionTime, method
+               .getName()));
+
       }
 
    }
-
 }

@@ -147,7 +147,7 @@ public class MathUtils {
    public static final long lcdToNUsingPrime(long n) {
       validateZeroOrPositive(n);
 
-      long[] primes = PrimeUtils.getPrimeNumberArrayBelowMax(n);
+      long[] primes = PrimeUtils.getPrimesBelowMaxInclusive(n);
       long result = 1;
       for (long l : primes) {
          long power = (long) (Math.log(n) / Math.log(l));
