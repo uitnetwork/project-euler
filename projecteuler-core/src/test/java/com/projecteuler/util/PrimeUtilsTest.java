@@ -44,26 +44,26 @@ public class PrimeUtilsTest {
    }
 
    @Test
-   public void testGetPrimesBelowMaxInclusive() {
-      long[] primesBelow11 = { 2, 3, 5, 7, 11 };
+   public void testGetPrimesBelowMax() {
+      long[] primesBelow11 = { 2, 3, 5, 7 };
       long[] primesBelow20 = { 2, 3, 5, 7, 11, 13, 17, 19 };
       long[] primesBelow30 = { 2, 3, 5, 7, 11, 13, 17, 19, 23, 29 };
       long[] primeBelow100 = { 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41,
             43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97 };
 
       assertArrayEquals(primesBelow11,
-            PrimeUtils.getPrimesBelowMaxInclusive(11));
+            PrimeUtils.getPrimesBelowMax(11));
       assertArrayEquals(primesBelow20,
-            PrimeUtils.getPrimesBelowMaxInclusive(20));
+            PrimeUtils.getPrimesBelowMax(20));
       assertArrayEquals(primesBelow30,
-            PrimeUtils.getPrimesBelowMaxInclusive(30));
+            PrimeUtils.getPrimesBelowMax(30));
       assertArrayEquals(primeBelow100,
-            PrimeUtils.getPrimesBelowMaxInclusive(100));
+            PrimeUtils.getPrimesBelowMax(100));
    }
 
    @Test
    public void testGetPrimeListBelowMax() {
-      List<Long> primesBelow11 = Arrays.asList(2l, 3l, 5l, 7l, 11l);
+      List<Long> primesBelow11 = Arrays.asList(2l, 3l, 5l, 7l);
       List<Long> primesBelow20 = Arrays.asList(2l, 3l, 5l, 7l, 11l, 13l, 17l,
             19l);
       List<Long> primesBelow30 = Arrays.asList(2l, 3l, 5l, 7l, 11l, 13l, 17l,

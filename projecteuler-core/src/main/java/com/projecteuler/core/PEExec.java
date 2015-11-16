@@ -53,7 +53,8 @@ public class PEExec {
 
       long anwser = divisibleBy3Sum + divisibleBy5Sum - divisibleBy15Sum;
 
-      return from(anwser,"Sum of number which is divisible by 3 plus by 5 then subtract by 15");
+      return from(anwser,
+            "Sum of number which is divisible by 3 plus by 5 then subtract by 15");
    }
 
    @PEProblem(problem = 2, description = "By considering the terms in the Fibonacci sequence whose values do not exceed four million, find the sum of the even-valued terms.")
@@ -142,8 +143,7 @@ public class PEExec {
    @PEProblem(problem = 6, description = "Find the difference between the sum of the squares of the first one hundred natural numbers and the square of the sum.")
    public PeResult problem6() {
       long n = 100;
-      long result = Math.abs(sumSquaresToN(n)
-            - (long) Math.pow(sumToN(n), 2));
+      long result = Math.abs(sumSquaresToN(n) - (long) Math.pow(sumToN(n), 2));
       System.out.println("Result: " + result);
       return from(result);
    }
@@ -576,7 +576,8 @@ public class PEExec {
                    // get a result which is greater that that value because
                    // there is only i-1 remainder
          }
-         int recurring = MathUtils.getNumberOfRecurringDigitsInDecimalFractionPart(i);
+         int recurring = MathUtils
+               .getNumberOfRecurringDigitsInDecimalFractionPart(i);
          if (recurring > currentLongestRecurring) {
             currentLongestRecurring = recurring;
             result = i;
@@ -718,7 +719,7 @@ public class PEExec {
       return from(result);
    }
 
-   @PEProblem(problem = 32, description = "How many different ways can £2 be made using any number of coins?")
+   @PEProblem(problem = 32, description = "Find the sum of all products whose multiplicand/multiplier/product identity can be written as a 1 through 9 pandigital")
    public PeResult problem32() {
       long[] result = MathUtils.getListOfPandigitalNumbers();
       Set<Long> all = new HashSet<>();
@@ -801,7 +802,7 @@ public class PEExec {
       final int base = 2;
       int result = IntStream.rangeClosed(1, max)
             .filter(MathUtils::isPalindromeNumber)
-            .filter(n->MathUtils.isPalindromeNumberInBase(n, base)).sum();
+            .filter(n -> MathUtils.isPalindromeNumberInBase(n, base)).sum();
       System.out.println("Result: " + result);
       return from(result);
    }
@@ -986,7 +987,7 @@ public class PEExec {
       return from(count);
    }
 
-   @PEProblem(problem = 43, description = "Find the sum of all 0 to 9 pandigital numbers with this property.")
+   @PEProblem(problem = 43, description = "Find the sum of all 0 to 9 pandigital numbers with this property.", skip = true, skipDescription = "Performance is not so good right now!")
    public PeResult problem43() throws IOException {
       int[] divisors = { 2, 3, 5, 7, 11, 13, 17 };
       long[] pandigitalNumbers = MathUtils
@@ -1010,7 +1011,6 @@ public class PEExec {
             result += l;
          }
       }
-      System.out.println("Result: " + result);
       return from(result);
    }
 
@@ -1225,29 +1225,33 @@ public class PEExec {
 
    @PEProblem(problem = 50, description = "Which prime, below one-million, can be written as the sum of the most consecutive primes?")
    public PeResult problem50() {
-      List<Long> primeNumbers = PrimeUtils.getPrimeListBelowMax(1000000);
-      long maxPrime = primeNumbers.get(primeNumbers.size() - 1);
-      int max = 0;
+      long[] primeNumbers = PrimeUtils.getPrimesBelowMax(1000000);
+      long limit = primeNumbers[primeNumbers.length - 1];
+      long[] addedPrimes = new long[primeNumbers.length + 1];
+      addedPrimes[0] = 0;
+      for (int i = 0; i < primeNumbers.length; ++i) {
+         addedPrimes[i + 1] = addedPrimes[i] + primeNumbers[i];
+      }
+
+      int currentConsecutive = 0;
       long result = 0;
 
-      for (int i = 0; i < primeNumbers.size(); ++i) {
-         int currentMax = 0;
-         long currentValue = 0;
-         for (int j = i; j < primeNumbers.size() && currentValue < maxPrime; j++) {
-            currentMax++;
-            currentValue += primeNumbers.get(j);
-            if (primeNumbers.contains(currentValue)) {
-               if (currentMax > max) {
-                  max = currentMax;
-                  result = currentValue;
-                  // System.out.println("Result: "+result+" with start: "+i+" and end "+j);
-               }
+      for (int i = currentConsecutive; i < addedPrimes.length; i++) {
+         for (int j = i - (currentConsecutive + 1); j >= 0; j--) {
+            if (addedPrimes[i] - addedPrimes[j] > limit) {
+               break;
+            }
+
+            if (Arrays.binarySearch(primeNumbers, addedPrimes[i]
+                  - addedPrimes[j]) >= 0) {
+               currentConsecutive = i - j;
+               result = addedPrimes[i] - addedPrimes[j];
             }
          }
       }
 
       System.out.println("Result: " + result);
-      return from(result);
+      return from(result, "With number of consecutive: " + currentConsecutive);
    }
 
    @PEProblem(problem = 51, description = "Find the smallest prime which, by replacing part of the number (not necessarily adjacent digits) with the same digit, is part of an eight prime value family.")
@@ -1388,7 +1392,8 @@ public class PEExec {
          expansionCount++;
          currentNumerator = denominator.multiply(two).add(numerator);
          currentDenominator = denominator.add(numerator);
-         if (MathUtils.compareNumberOfDigits(currentNumerator, currentDenominator) > 0) {
+         if (MathUtils.compareNumberOfDigits(currentNumerator,
+               currentDenominator) > 0) {
             resultCount++;
          }
          numerator = currentNumerator;

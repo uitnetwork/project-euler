@@ -14,37 +14,50 @@ public class Main {
          IllegalArgumentException, InvocationTargetException,
          InstantiationException {
 
-      if(args.length != 1) {
-         throw new RuntimeException("The class required on parameter as a number euler challenge");
+      if (args.length != 1) {
+         throw new RuntimeException(
+               "The class required on parameter as a number euler challenge");
       }
 
       int challengeNumber = Integer.valueOf(args[0]);
       Class<PEExec> peExec = PEExec.class;
       List<Method> methods = new ArrayList<Method>();
+
       for (Method method : peExec.getMethods()) {
          PEProblem annotation = method.getAnnotation(PEProblem.class);
          if (annotation != null && annotation.problem() == challengeNumber) {
             methods.add(method);
          }
       }
-      System.out.println("===================================================================");
-      System.out.println("===================================================================\n\n");
+      System.out
+            .println("===================================================================");
+      System.out
+            .println("===================================================================\n\n");
       System.out.println("There are " + methods.size()
             + " solutions for problem " + challengeNumber);
       PEExec instance = peExec.newInstance();
       for (Method method : methods) {
-         System.out.println("Executing " + method.getName() + " for problem "
-               + challengeNumber);
-         long start = System.currentTimeMillis();
+         PEProblem annotation = method.getAnnotation(PEProblem.class);
+         if (!annotation.skip()) {
+            System.out.println("Executing " + method.getName()
+                  + " for problem " + challengeNumber);
+            long start = System.currentTimeMillis();
 
-         method.invoke(instance);
+            method.invoke(instance);
 
-         long end = System.currentTimeMillis();
-         System.out.println("Finished problem " + challengeNumber + " using "
-               + method.getName() + " in " + (end - start) + " miliseconds");
+            long end = System.currentTimeMillis();
+            System.out.println("Finished problem " + challengeNumber
+                  + " using " + method.getName() + " in " + (end - start)
+                  + " miliseconds");
+         } else {
+            System.out.println("Skip " + method.getName() + " because: "
+                  + annotation.skipDescription());
+         }
       }
 
-      System.out.println("\n\n===================================================================");
-      System.out.println("===================================================================");
+      System.out
+            .println("\n\n===================================================================");
+      System.out
+            .println("===================================================================");
    }
 }

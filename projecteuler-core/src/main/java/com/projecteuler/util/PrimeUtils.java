@@ -1,7 +1,5 @@
 package com.projecteuler.util;
 
-import static java.util.stream.LongStream.rangeClosed;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.OptionalLong;
@@ -12,22 +10,26 @@ import java.util.stream.LongStream;
 public class PrimeUtils {
 
    // TODO: need refacter using sieve
-   public static boolean isPrime(long n) {
-      if (n < 2) {
-         return false;
-      }
-      if (n == 2)
+   public static boolean isPrime(long number) {
+      if (number == 2 || number == 3) {
          return true;
-      if (n % 2 == 0)
-         return false;
-      for (int i = 3; i * i <= n; i += 2) {
-         if (n % i == 0)
-            return false;
       }
+      if (number % 2 == 0 || number % 3 == 0 || number ==1) {
+         return false;
+      }
+      long start = 5;
+      int w = 2;
+      while (start * start <= number) {
+         if (number % start == 0) {
+            return false;
+         }
+         start += w;
+         w = 6 - w;
+      }
+
       return true;
    }
 
-   // TODO: need refacter using sieve
    public static long getNthPrime(int n) {
       if (n == 1)
          return 2;
@@ -37,15 +39,9 @@ public class PrimeUtils {
       return result.getAsLong();
    }
 
-   // TODO: need refacter using sieve
-   public static long sumPrimeNumbersBelow(int n) {
-      long result = 2;
-      for (int i = 3; i < n; i = i + 2) {
-         if (PrimeUtils.isPrime(i)) {
-            result += i;
-         }
-      }
-      return result;
+   public static long sumPrimeNumbersBelow(long number) {
+      long[] primes = getPrimesBelowMax(number);
+      return LongStream.of(primes).sum();
    }
 
    // TODO: need refactor INDEED
@@ -64,17 +60,15 @@ public class PrimeUtils {
       return count;
    }
 
-   // TODO: need refacter using sieve
-   public static long[] getPrimesBelowMaxInclusive(long max) {
-      return rangeClosed(2, max).filter(PrimeUtils::isPrime).toArray();
+   public static long[] getPrimesBelowMax(long max) {
+      return LongStream.range(2, max).filter(PrimeUtils::isPrime).toArray();
    }
 
-   // TODO: need refacter using sieve
    public static List<Long> getPrimeListBelowMax(long max) {
       Supplier<List<Long>> supplier = ArrayList<Long>::new;
       ObjLongConsumer<List<Long>> longConsumer = (list, l) -> list.add(l);
-      return rangeClosed(2, max).filter(PrimeUtils::isPrime).collect(supplier,
-            longConsumer, null);
+      return LongStream.range(2, max).filter(PrimeUtils::isPrime)
+            .collect(supplier, longConsumer, null);
    }
 
    // TODO: need refacter using sieve

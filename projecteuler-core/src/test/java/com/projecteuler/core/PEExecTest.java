@@ -33,13 +33,18 @@ public class PEExecTest {
       for (Method method : peExec.getMethods()) {
          PEProblem annotation = method.getAnnotation(PEProblem.class);
          if (annotation != null) {
-            int challengeNumber = annotation.problem();
-            if (!peExecMap.containsKey(challengeNumber)) {
-               List<Method> methods = new ArrayList<Method>();
-               methods.add(method);
-               peExecMap.put(challengeNumber, methods);
+            if (!annotation.skip()) {
+               int challengeNumber = annotation.problem();
+               if (!peExecMap.containsKey(challengeNumber)) {
+                  List<Method> methods = new ArrayList<Method>();
+                  methods.add(method);
+                  peExecMap.put(challengeNumber, methods);
+               } else {
+                  peExecMap.get(challengeNumber).add(method);
+               }
             } else {
-               peExecMap.get(challengeNumber).add(method);
+               System.out.println("Skip " + method.getName() + " because: "
+                     + annotation.skipDescription());
             }
          }
       }
