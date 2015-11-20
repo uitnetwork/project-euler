@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.projecteuler.annotation.PEProblem;
 import com.projecteuler.core.PEExec;
+import com.projecteuler.core.PeResult;
 
 public class Main {
 
@@ -43,12 +44,14 @@ public class Main {
                   + " for problem " + challengeNumber);
             long start = System.currentTimeMillis();
 
-            method.invoke(instance);
+            PeResult result = (PeResult) method.invoke(instance);
 
             long end = System.currentTimeMillis();
             System.out.println("Finished problem " + challengeNumber
                   + " using " + method.getName() + " in " + (end - start)
-                  + " miliseconds");
+                  + " miliseconds with following result: ");
+            System.out.println("Return: " + result.getResult()
+                  + " with detail: " + result.getDetail());
          } else {
             System.out.println("Skip " + method.getName() + " because: "
                   + annotation.skipDescription());

@@ -69,7 +69,6 @@ public class PEExec {
          holder.setValue(n);
          return old + n;
       }).filter(n -> n > max).findFirst();
-      System.out.println("Result: " + result.getValue());
       return from(result.getValue());
    }
 
@@ -89,14 +88,12 @@ public class PEExec {
          a = b;
          b = h;
       }
-      System.out.println("Result: " + result);
       return from(result);
    }
 
    @PEProblem(problem = 3, description = "What is the largest prime factor of the number 600851475143?")
    public PeResult problem3() {
       long result = getLargestPrimeFactor(600851475143L);
-      System.out.println("Result: " + result);
       return from(result);
    }
 
@@ -120,14 +117,12 @@ public class PEExec {
             }
          }
       }
-      System.out.println("Result: " + result);
       return from(result);
    }
 
    @PEProblem(problem = 5, description = "What is the smallest positive number that is evenly divisible by all of the numbers from 1 to 20?")
    public PeResult problem5_1() {
       long result = lcdToN(20);
-      System.out.println("Result: " + result);
       return from(result);
 
    }
@@ -135,7 +130,6 @@ public class PEExec {
    @PEProblem(problem = 5, description = "What is the smallest positive number that is evenly divisible by all of the numbers from 1 to 20?")
    public PeResult problem5_2() {
       long result = lcdToNUsingPrime(20);
-      System.out.println("Result: " + result);
       return from(result);
    }
 
@@ -143,7 +137,6 @@ public class PEExec {
    public PeResult problem6() {
       long n = 100;
       long result = Math.abs(sumSquaresToN(n) - (long) Math.pow(sumToN(n), 2));
-      System.out.println("Result: " + result);
       return from(result);
    }
 
@@ -194,7 +187,6 @@ public class PEExec {
       };
       OptionalLong optionalLong = result.stream().mapToLong(toLongFunction)
             .max();
-      System.out.println("Result: " + optionalLong.getAsLong());
       return from(optionalLong.getAsLong());
    }
 
@@ -212,14 +204,12 @@ public class PEExec {
             }
          }
       }
-      System.out.println("Result: " + result);
       return from(result);
    }
 
    @PEProblem(problem = 10, description = "Find the sum of all the primes below two million")
    public PeResult problem10() {
       long result = PrimeUtils.sumPrimeNumbersBelow(2000000);
-      System.out.println("Result: " + result);
       return from(result);
 
    }
@@ -241,13 +231,11 @@ public class PEExec {
             break;
          }
       }
-      System.out.println("Result: " + number);
       return from(number);
    }
 
    @PEProblem(problem = 13, description = "Work out the first ten digits of the sum of the following one-hundred 50-digit numbers")
    public PeResult problem13() {
-      System.out.println("Result: " + 5537376230L);
       return from(5537376230L);
    }
 
@@ -278,8 +266,7 @@ public class PEExec {
             value = i;
          }
       }
-      System.out.println("Result: " + value + " with length: " + max);
-      return from(value);
+      return from(value, " Length: " + max);
    }
 
    @PEProblem(problem = 15, description = "How many such routes are there through a 20×20 grid?")
@@ -298,7 +285,6 @@ public class PEExec {
             arrays[i][j] = arrays[i][j + 1] + arrays[i + 1][j];
          }
       }
-      System.out.println("Result: " + arrays[0][0]);
       return from(arrays[0][0]);
    }
 
@@ -313,13 +299,11 @@ public class PEExec {
          sum += remainder.intValue();
          value = value.divide(BigInteger.TEN);
       }
-      System.out.println("Result: " + sum);
       return from(sum);
    }
 
    @PEProblem(problem = 17, description = "If all the numbers from 1 to 1000 (one thousand) inclusive were written out in words, how many letters would be used?")
    public PeResult problem17() {
-      System.out.println("Result: " + 21124);
       return from(21124);
    }
 
@@ -343,7 +327,6 @@ public class PEExec {
                   + Math.max(result[i + 1][j], result[i + 1][j + 1]);
          }
       }
-      System.out.println("Result: " + result[0][0]);
       return from(result[0][0]);
    }
 
@@ -359,7 +342,6 @@ public class PEExec {
          }
          from = from.with(TemporalAdjusters.next(DayOfWeek.SUNDAY));
       }
-      System.out.println("Result: " + count);
       return from(count);
    }
 
@@ -373,7 +355,6 @@ public class PEExec {
          sum += remainder.intValue();
          value = value.divide(BigInteger.TEN);
       }
-      System.out.println("Result: " + sum);
       return from(sum);
    }
 
@@ -397,7 +378,6 @@ public class PEExec {
             sum += i;
          }
       }
-      System.out.println("Result: " + sum);
       return from(sum);
    }
 
@@ -418,7 +398,6 @@ public class PEExec {
          result += i * MathUtils.getAlphabeticalValue(tmp);
          i++;
       }
-      System.out.println("Result: " + result);
       return from(result);
    }
 
@@ -454,7 +433,6 @@ public class PEExec {
          }
       }
 
-      System.out.println("Result: " + (total - sum));
       return from(total - sum);
    }
 
@@ -507,7 +485,6 @@ public class PEExec {
          list.remove(index);
       }
 
-      System.out.println("Result: " + result.toString());
       return from(Long.valueOf(result.toString()));
    }
 
@@ -541,7 +518,6 @@ public class PEExec {
          list.remove(index);
       }
 
-      System.out.println("Result: " + result.toString());
       return from(Long.valueOf(result.toString()));
    }
 
@@ -560,7 +536,6 @@ public class PEExec {
          cnt++;
          fib[i] = fib[(i + 1) % 3].add(fib[(i + 2) % 3]);
       }
-      System.out.println("Result: " + cnt);
       return from(cnt);
    }
 
@@ -582,8 +557,6 @@ public class PEExec {
             result = i;
          }
       }
-      System.out.println("Result: " + result + " with "
-            + currentLongestRecurring + " recurring numbers in decimal part!");
       return from(result);
    }
 
@@ -657,8 +630,6 @@ public class PEExec {
       }
       result -= arrays[center][center];
 
-      System.out.println("Result: " + result);
-
       return from(result);
 
    }
@@ -713,7 +684,6 @@ public class PEExec {
       int[] possibleCoins = { 1, 2, 5, 10, 20, 50, 100, 200 };
       int total = 200;
       long result = CoinUtils.calculatePossibleCoins(possibleCoins, total);
-      System.out.println("Result: " + result);
 
       return from(result);
    }
@@ -756,7 +726,6 @@ public class PEExec {
             result += temp;
          }
       }
-      System.out.println("Result: " + result);
       return from(result);
    }
 
@@ -783,10 +752,9 @@ public class PEExec {
             }
          }
       }
-      System.out.println("Result: " + (count + 1)); // add 1 because we remove 2
-                                                    // which is always correct
 
-      return from(count + 1);
+      return from(count + 1); // add 1 because we remove 2 which is always
+                              // correct
    }
 
    @PEProblem(problem = 36, description = "Find the sum of all numbers, less than one million, which are palindromic in base 10 and base 2")
@@ -796,7 +764,6 @@ public class PEExec {
       int result = IntStream.rangeClosed(1, max)
             .filter(MathUtils::isPalindromeNumber)
             .filter(n -> MathUtils.isPalindromeNumberInBase(n, base)).sum();
-      System.out.println("Result: " + result);
       return from(result);
    }
 
@@ -808,7 +775,6 @@ public class PEExec {
             .filter(PrimeUtils::isPrime).filter(MathUtils::isTruncatablePrime)
             .limit(limit).peek(System.out::println).sum();
 
-      System.out.println("Result: " + result);
       return from(result);
    }
 
@@ -824,7 +790,6 @@ public class PEExec {
             break;
          }
       }
-      System.out.println("Result: "+result);
       return from(result);
    }
 
@@ -864,8 +829,6 @@ public class PEExec {
          }
       }
 
-      System.out.println("Result: " + finalResult
-            + " with number of solutions: " + resultArray[finalResult]);
       return from(finalResult);
    }
 
@@ -913,7 +876,6 @@ public class PEExec {
          }
       }
 
-      System.out.println("Result: " + result);
       return from(result);
    }
 
@@ -932,7 +894,6 @@ public class PEExec {
          result *= Integer.valueOf("" + builder.charAt(indexes[i]));
       }
 
-      System.out.println("Result: " + result);
       return from(result);
    }
 
@@ -940,14 +901,10 @@ public class PEExec {
    public PeResult problem41() {
       // only 1-4 or 1-7 is possible for prime
       long first = 1234567;
-      long second = 1234;
       Set<Long> all7Pandigital = MathUtils.getAllPermutationsOfNumber(first);
       Optional<Long> optional = all7Pandigital.stream()
             .filter(PrimeUtils::isPrime).max(Long::compare);
-      if (!optional.isPresent()) {
-         System.out.println("Should not come to second: " + second);
-      }
-      System.out.println("Result: " + optional.get());
+
       return from(optional.get());
    }
 
@@ -980,7 +937,6 @@ public class PEExec {
             count++;
          }
       }
-      System.out.println("Result: " + count);
       return from(count);
    }
 
@@ -1054,7 +1010,6 @@ public class PEExec {
          }
       }
 
-      System.out.println("Result: " + result);
       return from(result);
    }
 
@@ -1065,7 +1020,6 @@ public class PEExec {
             .map(l -> l * (l + 1) / 2).filter(MathUtils::isPentagonalNumber)
             .filter(MathUtils::isHexagonalNumber).findFirst();
 
-      System.out.println("Result: " + result.getAsLong());
       return from(result.getAsLong());
    }
 
@@ -1089,7 +1043,6 @@ public class PEExec {
             return true;
          }
       }).findFirst();
-      System.out.println("Result: " + result.getAsLong());
       return from(result.getAsLong());
    }
 
@@ -1153,7 +1106,6 @@ public class PEExec {
          }
       }
 
-      System.out.println("Result: " + result);
       return from(result);
    }
 
@@ -1172,7 +1124,6 @@ public class PEExec {
          result += remain;
          result %= lastDigits;
       }
-      System.out.println("Result: " + result);
       return from(result);
    }
 
@@ -1182,7 +1133,6 @@ public class PEExec {
       for (int i = 1; i <= 1000; i++)
          bi = bi.add(new BigInteger("" + i).pow(i));
       String result = bi.toString();
-      System.out.println("Result: " + result.substring(result.length() - 10));
       return from(Long.valueOf(result.substring(result.length() - 10)));
    }
 
@@ -1216,7 +1166,6 @@ public class PEExec {
             }
          }
       }
-      System.out.println("Result: " + result.toString());
       return from(Long.valueOf(result.toString()));
    }
 
@@ -1247,7 +1196,6 @@ public class PEExec {
          }
       }
 
-      System.out.println("Result: " + result);
       return from(result, "With number of consecutive: " + currentConsecutive);
    }
 
@@ -1262,7 +1210,6 @@ public class PEExec {
    public PeResult problem52() {
       OptionalLong result = LongStream.range(1, 10000000)
             .filter(MathUtils::sameDigits6Times).findFirst();
-      System.out.println("Result: " + result.getAsLong());
       return from(result.getAsLong());
    }
 
@@ -1278,7 +1225,6 @@ public class PEExec {
             }
          }
       }
-      System.out.println("Result: " + result);
       return from(result);
    }
 
@@ -1300,7 +1246,6 @@ public class PEExec {
          }
       }
       input.close();
-      System.out.println("Result: " + count);
       return from(count);
    }
 
@@ -1328,7 +1273,6 @@ public class PEExec {
          }
       }
 
-      System.out.println("Result: " + count);
       return from(count);
    }
 
@@ -1352,7 +1296,6 @@ public class PEExec {
                   }
                   return maxDigitalSum;
                }).max();
-      System.out.println("Result: " + optionalLong.getAsLong());
       return from(optionalLong.getAsLong());
    }
 
@@ -1397,7 +1340,6 @@ public class PEExec {
          denominator = currentDenominator;
       }
 
-      System.out.println("Result: " + resultCount);
       return from(resultCount);
    }
 }
