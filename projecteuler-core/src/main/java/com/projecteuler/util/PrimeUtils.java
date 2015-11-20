@@ -62,10 +62,6 @@ public class PrimeUtils {
    public static long[] getPrimesBelowMax(long max) {
       return LongStream.range(2, max).filter(PrimeUtils::isPrime).toArray();
    }
-   
-   public static long[] getPrimesBelowMaxNew(long max) {
-      return LongStream.range(2, max).filter(PrimeUtils::isPrime).toArray();
-   }
 
    public static List<Long> getPrimeListBelowMax(long max) {
       Supplier<List<Long>> supplier = ArrayList<Long>::new;
