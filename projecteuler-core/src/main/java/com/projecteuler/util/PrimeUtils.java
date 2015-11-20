@@ -9,12 +9,11 @@ import java.util.stream.LongStream;
 
 public class PrimeUtils {
 
-   // TODO: need refacter using sieve
    public static boolean isPrime(long number) {
       if (number == 2 || number == 3) {
          return true;
       }
-      if (number % 2 == 0 || number % 3 == 0 || number ==1) {
+      if (number % 2 == 0 || number % 3 == 0 || number <= 1) {
          return false;
       }
       long start = 5;
@@ -61,6 +60,10 @@ public class PrimeUtils {
    }
 
    public static long[] getPrimesBelowMax(long max) {
+      return LongStream.range(2, max).filter(PrimeUtils::isPrime).toArray();
+   }
+   
+   public static long[] getPrimesBelowMaxNew(long max) {
       return LongStream.range(2, max).filter(PrimeUtils::isPrime).toArray();
    }
 

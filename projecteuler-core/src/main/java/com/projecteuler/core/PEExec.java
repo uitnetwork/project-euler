@@ -2,9 +2,9 @@ package com.projecteuler.core;
 
 import static com.projecteuler.core.PeResult.from;
 import static com.projecteuler.util.MathUtils.getLargestPrimeFactor;
-import static com.projecteuler.util.MathUtils.lcdToNUsingPrime;
 import static com.projecteuler.util.MathUtils.isPalindromeNumber;
 import static com.projecteuler.util.MathUtils.lcdToN;
+import static com.projecteuler.util.MathUtils.lcdToNUsingPrime;
 import static com.projecteuler.util.MathUtils.sumSquaresToN;
 import static com.projecteuler.util.MathUtils.sumToN;
 
@@ -24,7 +24,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.OptionalInt;
 import java.util.OptionalLong;
 import java.util.Set;
 import java.util.TreeMap;
@@ -721,16 +720,10 @@ public class PEExec {
 
    @PEProblem(problem = 32, description = "Find the sum of all products whose multiplicand/multiplier/product identity can be written as a 1 through 9 pandigital")
    public PeResult problem32() {
-      long[] result = MathUtils.getListOfPandigitalNumbers();
-      Set<Long> all = new HashSet<>();
-      for (long number : result) {
-         List<Long> temp = MathUtils.getProductOfPandigital(number);
-         all.addAll(temp);
-      }
-
-      Long total = all.stream().reduce(0l, Long::sum);
-      System.out.println("Final result: " + total);
-      return from(total);
+      long[] allPandigitalNumbers = MathUtils.getListOfPandigitalNumbers();
+      long result = LongStream.of(allPandigitalNumbers)
+            .map(l -> MathUtils.getProductOfPandigital(l)).distinct().sum();
+      return from(result);
    }
 
    @PEProblem(problem = 33, description = "If the product of these four fractions is given in its lowest common terms, find the value of the denominator")
@@ -821,14 +814,18 @@ public class PEExec {
 
    @PEProblem(problem = 38, description = "What is the largest 1 to 9 pandigital 9-digit number that can be formed as the concatenated product of an integer with (1,2, ... , n) where n > 1")
    public PeResult problem38() {
-      int max = 918273645; // because the challenge already gave this number
-      int division = 100002;
-      OptionalInt optionalInt = IntStream.rangeClosed(max + 1, 987654322)
-            .filter(MathUtils::isPandigitalNumber)
-            .filter(n -> n % division == 0).peek(System.out::println).max();
-
-      System.out.println("Result: " + optionalInt.getAsInt());
-      return from(optionalInt.getAsInt());
+      long result = 0;
+      // after some investigation, we can see that the number must begin with 9,
+      // then the number must have 4 digits otherwise we can not create 9 digits
+      final long multiplier = 100000;
+      for (long l = 9387; l >= 9234; l--) {
+         result = l * multiplier + l * 2;
+         if (MathUtils.isPandigitalNumber(result)) {
+            break;
+         }
+      }
+      System.out.println("Result: "+result);
+      return from(result);
    }
 
    @PEProblem(problem = 39, description = "For which value of p ≤ 1000, is the number of solutions maximised?")

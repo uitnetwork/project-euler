@@ -360,14 +360,14 @@ public class MathUtils {
 
    // TODO: should be refactor + unit test
    public static final long[] getListOfPandigitalNumbers() {
-      long[] result = LongStream.rangeClosed(123456789, 987654321)
-            .filter(MathUtils::isPandigitalNumber).toArray();
+      long[] result = LongStream.iterate(123456789, l -> l + 9)
+            .filter(MathUtils::isPandigitalNumber).limit(362880).toArray();
       return result;
    }
 
    // TODO: should be refactor + unit test
-   public static final List<Long> getProductOfPandigital(long number) {
-      List<Long> result = new ArrayList<>();
+   public static final long getProductOfPandigital(long number) {
+      long result = 0;
       int end = 10000;
       long suffix = number % end;
       long remain = number / end;
@@ -376,8 +376,8 @@ public class MathUtils {
          long operand1 = remain / start;
          long operand2 = remain % start;
          if (operand1 * operand2 == suffix) {
-            System.out.println(suffix + " in " + number);
-            result.add(suffix);
+            result = suffix;
+            break;
          }
          start *= 10;
       }
