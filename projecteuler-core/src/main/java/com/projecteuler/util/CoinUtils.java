@@ -29,14 +29,6 @@ public class CoinUtils {
          }
       }
 
-      for (int i = 0; i <= total; ++i) {
-         for (int j = 0; j <= possibleLength; ++j) {
-            System.out.print(result[i][j]);
-            System.out.print("   ");
-         }
-         System.out.println();
-      }
-
       return result[total][possibleLength];
    }
 
