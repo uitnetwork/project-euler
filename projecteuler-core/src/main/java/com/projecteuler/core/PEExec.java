@@ -1329,4 +1329,29 @@ public class PEExec {
 
       return from(resultCount);
    }
+
+   @PEProblem(problem = 58, description = "What is the side length of the square spiral for which the ratio of primes along both diagonals first falls below 10%?")
+   public PeResult problem58() {
+      long currentSideLength = 1;
+      long newSideLength;
+      long totalNumber = 1;
+      long totalPrime = 0;
+      double currentRate = 100.0;
+      double expectedRate = 10.0;
+      while (currentRate >= expectedRate) {
+         newSideLength = currentSideLength + 2;
+         for (long l = currentSideLength; l < currentSideLength + 4; ++l) {
+            long number = 1 + l * (newSideLength - 1);
+            if (PrimeUtils.isPrime(number)) {
+               totalPrime++;
+            }
+
+            totalNumber++;
+         }
+          currentRate = 100.0 * totalPrime / totalNumber;
+         currentSideLength = newSideLength;
+      }
+      return from(currentSideLength);
+
+   }
 }
