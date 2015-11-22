@@ -28,6 +28,23 @@ public class PrimeUtils {
 
       return true;
    }
+   
+   public static boolean isPrimeB2(long n) {
+      if (n <= 1) return false;
+      if (n == 2) return true;
+      if (n % 2 == 0) return false;
+      if (n < 9) return true;
+      if (n % 3 == 0) return false;
+      
+      long counter = 5;
+      while ((counter * counter) <= n) {
+          if (n % counter == 0) return false;
+          if (n % (counter + 2) == 0) return false;
+          counter += 6;
+      }
+
+      return true;
+  }
 
    public static long getNthPrime(int n) {
       if (n == 1)
