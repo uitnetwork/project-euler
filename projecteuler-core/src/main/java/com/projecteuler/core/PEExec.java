@@ -1348,10 +1348,71 @@ public class PEExec {
 
             totalNumber++;
          }
-          currentRate = 100.0 * totalPrime / totalNumber;
+         currentRate = 100.0 * totalPrime / totalNumber;
          currentSideLength = newSideLength;
       }
       return from(currentSideLength);
+   }
 
+   @PEProblem(problem = 59, description = " Find the sum of the ASCII values in the original text")
+   public PeResult problem59() throws IOException {
+      try (InputStream input = PEExec.class
+            .getResourceAsStream("/input/p059_cipher.txt")) {
+         BufferedReader reader = new BufferedReader(
+               new InputStreamReader(input));
+         String cipherMessage = reader.readLine();
+         String[] asciiValues = cipherMessage.split(",");
+         int[] intValue = new int[asciiValues.length];
+         for (int i = 0; i < asciiValues.length; ++i) {
+            intValue[i] = Integer.parseInt(asciiValues[i]);
+         }
+         int[] password = { 'a', 'a', 'a' };
+         int[] result = new int[3];
+         int length = 'z' - 'a';
+         int decipherChar = 0;
+         int remain = 0;
+         boolean found = false;
+         for (int i = 0; !found && i <= length; ++i) {
+            for (int j = 0; !found && j <= length; ++j) {
+               for (int k = 0; !found && k <= length; ++k) {
+                  StringBuilder builder = new StringBuilder();
+                  for (int index = 0; index < asciiValues.length; index++) {
+                     remain = index % 3;
+                     switch (remain) {
+                     case 0:
+                        decipherChar = (password[0] + i) ^ intValue[index];
+                        builder.append((char) decipherChar);
+                        break;
+                     case 1:
+                        decipherChar = (password[1] + j) ^ intValue[index];
+                        builder.append((char) decipherChar);
+                        break;
+                     case 2:
+                        decipherChar = (password[2] + k) ^ intValue[index];
+                        builder.append((char) decipherChar);
+                        break;
+                     }
+                  }
+                  String str = builder.toString().toLowerCase();
+                  if (str.contains("the") && str.contains("be")
+                        && str.contains("to") && str.contains("of")
+                        && str.contains("and")) {
+                     result[0] = password[0] + i;
+                     result[1] = password[1] + j;
+                     result[2] = password[2] + k;
+                     found = true;
+                  }
+               }
+            }
+         }
+
+         long sum = 0;
+         for (int i = 0; i < asciiValues.length; ++i) {
+            remain = i % 3;
+            decipherChar = result[remain] ^ intValue[i];
+            sum += decipherChar;
+         }
+         return from(sum);
+      }
    }
 }
