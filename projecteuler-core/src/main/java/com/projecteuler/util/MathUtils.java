@@ -527,6 +527,18 @@ public class MathUtils {
       return (int) Math.log10(number);
    }
 
+   public static final long get10BaseNumber(long number) {
+      long result = 10;
+      while (number > result) {
+         result *= 10;
+      }
+      return result;
+   }
+
+   public static final long appendNumber(long number1, long number2) {
+      return number1 * get10BaseNumber(number2) + number2;
+   }
+
    // TODO. Need refactor + unit test
    public static final boolean isCombinationGreaterThan(int n, int r, int power) {
       double result = 0;
@@ -554,5 +566,9 @@ public class MathUtils {
 
    private static final void validateZeroOrPositive(long number) {
       Assert.isTrue(number >= 0, "n should be zero or positive");
+   }
+
+   public static void main(String[] args) {
+      System.out.println(getExponentOf10(9));
    }
 }

@@ -1415,4 +1415,72 @@ public class PEExec {
          return from(sum);
       }
    }
+
+   @PEProblem(problem = 60, description = "Find the lowest sum for a set of five primes for which any two primes concatenate to produce another prime.")
+   public PeResult problem60() {
+      long maxPrime = 10000; // brute-force, only found out after get anwser
+      long[] primeArray = PrimeUtils.getPrimesBelowMax(maxPrime);
+      long result = Long.MAX_VALUE;
+      for (int i = 0; i < primeArray.length && primeArray[i] < result; ++i) {
+         if (primeArray[i] > result) {
+            break;
+         }
+         for (int j = i + 1; j < primeArray.length && primeArray[j] < result; j++) {
+            if (primeArray[i] + primeArray[j] > result) {
+               break;
+            }
+            if (PrimeUtils.isAppendPrime(primeArray[i], primeArray[j])) {
+               for (int k = j + 1; k < primeArray.length
+                     && primeArray[k] < result; ++k) {
+                  if (primeArray[i] + primeArray[j] + primeArray[k] > result) {
+                     break;
+                  }
+                  if (PrimeUtils.isAppendPrime(primeArray[i], primeArray[k])
+                        && PrimeUtils.isAppendPrime(primeArray[j],
+                              primeArray[k])) {
+                     for (int l = k + 1; l < primeArray.length
+                           && primeArray[l] < result; ++l) {
+                        if (primeArray[i] + primeArray[j] + primeArray[k]
+                              + primeArray[l] > result) {
+                           break;
+                        }
+                        if (PrimeUtils.isAppendPrime(primeArray[i],
+                              primeArray[l])
+                              && PrimeUtils.isAppendPrime(primeArray[j],
+                                    primeArray[l])
+                              && PrimeUtils.isAppendPrime(primeArray[k],
+                                    primeArray[l])) {
+                           for (int m = l + 1; m < primeArray.length
+                                 && primeArray[m] < result; ++m) {
+                              if (primeArray[i] + primeArray[j] + primeArray[k]
+                                    + primeArray[l] + primeArray[m] > result) {
+                                 break;
+                              }
+                              if (PrimeUtils.isAppendPrime(primeArray[i],
+                                    primeArray[m])
+                                    && PrimeUtils.isAppendPrime(primeArray[j],
+                                          primeArray[m])
+                                    && PrimeUtils.isAppendPrime(primeArray[k],
+                                          primeArray[m])
+                                    && PrimeUtils.isAppendPrime(primeArray[l],
+                                          primeArray[m])) {
+                                 long sum = primeArray[i] + primeArray[j]
+                                       + primeArray[k] + primeArray[l]
+                                       + primeArray[m];
+                                 if (sum < result) {
+                                    result = sum;
+                                 }
+                              }
+                           }
+
+                        }
+                     }
+                  }
+               }
+            }
+         }
+      }
+
+      return from(result, "What a brute-force!");
+   }
 }
