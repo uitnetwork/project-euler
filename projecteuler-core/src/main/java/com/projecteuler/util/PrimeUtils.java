@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.OptionalLong;
 import java.util.function.ObjLongConsumer;
 import java.util.function.Supplier;
+import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 
 public class PrimeUtils {
@@ -91,6 +92,10 @@ public class PrimeUtils {
 
    public static long[] getPrimesBelowMax(long max) {
       return LongStream.range(2, max).filter(PrimeUtils::isPrime).toArray();
+   }
+
+   public static int[] getPrimesBelowMax(int max) {
+      return IntStream.range(2, max).filter(PrimeUtils::isPrime).toArray();
    }
 
    public static List<Long> getPrimeListBelowMax(long max) {

@@ -1158,7 +1158,7 @@ public class PEExec {
 
    @PEProblem(problem = 50, description = "Which prime, below one-million, can be written as the sum of the most consecutive primes?")
    public PeResult problem50() {
-      long[] primeNumbers = PrimeUtils.getPrimesBelowMax(1000000);
+      long[] primeNumbers = PrimeUtils.getPrimesBelowMax(1000000L);
       long limit = primeNumbers[primeNumbers.length - 1];
       long[] addedPrimes = new long[primeNumbers.length + 1];
       addedPrimes[0] = 0;
@@ -1416,7 +1416,7 @@ public class PEExec {
       }
    }
 
-   @PEProblem(problem = 60, description = "Find the lowest sum for a set of five primes for which any two primes concatenate to produce another prime.")
+   @PEProblem(problem = 60, description = "Find the lowest sum for a set of five primes for which any two primes concatenate to produce another prime.",skip=true,skipDescription="Another solution is provided. This only be served as a reference of how stupid I'm")
    public PeResult problem60() {
       long maxPrime = 10000; // brute-force, only found out after get anwser
       long[] primeArray = PrimeUtils.getPrimesBelowMax(maxPrime);
@@ -1482,5 +1482,84 @@ public class PEExec {
       }
 
       return from(result, "What a brute-force!");
+   }
+
+   @PEProblem(problem = 60, description = "Find the lowest sum for a set of five primes for which any two primes concatenate to produce another prime.")
+   public PeResult problem60_2() {
+      int maxPrime = 10000;
+      int[] primeArray = PrimeUtils.getPrimesBelowMax(maxPrime);
+      int last = primeArray[primeArray.length - 1];
+      boolean[][] appendPrimeChecks = new boolean[last+1][last+1];
+      for (int i = 0; i < primeArray.length; ++i) {
+         for (int j = 0; j < primeArray.length; ++j) {
+            if (PrimeUtils.isAppendPrime(primeArray[i], primeArray[j])) {
+               appendPrimeChecks[primeArray[i]][primeArray[j]] = true;
+               appendPrimeChecks[primeArray[j]][primeArray[i]] = true;
+            }
+         }
+      }
+
+      System.out.println("Start"+System.currentTimeMillis());
+      int result = Integer.MAX_VALUE;
+      for (int i = 0; i < primeArray.length && primeArray[i] < result; ++i) {
+         if (5 * primeArray[i] > result) {
+            break;
+         }
+
+         // find second
+         for (int j = i + 1; j < primeArray.length && primeArray[j] < result; j++) {
+            if (primeArray[i] + 4 * primeArray[j] > result) {
+               break;
+            }
+            if (appendPrimeChecks[primeArray[i]][primeArray[j]]) {
+               // find third
+               for (int k = j + 1; k < primeArray.length
+                     && primeArray[k] < result; ++k) {
+                  if (primeArray[i] + primeArray[j] + 3 * primeArray[k] > result) {
+                     break;
+                  }
+                  if (appendPrimeChecks[primeArray[i]][primeArray[k]]
+                        && appendPrimeChecks[primeArray[j]][primeArray[k]]) {
+                     // find fouth
+                     for (int l = k + 1; l < primeArray.length
+                           && primeArray[l] < result; ++l) {
+                        if (primeArray[i] + primeArray[j] + primeArray[k] + 2
+                              * primeArray[l] > result) {
+                           break;
+                        }
+                        if (appendPrimeChecks[primeArray[i]][primeArray[l]]
+                              && appendPrimeChecks[primeArray[j]][primeArray[l]]
+                              && appendPrimeChecks[primeArray[k]][primeArray[l]]) {
+                           // find fifth
+                           for (int m = l + 1; m < primeArray.length
+                                 && primeArray[m] < result; ++m) {
+                              if (primeArray[i] + primeArray[j] + primeArray[k]
+                                    + primeArray[l] + primeArray[m] > result) {
+                                 break;
+                              }
+
+                              if (appendPrimeChecks[primeArray[i]][primeArray[m]]
+                                    && appendPrimeChecks[primeArray[j]][primeArray[m]]
+                                    && appendPrimeChecks[primeArray[k]][primeArray[m]]
+                                    && appendPrimeChecks[primeArray[l]][primeArray[m]]) {
+                                 int sum = primeArray[i] + primeArray[j]
+                                       + primeArray[k] + primeArray[l]
+                                       + primeArray[m];
+                                 if (sum < result) {
+                                    result = sum;
+                                 }
+                              }
+                           }
+
+                        }
+                     }
+                  }
+               }
+            }
+         }
+      }
+      System.out.println("End"+System.currentTimeMillis());
+      return from(result,
+            "Brute-force with cache to reduce the operation to call isAppendPrime");
    }
 }

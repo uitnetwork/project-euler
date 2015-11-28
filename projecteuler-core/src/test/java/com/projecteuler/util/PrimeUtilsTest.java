@@ -44,21 +44,31 @@ public class PrimeUtilsTest {
    }
 
    @Test
-   public void testGetPrimesBelowMax() {
+   public void testGetPrimesBelowMaxLong() {
       long[] primesBelow11 = { 2, 3, 5, 7 };
       long[] primesBelow20 = { 2, 3, 5, 7, 11, 13, 17, 19 };
       long[] primesBelow30 = { 2, 3, 5, 7, 11, 13, 17, 19, 23, 29 };
       long[] primeBelow100 = { 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41,
             43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97 };
 
-      assertArrayEquals(primesBelow11,
-            PrimeUtils.getPrimesBelowMax(11));
-      assertArrayEquals(primesBelow20,
-            PrimeUtils.getPrimesBelowMax(20));
-      assertArrayEquals(primesBelow30,
-            PrimeUtils.getPrimesBelowMax(30));
-      assertArrayEquals(primeBelow100,
-            PrimeUtils.getPrimesBelowMax(100));
+      assertArrayEquals(primesBelow11, PrimeUtils.getPrimesBelowMax(11l));
+      assertArrayEquals(primesBelow20, PrimeUtils.getPrimesBelowMax(20l));
+      assertArrayEquals(primesBelow30, PrimeUtils.getPrimesBelowMax(30l));
+      assertArrayEquals(primeBelow100, PrimeUtils.getPrimesBelowMax(100l));
+   }
+
+   @Test
+   public void testGetPrimesBelowMaxInt() {
+      int[] primesBelow11 = { 2, 3, 5, 7 };
+      int[] primesBelow20 = { 2, 3, 5, 7, 11, 13, 17, 19 };
+      int[] primesBelow30 = { 2, 3, 5, 7, 11, 13, 17, 19, 23, 29 };
+      int[] primeBelow100 = { 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41,
+            43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97 };
+
+      assertArrayEquals(primesBelow11, PrimeUtils.getPrimesBelowMax(11));
+      assertArrayEquals(primesBelow20, PrimeUtils.getPrimesBelowMax(20));
+      assertArrayEquals(primesBelow30, PrimeUtils.getPrimesBelowMax(30));
+      assertArrayEquals(primeBelow100, PrimeUtils.getPrimesBelowMax(100));
    }
 
    @Test
