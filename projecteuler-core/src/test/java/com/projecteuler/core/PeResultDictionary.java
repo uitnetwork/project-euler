@@ -65,6 +65,9 @@ public class PeResultDictionary {
       RESULT_DICTIONARY.put(55, 249L);
       RESULT_DICTIONARY.put(56, 972L);
       RESULT_DICTIONARY.put(57, 153L);
+      RESULT_DICTIONARY.put(58, 26241L);
+      RESULT_DICTIONARY.put(59, 107359L);
+      RESULT_DICTIONARY.put(60, 26033L);
    }
 
    public static final long getResult(Integer challengeNumber) {
