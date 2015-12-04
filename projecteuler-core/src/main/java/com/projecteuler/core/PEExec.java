@@ -18,6 +18,7 @@ import java.time.LocalDate;
 import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -30,12 +31,14 @@ import java.util.TreeMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.BiConsumer;
 import java.util.function.ToLongFunction;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 
 import com.projecteuler.annotation.PEProblem;
 import com.projecteuler.model.LongHolder;
 import com.projecteuler.poker.PokerHand;
+import com.projecteuler.util.ArrayUtils;
 import com.projecteuler.util.CoinUtils;
 import com.projecteuler.util.MathUtils;
 import com.projecteuler.util.PrimeUtils;
@@ -1416,7 +1419,7 @@ public class PEExec {
       }
    }
 
-   @PEProblem(problem = 60, description = "Find the lowest sum for a set of five primes for which any two primes concatenate to produce another prime.",skip=true,skipDescription="Another solution is provided. This only be served as a reference of how stupid I'm")
+   @PEProblem(problem = 60, description = "Find the lowest sum for a set of five primes for which any two primes concatenate to produce another prime.", skip = true, skipDescription = "Another solution is provided. This only be served as a reference of how stupid I'm")
    public PeResult problem60() {
       long maxPrime = 10000; // brute-force, only found out after get anwser
       long[] primeArray = PrimeUtils.getPrimesBelowMax(maxPrime);
@@ -1489,7 +1492,7 @@ public class PEExec {
       int maxPrime = 10000;
       int[] primeArray = PrimeUtils.getPrimesBelowMax(maxPrime);
       int last = primeArray[primeArray.length - 1];
-      boolean[][] appendPrimeChecks = new boolean[last+1][last+1];
+      boolean[][] appendPrimeChecks = new boolean[last + 1][last + 1];
       for (int i = 0; i < primeArray.length; ++i) {
          for (int j = 0; j < primeArray.length; ++j) {
             if (PrimeUtils.isAppendPrime(primeArray[i], primeArray[j])) {
@@ -1499,7 +1502,7 @@ public class PEExec {
          }
       }
 
-      System.out.println("Start"+System.currentTimeMillis());
+      System.out.println("Start" + System.currentTimeMillis());
       int result = Integer.MAX_VALUE;
       for (int i = 0; i < primeArray.length && primeArray[i] < result; ++i) {
          if (5 * primeArray[i] > result) {
@@ -1558,8 +1561,88 @@ public class PEExec {
             }
          }
       }
-      System.out.println("End"+System.currentTimeMillis());
+      System.out.println("End" + System.currentTimeMillis());
       return from(result,
             "Brute-force with cache to reduce the operation to call isAppendPrime");
+   }
+
+   @PEProblem(problem = 61, description = "Find the sum of the only ordered set of six cyclic 4-digit numbers for which each polygonal type: triangle, square, pentagonal, hexagonal, heptagonal, and octagonal, is represented by a different number in the set.")
+   public PeResult problem61() {
+      final long start = 1000;
+      final long end = 9999;
+      long[] allTriangles = MathUtils.rangeTriangle(start, end);
+      long[] allSquare = MathUtils.rangeSquare(start, end);
+      long[] allPenta = MathUtils.rangePentagonal(start, end);
+      long[] allHexa = MathUtils.rangeHexagonal(start, end);
+      long[] allHep = MathUtils.rangeHeptagonal(start, end);
+      long[] allOcta = MathUtils.rangeOctagonal(start, end);
+
+      long[] alls = ArrayUtils.mergeOrder(allTriangles, allSquare, allPenta);
+
+      for (int i = 0; i < alls.length; ++i) {
+         long prefix = alls[i] / 100;
+         long secondStart = (alls[i] % 100) * 100;
+         long secondEnd = secondStart + 99;
+         for (int j = 0; j < alls.length; ++j) {
+            if (alls[j] > secondEnd) {
+               break;
+            }
+            if (alls[j] > secondStart) {
+               long thirdStart = (alls[j] % 100) * 100;
+               long thirdEnd = thirdStart + 99;
+
+               for (int k = 0; k < alls.length; ++k) {
+                  if (alls[k] > thirdEnd) {
+                     break;
+                  }
+                  if (alls[k] > thirdStart) {
+                     long fourthStart = (alls[k] % 100) * 100;
+                     long fourthEnd = fourthStart + 99;
+
+                     for (int l = 0; l < alls.length; ++l) {
+                        if (alls[l] > fourthEnd) {
+                           break;
+                        }
+                        if (alls[l] > fourthStart) {
+                           long fifthStart = (alls[l] % 100) * 100;
+                           long fifthEnd = fifthStart + 99;
+
+                           for (int m = 0; m < alls.length; ++m) {
+                              if (alls[m] > fifthEnd) {
+                                 break;
+                              }
+                              if (alls[m] > fifthStart) {
+                                 long sixthStart = (alls[m] % 100) * 100;
+                                 long sixthEnd = sixthStart + 99;
+
+                                 for (int n = 0; n < alls.length; ++n) {
+                                    if (alls[n] > sixthEnd) {
+                                       break;
+                                    }
+                                    if (alls[n] > sixthStart) {
+                                       long suffix = alls[n] % 100;
+                                       if (prefix == suffix) {
+                                          System.out.println("Found: "
+                                                + alls[i] + " and " + alls[j]
+                                                + " and " + alls[k] + " and "
+                                                + alls[l] + " and " + alls[m]
+                                                + " and " + alls[n]);
+                                          System.out.println("Index: " + i
+                                                + ", " + j + "," + k + "," + l
+                                                + "," + m + "," + n);
+                                       }
+                                    }
+                                 }
+                              }
+                           }
+                        }
+                     }
+                  }
+               }
+            }
+         }
+      }
+      return null;
+
    }
 }

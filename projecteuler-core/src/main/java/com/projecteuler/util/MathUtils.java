@@ -568,7 +568,88 @@ public class MathUtils {
       Assert.isTrue(number >= 0, "n should be zero or positive");
    }
 
+   // P3,n=n(n+1)/2
+   public static final long[] rangeTriangle(long start, long end) {
+      double tempStartIndex = (-1 + Math.sqrt(1 + 8 * start)) / 2;
+      long startIndex = (long) tempStartIndex;
+      if (tempStartIndex != startIndex) {
+         startIndex++;
+      }
+      long endIndex = (long) (-1 + Math.sqrt(1 + 8 * end)) / 2;
+
+      return LongStream.rangeClosed(startIndex, endIndex)
+            .map(l -> l * (l + 1) / 2).toArray();
+   }
+
+   // P4,n=n^2
+   public static final long[] rangeSquare(long start, long end) {
+      double tempStartIndex =Math.sqrt(start);
+      long startIndex = (long) tempStartIndex;
+      if (tempStartIndex != startIndex) {
+         startIndex++;
+      }
+      long endIndex = (long) Math.sqrt(end);
+
+      return LongStream.rangeClosed(startIndex, endIndex)
+            .map(l -> l * l).toArray();
+   }
+
+   // P5,n=n(3n−1)/2
+   public static final long[] rangePentagonal(long start, long end) {
+      double tempStartIndex = (1 + Math.sqrt(1 + 24 * start)) / 6;
+      long startIndex = (long) tempStartIndex;
+      if (tempStartIndex != startIndex) {
+         startIndex++;
+      }
+      long endIndex = (long) (1 + Math.sqrt(1 + 24 * end)) / 6;
+
+      return LongStream.rangeClosed(startIndex, endIndex)
+            .map(l -> l * (3*l - 1) / 2).toArray();
+   }
+
+   // P6,n=n(2n−1)
+   public static final long[] rangeHexagonal(long start, long end) {
+      double tempStartIndex = (1 + Math.sqrt(1 + 8 * start)) / 4;
+      long startIndex = (long) tempStartIndex;
+      if (tempStartIndex != startIndex) {
+         startIndex++;
+      }
+      long endIndex = (long) (1 + Math.sqrt(1 + 8 * end)) / 4;
+
+      return LongStream.rangeClosed(startIndex, endIndex)
+            .map(l -> l * (2*l - 1)).toArray();
+   }
+
+   // P7,n=n(5n−3)/2
+   public static final long[] rangeHeptagonal(long start, long end) {
+      double tempStartIndex = (3 + Math.sqrt(9 + 40 * start)) / 10;
+      long startIndex = (long) tempStartIndex;
+      if (tempStartIndex != startIndex) {
+         startIndex++;
+      }
+      long endIndex = (long) (3 + Math.sqrt(9 + 40 * end)) / 10;
+
+      return LongStream.rangeClosed(startIndex, endIndex)
+            .map(l -> l * (5*l - 3)/2).toArray();
+   }
+
+   // P8,n=n(3n−2)
+   public static final long[] rangeOctagonal(long start, long end) {
+      double tempStartIndex = (2 + Math.sqrt(4 + 12 * start)) / 6;
+      long startIndex = (long) tempStartIndex;
+      if (tempStartIndex != startIndex) {
+         startIndex++;
+      }
+      long endIndex = (long) (2 + Math.sqrt(4 + 12 * end)) / 6;
+
+      return LongStream.rangeClosed(startIndex, endIndex)
+            .map(l -> l * (3*l - 2)).toArray();
+   }
+
    public static void main(String[] args) {
-      System.out.println(getExponentOf10(9));
+      long[] test = rangeOctagonal(2, 65);
+      for (int i = 0; i < test.length; ++i) {
+         System.out.println(test[i]);
+      }
    }
 }
