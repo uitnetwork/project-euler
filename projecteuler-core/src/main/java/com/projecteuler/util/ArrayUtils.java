@@ -8,14 +8,51 @@ import java.util.stream.Collectors;
 
 public class ArrayUtils {
 
-   public static final long[] mergeOrder(long[]... arrays) {
-      Set<Long> sets = new HashSet<Long>();
+   public static final int[] mergeOrder(int[]... arrays) {
+      Set<Integer> sets = new HashSet<Integer>();
       for (int i = 0; i < arrays.length; ++i) {
-         List<Long> list = Arrays.stream(arrays[i]).boxed()
+         List<Integer> list = Arrays.stream(arrays[i]).boxed()
                .collect(Collectors.toList());
          sets.addAll(list);
       }
-      return sets.stream().mapToLong(Long::intValue).sorted().toArray();
+      return sets.stream().mapToInt(Integer::intValue).sorted().toArray();
+   }
+
+   public static final boolean isDuplicated(long... numbers) {
+      boolean result = false;
+      Set<Long> longSet = new HashSet<Long>();
+      for (long number : numbers) {
+         if (longSet.contains(number)) {
+            result = true;
+            break;
+         }
+         longSet.add(number);
+      }
+      return result;
+   }
+
+   public static final int[] arrayContainsNumber(int number, int[]... arrays) {
+      int[] result = new int[arrays.length];
+      int count = 0;
+      for (int i = 0; i < arrays.length; ++i) {
+         if (Arrays.binarySearch(arrays[i], number) >= 0) {
+            result[count++] = i;
+         }
+      }
+      return Arrays.copyOf(result, count);
+   }
+
+   public static final int[] indexOfNumber(int number, int[]... arrays) {
+      int[] result = new int[arrays.length];
+      int count = 0;
+      int index=0;
+      for (int i = 0; i < arrays.length; ++i) {
+         if ((index=Arrays.binarySearch(arrays[i], number)) >= 0) {
+            result[count++] = index;
+         }
+      }
+
+      return Arrays.copyOf(result, count);
    }
 
 }

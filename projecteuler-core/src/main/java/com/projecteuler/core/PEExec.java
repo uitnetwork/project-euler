@@ -18,7 +18,6 @@ import java.time.LocalDate;
 import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -31,14 +30,13 @@ import java.util.TreeMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.BiConsumer;
 import java.util.function.ToLongFunction;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 
 import com.projecteuler.annotation.PEProblem;
+import com.projecteuler.cyclic.CyclicalFigurateNumber;
 import com.projecteuler.model.LongHolder;
 import com.projecteuler.poker.PokerHand;
-import com.projecteuler.util.ArrayUtils;
 import com.projecteuler.util.CoinUtils;
 import com.projecteuler.util.MathUtils;
 import com.projecteuler.util.PrimeUtils;
@@ -1568,81 +1566,29 @@ public class PEExec {
 
    @PEProblem(problem = 61, description = "Find the sum of the only ordered set of six cyclic 4-digit numbers for which each polygonal type: triangle, square, pentagonal, hexagonal, heptagonal, and octagonal, is represented by a different number in the set.")
    public PeResult problem61() {
-      final long start = 1000;
-      final long end = 9999;
-      long[] allTriangles = MathUtils.rangeTriangle(start, end);
-      long[] allSquare = MathUtils.rangeSquare(start, end);
-      long[] allPenta = MathUtils.rangePentagonal(start, end);
-      long[] allHexa = MathUtils.rangeHexagonal(start, end);
-      long[] allHep = MathUtils.rangeHeptagonal(start, end);
-      long[] allOcta = MathUtils.rangeOctagonal(start, end);
+      final int start = 1000;
+      final int end = 9999;
+      int[] allTriangles = MathUtils.rangeTriangle(start, end);
+      int[] allSquare = MathUtils.rangeSquare(start, end);
+      int[] allPenta = MathUtils.rangePentagonal(start, end);
+      int[] allHexa = MathUtils.rangeHexagonal(start, end);
+      int[] allHep = MathUtils.rangeHeptagonal(start, end);
+      int[] allOcta = MathUtils.rangeOctagonal(start, end);
 
-      long[] alls = ArrayUtils.mergeOrder(allTriangles, allSquare, allPenta);
+      int[][] allNumbers = { allTriangles, allSquare, allPenta, allHexa,
+            allHep, allOcta };
+      int[] numberIndexes = { MathUtils.indexTriangle(allTriangles[0]),
+            MathUtils.indexTriangle(allSquare[0]),
+            MathUtils.indexTriangle(allPenta[0]),
+            MathUtils.indexTriangle(allHexa[0]),
+            MathUtils.indexTriangle(allHep[0]),
+            MathUtils.indexTriangle(allOcta[0]) };
 
-      for (int i = 0; i < alls.length; ++i) {
-         long prefix = alls[i] / 100;
-         long secondStart = (alls[i] % 100) * 100;
-         long secondEnd = secondStart + 99;
-         for (int j = 0; j < alls.length; ++j) {
-            if (alls[j] > secondEnd) {
-               break;
-            }
-            if (alls[j] > secondStart) {
-               long thirdStart = (alls[j] % 100) * 100;
-               long thirdEnd = thirdStart + 99;
+      CyclicalFigurateNumber cyclicalFigurateNumber = new CyclicalFigurateNumber(
+            allNumbers, numberIndexes); // numberIndexes is not used because only 1 was found
 
-               for (int k = 0; k < alls.length; ++k) {
-                  if (alls[k] > thirdEnd) {
-                     break;
-                  }
-                  if (alls[k] > thirdStart) {
-                     long fourthStart = (alls[k] % 100) * 100;
-                     long fourthEnd = fourthStart + 99;
-
-                     for (int l = 0; l < alls.length; ++l) {
-                        if (alls[l] > fourthEnd) {
-                           break;
-                        }
-                        if (alls[l] > fourthStart) {
-                           long fifthStart = (alls[l] % 100) * 100;
-                           long fifthEnd = fifthStart + 99;
-
-                           for (int m = 0; m < alls.length; ++m) {
-                              if (alls[m] > fifthEnd) {
-                                 break;
-                              }
-                              if (alls[m] > fifthStart) {
-                                 long sixthStart = (alls[m] % 100) * 100;
-                                 long sixthEnd = sixthStart + 99;
-
-                                 for (int n = 0; n < alls.length; ++n) {
-                                    if (alls[n] > sixthEnd) {
-                                       break;
-                                    }
-                                    if (alls[n] > sixthStart) {
-                                       long suffix = alls[n] % 100;
-                                       if (prefix == suffix) {
-                                          System.out.println("Found: "
-                                                + alls[i] + " and " + alls[j]
-                                                + " and " + alls[k] + " and "
-                                                + alls[l] + " and " + alls[m]
-                                                + " and " + alls[n]);
-                                          System.out.println("Index: " + i
-                                                + ", " + j + "," + k + "," + l
-                                                + "," + m + "," + n);
-                                       }
-                                    }
-                                 }
-                              }
-                           }
-                        }
-                     }
-                  }
-               }
-            }
-         }
-      }
-      return null;
+      cyclicalFigurateNumber.sumCyclicNumbers(0);
+      return from(cyclicalFigurateNumber.getResult());
 
    }
 }

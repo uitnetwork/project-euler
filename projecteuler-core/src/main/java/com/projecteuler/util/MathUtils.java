@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.function.ObjLongConsumer;
+import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 
 import org.springframework.util.Assert;
@@ -399,6 +400,21 @@ public class MathUtils {
       return hasEvenDigit;
    }
 
+   public static final boolean hasZero(long number) {
+      validateZeroOrPositive(number);
+
+      boolean hasZero = false;
+      while (number > 0) {
+         long digit = number % 10;
+         if (digit == 0) {
+            hasZero = true;
+            break;
+         }
+         number /= 10;
+      }
+      return hasZero;
+   }
+
    // TODO: should be refactor + unit test
    public static Set<Long> getAllPermutationsOfNumber(long value) {
       Set<String> allPermutations = getAllPermutationsOfString(value + "");
@@ -569,87 +585,121 @@ public class MathUtils {
    }
 
    // P3,n=n(n+1)/2
-   public static final long[] rangeTriangle(long start, long end) {
+   public static final int[] rangeTriangle(int start, int end) {
       double tempStartIndex = (-1 + Math.sqrt(1 + 8 * start)) / 2;
-      long startIndex = (long) tempStartIndex;
+      int startIndex = (int) tempStartIndex;
       if (tempStartIndex != startIndex) {
          startIndex++;
       }
-      long endIndex = (long) (-1 + Math.sqrt(1 + 8 * end)) / 2;
+      int endIndex = (int) (-1 + Math.sqrt(1 + 8 * end)) / 2;
 
-      return LongStream.rangeClosed(startIndex, endIndex)
+      return IntStream.rangeClosed(startIndex, endIndex)
             .map(l -> l * (l + 1) / 2).toArray();
    }
 
+   public static final int indexTriangle(int number) {
+      return (int) ((-1 + Math.sqrt(1 + 8 * number)) / 2);
+   }
+
    // P4,n=n^2
-   public static final long[] rangeSquare(long start, long end) {
-      double tempStartIndex =Math.sqrt(start);
-      long startIndex = (long) tempStartIndex;
+   public static final int[] rangeSquare(int start, int end) {
+      double tempStartIndex = Math.sqrt(start);
+      int startIndex = (int) tempStartIndex;
       if (tempStartIndex != startIndex) {
          startIndex++;
       }
-      long endIndex = (long) Math.sqrt(end);
+      int endIndex = (int)( Math.sqrt(end));
 
-      return LongStream.rangeClosed(startIndex, endIndex)
-            .map(l -> l * l).toArray();
+      return IntStream.rangeClosed(startIndex, endIndex).map(l -> l * l)
+            .toArray();
+   }
+   
+   public static final int indexSquare(int number) {
+      return (int) Math.sqrt(number);
    }
 
    // P5,n=n(3n−1)/2
-   public static final long[] rangePentagonal(long start, long end) {
+   public static final int[] rangePentagonal(int start, int end) {
       double tempStartIndex = (1 + Math.sqrt(1 + 24 * start)) / 6;
-      long startIndex = (long) tempStartIndex;
+      int startIndex = (int) tempStartIndex;
       if (tempStartIndex != startIndex) {
          startIndex++;
       }
-      long endIndex = (long) (1 + Math.sqrt(1 + 24 * end)) / 6;
+      int endIndex = (int) (1 + Math.sqrt(1 + 24 * end)) / 6;
 
-      return LongStream.rangeClosed(startIndex, endIndex)
-            .map(l -> l * (3*l - 1) / 2).toArray();
+      return IntStream.rangeClosed(startIndex, endIndex)
+            .map(l -> l * (3 * l - 1) / 2).toArray();
+   }
+   
+   public static final int indexPentagonal(int number) {
+      return (int)((1 + Math.sqrt(1 + 24 * number)) / 6);
    }
 
    // P6,n=n(2n−1)
-   public static final long[] rangeHexagonal(long start, long end) {
+   public static final int[] rangeHexagonal(int start, int end) {
       double tempStartIndex = (1 + Math.sqrt(1 + 8 * start)) / 4;
-      long startIndex = (long) tempStartIndex;
+      int startIndex = (int) tempStartIndex;
       if (tempStartIndex != startIndex) {
          startIndex++;
       }
-      long endIndex = (long) (1 + Math.sqrt(1 + 8 * end)) / 4;
+      int endIndex = (int) (1 + Math.sqrt(1 + 8 * end)) / 4;
 
-      return LongStream.rangeClosed(startIndex, endIndex)
-            .map(l -> l * (2*l - 1)).toArray();
+      return IntStream.rangeClosed(startIndex, endIndex)
+            .map(l -> l * (2 * l - 1)).toArray();
+   }
+   
+   public static final int indexHexagonal(int number) {
+      return (int)((1 + Math.sqrt(1 + 8 * number)) / 4);
    }
 
    // P7,n=n(5n−3)/2
-   public static final long[] rangeHeptagonal(long start, long end) {
+   public static final int[] rangeHeptagonal(int start, int end) {
       double tempStartIndex = (3 + Math.sqrt(9 + 40 * start)) / 10;
-      long startIndex = (long) tempStartIndex;
+      int startIndex = (int) tempStartIndex;
       if (tempStartIndex != startIndex) {
          startIndex++;
       }
-      long endIndex = (long) (3 + Math.sqrt(9 + 40 * end)) / 10;
+      int endIndex = (int) (3 + Math.sqrt(9 + 40 * end)) / 10;
 
-      return LongStream.rangeClosed(startIndex, endIndex)
-            .map(l -> l * (5*l - 3)/2).toArray();
+      return IntStream.rangeClosed(startIndex, endIndex)
+            .map(l -> l * (5 * l - 3) / 2).toArray();
+   }
+   
+   public static final int indexHeptagonal(int number) {
+      return (int)((3 + Math.sqrt(9 + 40 * number)) / 10);
    }
 
    // P8,n=n(3n−2)
-   public static final long[] rangeOctagonal(long start, long end) {
+   public static final int[] rangeOctagonal(int start, int end) {
       double tempStartIndex = (2 + Math.sqrt(4 + 12 * start)) / 6;
-      long startIndex = (long) tempStartIndex;
+      int startIndex = (int) tempStartIndex;
       if (tempStartIndex != startIndex) {
          startIndex++;
       }
-      long endIndex = (long) (2 + Math.sqrt(4 + 12 * end)) / 6;
+      int endIndex = (int) (2 + Math.sqrt(4 + 12 * end)) / 6;
 
-      return LongStream.rangeClosed(startIndex, endIndex)
-            .map(l -> l * (3*l - 2)).toArray();
+      return IntStream.rangeClosed(startIndex, endIndex)
+            .map(l -> l * (3 * l - 2)).toArray();
+   }
+   
+   public static final int indexOctagonal(int number) {
+      return (int)((2 + Math.sqrt(4 + 12 * number)) / 6);
    }
 
    public static void main(String[] args) {
-      long[] test = rangeOctagonal(2, 65);
-      for (int i = 0; i < test.length; ++i) {
-         System.out.println(test[i]);
-      }
+      System.out.println(indexTriangle(1000));
+      System.out.println(indexSquare(1000));
+      System.out.println(indexPentagonal(1000));
+      System.out.println(indexHexagonal(1000));
+      System.out.println(indexHeptagonal(1000));
+      System.out.println(indexOctagonal(1000));
+      
+      
+      System.out.println(indexTriangle(1035));
+      System.out.println(indexSquare(1024));
+      System.out.println(indexPentagonal(1001));
+      System.out.println(indexHexagonal(1035));
+      System.out.println(indexHeptagonal(1071));
+      System.out.println(indexOctagonal(1045));
    }
 }
