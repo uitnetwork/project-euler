@@ -18,6 +18,7 @@ import java.time.LocalDate;
 import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -1592,5 +1593,34 @@ public class PEExec {
       return from(cyclicalFigurateNumber.getResult(),
             cyclicalFigurateNumber.getDetail());
 
+   }
+
+   @PEProblem(problem = 62, description = "Find the smallest cube for which exactly five permutations of its digits are cube")
+   public PeResult problem62() {
+      Map<String, List<Long>> resultMap = new HashMap<String, List<Long>>();
+      String resultKey = null;
+      long number = 345; // because the challenge already limits this number
+      int expected = 5;
+      while (true) {
+         long cube = MathUtils.cube(number);
+         String uniformString = MathUtils.uniformStringOfPermutation(MathUtils
+               .uniformPermutationOfNumber(cube));
+         if (resultMap.containsKey(uniformString)) {
+            List<Long> list = resultMap.get(uniformString);
+            list.add(cube);
+            if (list.size() == expected) {
+               resultKey = uniformString;
+               break;
+            }
+         } else {
+            List<Long> list = new ArrayList<Long>();
+            list.add(cube);
+            resultMap.put(uniformString, list);
+         }
+         ++number;
+      }
+
+      return from(resultMap.get(resultKey).get(0), "5 permutations is: "
+            + resultMap.get(resultKey));
    }
 }

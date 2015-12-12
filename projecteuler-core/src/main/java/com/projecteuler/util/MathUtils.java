@@ -608,12 +608,12 @@ public class MathUtils {
       if (tempStartIndex != startIndex) {
          startIndex++;
       }
-      int endIndex = (int)( Math.sqrt(end));
+      int endIndex = (int) (Math.sqrt(end));
 
       return IntStream.rangeClosed(startIndex, endIndex).map(l -> l * l)
             .toArray();
    }
-   
+
    public static final int indexSquare(int number) {
       return (int) Math.sqrt(number);
    }
@@ -630,9 +630,9 @@ public class MathUtils {
       return IntStream.rangeClosed(startIndex, endIndex)
             .map(l -> l * (3 * l - 1) / 2).toArray();
    }
-   
+
    public static final int indexPentagonal(int number) {
-      return (int)((1 + Math.sqrt(1 + 24 * number)) / 6);
+      return (int) ((1 + Math.sqrt(1 + 24 * number)) / 6);
    }
 
    // P6,n=n(2n−1)
@@ -647,9 +647,9 @@ public class MathUtils {
       return IntStream.rangeClosed(startIndex, endIndex)
             .map(l -> l * (2 * l - 1)).toArray();
    }
-   
+
    public static final int indexHexagonal(int number) {
-      return (int)((1 + Math.sqrt(1 + 8 * number)) / 4);
+      return (int) ((1 + Math.sqrt(1 + 8 * number)) / 4);
    }
 
    // P7,n=n(5n−3)/2
@@ -664,9 +664,9 @@ public class MathUtils {
       return IntStream.rangeClosed(startIndex, endIndex)
             .map(l -> l * (5 * l - 3) / 2).toArray();
    }
-   
+
    public static final int indexHeptagonal(int number) {
-      return (int)((3 + Math.sqrt(9 + 40 * number)) / 10);
+      return (int) ((3 + Math.sqrt(9 + 40 * number)) / 10);
    }
 
    // P8,n=n(3n−2)
@@ -681,25 +681,39 @@ public class MathUtils {
       return IntStream.rangeClosed(startIndex, endIndex)
             .map(l -> l * (3 * l - 2)).toArray();
    }
-   
+
    public static final int indexOctagonal(int number) {
-      return (int)((2 + Math.sqrt(4 + 12 * number)) / 6);
+      return (int) ((2 + Math.sqrt(4 + 12 * number)) / 6);
+   }
+
+   public static final long cube(long number) {
+      return number * number * number;
+   }
+   
+   public static final int[] uniformPermutationOfNumber(long number) {
+      int result[] = new int[10];
+      while(number>0) {
+         int digit=(int)(number%10);
+         result[digit]++;
+         number/=10;
+      }
+      return result;
+   }
+   
+   public static final String uniformStringOfPermutation(int[] permutation) {
+      StringBuilder builder=new StringBuilder();
+      for(int i=0;i<permutation.length;++i) {
+         int j=permutation[i];
+         while(j>0) {
+            j--;
+            builder.append(i);
+         }
+      }
+      return builder.toString();
    }
 
    public static void main(String[] args) {
-      System.out.println(indexTriangle(1000));
-      System.out.println(indexSquare(1000));
-      System.out.println(indexPentagonal(1000));
-      System.out.println(indexHexagonal(1000));
-      System.out.println(indexHeptagonal(1000));
-      System.out.println(indexOctagonal(1000));
-      
-      
-      System.out.println(indexTriangle(1035));
-      System.out.println(indexSquare(1024));
-      System.out.println(indexPentagonal(1001));
-      System.out.println(indexHexagonal(1035));
-      System.out.println(indexHeptagonal(1071));
-      System.out.println(indexOctagonal(1045));
+      int[] test={0,3,2,};
+      System.out.println(uniformStringOfPermutation(test));
    }
 }
