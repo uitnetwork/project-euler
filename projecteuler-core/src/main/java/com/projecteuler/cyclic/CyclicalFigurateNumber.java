@@ -60,28 +60,30 @@ public class CyclicalFigurateNumber {
             sumCyclicNumbers(index + 1);
          }
       } else {
-         int previousEnd = allNumbers[arrayIndexes[index - 1]][chosenIndexes[index - 1]] % 100;
-         int start = previousEnd * 100;
-         int end = start + 99;
-         for (int i = 1; i < allNumbers.length; ++i) {
-            if (ArrayUtils.isArrayContain(arrayIndexes, i)) {
-               continue; // skip because already have that index
-            }
+         int previousSuffix = allNumbers[arrayIndexes[index - 1]][chosenIndexes[index - 1]] % 100;
+         if (previousSuffix >= 10) {
+            int start = previousSuffix * 100;
+            int end = start + 99;
+            for (int i = 1; i < allNumbers.length; ++i) {
+               if (ArrayUtils.isArrayContain(arrayIndexes, i)) {
+                  continue; // skip because already have that index
+               }
 
-            arrayIndexes[index] = i;
+               arrayIndexes[index] = i;
 
-            for (int h = 0; h < allNumbers[i].length; ++h) {
-               if (allNumbers[i][h] < start) {
-                  continue;
+               for (int h = 0; h < allNumbers[i].length; ++h) {
+                  if (allNumbers[i][h] < start) {
+                     continue;
+                  }
+                  if (allNumbers[i][h] > end) {
+                     break;
+                  }
+                  chosenIndexes[index] = h;
+                  if (sumCyclicNumbers(index + 1)) {
+                     return true;
+                  }
+                  resetArrayIndexesAfter(index);
                }
-               if (allNumbers[i][h] > end) {
-                  break;
-               }
-               chosenIndexes[index] = h;
-               if (sumCyclicNumbers(index + 1)) {
-                  return true;
-               }
-               resetArrayIndexesAfter(index);
             }
          }
       }
