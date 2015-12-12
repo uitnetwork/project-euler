@@ -1585,10 +1585,12 @@ public class PEExec {
             MathUtils.indexTriangle(allOcta[0]) };
 
       CyclicalFigurateNumber cyclicalFigurateNumber = new CyclicalFigurateNumber(
-            allNumbers, numberIndexes); // numberIndexes is not used because only 1 was found
+            allNumbers, numberIndexes); // numberIndexes is not used because
+                                        // only 1 was found
 
       cyclicalFigurateNumber.sumCyclicNumbers(0);
-      return from(cyclicalFigurateNumber.getResult());
+      return from(cyclicalFigurateNumber.getResult(),
+            cyclicalFigurateNumber.getDetail());
 
    }
 }

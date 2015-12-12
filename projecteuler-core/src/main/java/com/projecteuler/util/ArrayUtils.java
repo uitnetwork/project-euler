@@ -45,14 +45,25 @@ public class ArrayUtils {
    public static final int[] indexOfNumber(int number, int[]... arrays) {
       int[] result = new int[arrays.length];
       int count = 0;
-      int index=0;
+      int index = 0;
       for (int i = 0; i < arrays.length; ++i) {
-         if ((index=Arrays.binarySearch(arrays[i], number)) >= 0) {
+         if ((index = Arrays.binarySearch(arrays[i], number)) >= 0) {
             result[count++] = index;
          }
       }
 
       return Arrays.copyOf(result, count);
+   }
+
+   public static final boolean isArrayContain(int[] arrays, int number) {
+      boolean existInArray = false;
+      for (int k = 0; k < arrays.length; ++k) {
+         if (arrays[k] == number) {
+            existInArray = true;
+            break;
+         }
+      }
+      return existInArray;
    }
 
 }

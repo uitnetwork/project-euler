@@ -1,5 +1,7 @@
 package com.projecteuler.cyclic;
 
+import com.projecteuler.util.ArrayUtils;
+
 import lombok.Getter;
 
 public class CyclicalFigurateNumber {
@@ -14,9 +16,12 @@ public class CyclicalFigurateNumber {
    private int[] arrayIndexes;
 
    private int indexLength;
-   
+
    @Getter
    private int result;
+
+   @Getter
+   private String detail;
 
    public CyclicalFigurateNumber(int[][] allNumbers, int[] numberIndexes) {
       this.allNumbers = allNumbers;
@@ -27,7 +32,7 @@ public class CyclicalFigurateNumber {
 
    }
 
-   public void sumCyclicNumbers(int index) {
+   public boolean sumCyclicNumbers(int index) {
       if (index == 6) {
          int arrayIndexStart = arrayIndexes[0];
          int arrayIndexEnd = arrayIndexes[index - 1];
@@ -40,19 +45,18 @@ public class CyclicalFigurateNumber {
                str += allNumbers[arrayIndexes[i]][chosenIndexes[i]] + ",";
                sum += allNumbers[arrayIndexes[i]][chosenIndexes[i]];
             }
-            System.out.println("Found: " + str + " with sum: " + sum);
-            result=sum;
+            result = sum;
+            detail = "Numbers: " + str;
+            return true;
          }
-         return;
+         return false;
       }
 
       if (index == 0) {
          arrayIndexes[0] = 0;
          for (int i = 0; i < allNumbers[0].length; ++i) {
             chosenIndexes[0] = i;
-            for (int j = 1; j < indexLength; ++j) {
-               arrayIndexes[j] = -1;
-            }
+            resetArrayIndexesAfter(0);
             sumCyclicNumbers(index + 1);
          }
       } else {
@@ -60,17 +64,7 @@ public class CyclicalFigurateNumber {
          int start = previousEnd * 100;
          int end = start + 99;
          for (int i = 1; i < allNumbers.length; ++i) {
-            for (int j = index + 1; j < indexLength; ++j) {
-               arrayIndexes[j] = -1;
-            }
-            boolean existInArray = false;
-            for (int k = 0; k < arrayIndexes.length; ++k) {
-               if (arrayIndexes[k] == i) {
-                  existInArray = true;
-                  break;
-               }
-            }
-            if (existInArray) {
+            if (ArrayUtils.isArrayContain(arrayIndexes, i)) {
                continue; // skip because already have that index
             }
 
@@ -84,14 +78,23 @@ public class CyclicalFigurateNumber {
                   break;
                }
                chosenIndexes[index] = h;
-               sumCyclicNumbers(index + 1);
+               if (sumCyclicNumbers(index + 1)) {
+                  return true;
+               }
+               resetArrayIndexesAfter(index);
             }
          }
+      }
+      return false;
+   }
+
+   private void resetArrayIndexesAfter(int index) {
+      for (int j = index + 1; j < indexLength; ++j) {
+         arrayIndexes[j] = -1;
       }
    }
 
    public static void main(String[] args) {
-      
 
    }
 }
