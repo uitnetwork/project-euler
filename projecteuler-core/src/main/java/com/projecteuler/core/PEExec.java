@@ -1623,4 +1623,23 @@ public class PEExec {
       return from(resultMap.get(resultKey).get(0), "5 permutations is: "
             + resultMap.get(resultKey));
    }
+
+   @PEProblem(problem = 63, description = "How many n-digit positive integers exist which are also an nth power?")
+   public PeResult problem63() {
+      int count = 0;
+      for (int i = 1; i < 10; ++i) { // if i > 10, i^n will get >= n+1 digits =>
+                                     // then out of range
+         BigInteger current = new BigInteger("" + i);
+         BigInteger bigInteger = current;
+         int currentCount = 0;
+         while (MathUtils.noOfDigit(bigInteger) == currentCount + 1) {
+            currentCount++;
+            System.out.println(i + " ^ " + currentCount);
+            bigInteger = bigInteger.multiply(current);
+         }
+         count += currentCount;
+      }
+      return from(count,
+            "Note: this challenge can be easily calculated using pen and paper!");
+   }
 }

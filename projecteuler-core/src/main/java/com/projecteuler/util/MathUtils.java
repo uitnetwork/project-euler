@@ -689,22 +689,22 @@ public class MathUtils {
    public static final long cube(long number) {
       return number * number * number;
    }
-   
+
    public static final int[] uniformPermutationOfNumber(long number) {
       int result[] = new int[10];
-      while(number>0) {
-         int digit=(int)(number%10);
+      while (number > 0) {
+         int digit = (int) (number % 10);
          result[digit]++;
-         number/=10;
+         number /= 10;
       }
       return result;
    }
-   
+
    public static final String uniformStringOfPermutation(int[] permutation) {
-      StringBuilder builder=new StringBuilder();
-      for(int i=0;i<permutation.length;++i) {
-         int j=permutation[i];
-         while(j>0) {
+      StringBuilder builder = new StringBuilder();
+      for (int i = 0; i < permutation.length; ++i) {
+         int j = permutation[i];
+         while (j > 0) {
             j--;
             builder.append(i);
          }
@@ -712,8 +712,16 @@ public class MathUtils {
       return builder.toString();
    }
 
+   public static final int noOfDigit(BigInteger bigInteger) {
+      int noOfDigit = 1;
+      while ((bigInteger = bigInteger.divide(BigInteger.TEN)) != BigInteger.ZERO) {
+         ++noOfDigit;
+      }
+      return noOfDigit;
+   }
+
    public static void main(String[] args) {
-      int[] test={0,3,2,};
+      int[] test = { 0, 3, 2, };
       System.out.println(uniformStringOfPermutation(test));
    }
 }
