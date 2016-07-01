@@ -1628,8 +1628,8 @@ public class PEExec {
    public PeResult problem63() {
       int count = 0;
       for (int i = 1; i < 10; ++i) { // if i > 10, i^n will get >= n+1 digits =>
-                                     // then out of range
-         BigInteger current = new BigInteger("" + i);
+                                     // no need to calculate
+         BigInteger current = new BigInteger("" + i); // have to use BigInteger because 9^20 is out of range of long
          BigInteger bigInteger = current;
          int currentCount = 0;
          while (MathUtils.noOfDigit(bigInteger) == currentCount + 1) {
