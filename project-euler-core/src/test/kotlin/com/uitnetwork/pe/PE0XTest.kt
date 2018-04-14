@@ -4,7 +4,7 @@ import com.projecteuler.core.PEExec
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 
-class PE1To10Test {
+class PE0XTest {
     private val peExec = PEExec()
 
     @Test
@@ -82,12 +82,5 @@ class PE1To10Test {
         val peResult = peExec.problem9()
 
         assertThat(peResult.result).isEqualTo(31875000)
-    }
-
-    @Test
-    fun `problem 10`() {
-        val peResult = peExec.problem10()
-
-        assertThat(peResult.result).isEqualTo(142913828922)
     }
 }
