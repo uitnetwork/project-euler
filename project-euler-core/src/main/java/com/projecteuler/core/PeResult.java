@@ -10,16 +10,16 @@ import lombok.Setter;
 @Setter
 public class PeResult {
 
-   private long result;
+    private long result;
 
-   private String detail;
+    private String detail;
 
-   public static PeResult from(long result) {
-      return from(result, null);
-   }
+    public static PeResult from(long result) {
+        return from(result, null);
+    }
 
-   public static PeResult from(long result, String detail) {
-      return new PeResult(result, detail);
-   }
+    public static PeResult from(long result, String detail) {
+        return new PeResult(result, detail);
+    }
 
 }

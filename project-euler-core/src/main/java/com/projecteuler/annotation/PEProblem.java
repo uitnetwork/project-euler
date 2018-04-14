@@ -6,12 +6,12 @@ import java.lang.annotation.RetentionPolicy;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface PEProblem {
 
-   int problem();
+    int problem();
 
-   String description() default "";
-   
-   boolean skip() default false;
-   
-   String skipDescription() default "";
+    String description() default "";
+
+    boolean skip() default false;
+
+    String skipDescription() default "";
 
 }
