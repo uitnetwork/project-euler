@@ -8,13 +8,6 @@ class PE0XTest {
     private val peExec = PEExec()
 
     @Test
-    fun `problem 1`() {
-        val peResult = peExec.problem1()
-
-        assertThat(peResult.result).isEqualTo(233168)
-    }
-
-    @Test
     fun `problem 2 - solution 1`() {
         val peResult = peExec.problem2_1()
 

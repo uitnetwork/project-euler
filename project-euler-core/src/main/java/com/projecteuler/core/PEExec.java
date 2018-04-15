@@ -28,20 +28,6 @@ import static com.projecteuler.util.MathUtils.*;
 
 public class PEExec {
 
-    @PEProblem(problem = 1, description = "Find the sum of all the multiples of 3 or 5 below 1000")
-    public PeResult problem1() {
-        final long max = 1000;
-
-        long divisibleBy3Sum = 3 * MathUtils.sumToN((max - 1) / 3);
-        long divisibleBy5Sum = 5 * MathUtils.sumToN((max - 1) / 5);
-        long divisibleBy15Sum = 15 * MathUtils.sumToN((max - 1) / 15);
-
-        long anwser = divisibleBy3Sum + divisibleBy5Sum - divisibleBy15Sum;
-
-        return from(anwser,
-                "Sum of number which is divisible by 3 plus by 5 then subtract by 15");
-    }
-
     @PEProblem(problem = 2, description = "By considering the terms in the Fibonacci sequence whose values do not exceed four million, find the sum of the even-valued terms.")
     public PeResult problem2_1() {
         long max = 4000000;
